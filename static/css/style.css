@@ -59,7 +59,10 @@ form.sign-up-form{
     font-size: 2.2rem;
     color: #184C57;
     margin-bottom: 10px;
-
+}
+.plain-text{
+  cursor:default;
+  user-select: none;
 }
 .input-field{
     max-width: 380px;
@@ -176,6 +179,9 @@ form.sign-up-form{
 .panel-image{
     width: 82%;
     transition: 1.1s .4s ease-in-out;
+}
+.hide-panel{
+    opacity: 0;
 }
 .panel .content{
     color: #fff;
@@ -327,17 +333,17 @@ form.sign-up-form{
   
     .container.sign-up-mode .left-panel .panel-image,
     .container.sign-up-mode .left-panel .content {
-      transform: translateY(-300px);
+      transform: translateY(-600px);
     }
   
     .container.sign-up-mode .right-panel .panel-image,
     .container.sign-up-mode .right-panel .content {
-      transform: translateY(0px);
+      transform: translateY(25px);
     }
   
     .right-panel .panel-image,
     .right-panel .content {
-      transform: translateY(300px);
+      transform: translateY(600px);
     }
   
     .container.sign-up-mode .signin-signup {
@@ -371,3 +377,39 @@ form.sign-up-form{
       left: 50%;
     }
   }
+
+  @media(max-width: 570px){
+    @media (max-height: 800px) {
+      .container {
+        min-height: 580px;
+        height: 100vh;
+      }
+      form {
+        padding: 0 1.5rem;
+      }
+      :root{
+        font-size: 0.8rem;
+      }
+      .container{
+        padding: 0.5rem;
+      }
+      .panel-image {
+        display: none;
+      }
+      .panel .content {
+        padding: 0.5rem 0.5rem;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+      .container:before {
+        bottom: 75%;
+        left: 50%;
+      }
+      .container.sign-up-mode:before {
+        bottom: 25%;
+        left: 50%;
+      }
+    }
+  }
+  

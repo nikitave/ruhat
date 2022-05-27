@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+@font-face {
+    font-family: 'shago';
+    src: url(../fonts/shago/ZtShago-ExtraBold.ttf) format('truetype');
+}
 * {
     margin: 0;
     padding: 0;
@@ -23,10 +27,11 @@ body,input{
     
 }
 .main-title{
-    font-size: 2.2rem;
+    font-size: 3.5rem;
     color: #184C57;
     margin-bottom: 10px;
-    
+    font-family: 'shago',sans-serif;
+    font-weight: 600;
 }
 .flex-column{
     display: flex;
@@ -102,4 +107,26 @@ form{
     flex-direction: column;
     padding: 20px;
     border-radius: 45px;
+}
+.welcome-place{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sign-up-instead{
+    font-size: 1.3rem;
+    color: #fff;
+    bottom: 0;
+    margin: 30px 0;
+    position: absolute;
+    font-weight: 100;
+}
+.sign-up-link{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-weight: 700;
+}
+.sign-up-link:hover{
+    text-decoration: underline;
 }
