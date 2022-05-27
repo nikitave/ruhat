@@ -8,17 +8,19 @@
 body,input{
     font-family: "Poppins",sans-serif;
 }
+
 .container{
+    background-color: #184C57;
     position: relative;
     height: 100vh;
     width: 100vw;
     display: flex;
-    background-color: #fff;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
     margin: 0 auto;
     overflow: hidden;
+    
 }
 .main-title{
     font-size: 2.2rem;
@@ -54,10 +56,11 @@ form{
     background: none;
     outline: none;
     border: none;
-    line-height: 1;
+    line-height: 55px;
     font-weight: 600;
     font-size: 1.1rem;
     color: #184C57;
+    text-align: center;
 }
 .input-field{
     max-width: 380px;
@@ -95,5 +98,8 @@ form{
     background-color: #fff;
     display: flex;
     justify-content: center;
-    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 45px;
 }
