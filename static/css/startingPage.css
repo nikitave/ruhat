@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,input{
+    font-family: "Poppins",sans-serif;
+}
+.container{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.main-title{
+    font-size: 2.2rem;
+    color: #184C57;
+    margin-bottom: 10px;
+    
+}
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.flex-center{
+    justify-content: center;
+    align-items: center;
+}
+.justify-center{
+    justify-content: center;
+}
+.tex-center{
+    text-align: center;
+}
+form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 5rem;
+    overflow: hidden;
+    transition: 0.2s 0.7s ease-in-out;
+}
+.input-field input{
+    background: none;
+    outline: none;
+    border: none;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #184C57;
+}
+.input-field{
+    max-width: 380px;
+    width: 100%;
+    height: 55px;
+    background-color: #DDE2E8;
+    margin: 10px 0;
+    border-radius: 55px;
+    padding: 0 .4rem;
+}
+.input-field input::placeholder{
+    color: #A9C0C6;
+    font-weight: 500;
+}
+.btn{
+    width: 150px;
+    height: 49px;
+    border: none;
+    outline: none;
+    border-radius: 49px;
+    cursor: pointer;
+    background-color: #005F75;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: .5s;
+}
+
+.btn:hover{
+    background-color: #184C57;
+}
+.get-started{
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
