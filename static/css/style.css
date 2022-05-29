@@ -200,6 +200,70 @@ form.sign-up-form {
     font-size: 1.5rem;
 }
 
+.panel p{
+    font-size: 0.95rem;
+    padding: 0.7rem 0;
+}
+.transparent{
+    margin: 0;
+    background: none;
+    border: 2px solid #fff;
+    width: 130px;
+    height: 41px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: .3s linear;
+}
+
+.transparent:hover {
+  color: #005F75;
+  background-color: #fff;
+}
+
+.right-panel .content, .right-panel .panel-image{
+    transform: translateX(800px);
+}
+
+/*Animation*/
+
+.container.sign-up-mode:before {
+    transform: translate(100%, -50%);
+    right: 52%;
+}
+
+.container.sign-up-mode .left-panel .panel-image,
+.container.sign-up-mode .left-panel .content {
+    transform: translateX(-800px);
+}
+  
+.container.sign-up-mode .signin-signup {
+    left: 25%;
+}
+  
+.container.sign-up-mode form.sign-up-form {
+    opacity: 1;
+    z-index: 2;
+}
+  
+.container.sign-up-mode form.sign-in-form {
+    opacity: 0;
+    z-index: 1;
+}
+  
+.container.sign-up-mode .right-panel .panel-image,
+.container.sign-up-mode .right-panel .content {
+    transform: translateX(0px);
+}
+  
+.container.sign-up-mode .left-panel {
+    pointer-events: none;
+}
+  
+  .container.sign-up-mode .right-panel {
+    pointer-events: all;
+}
+
+
 @media (max-width: 870px) {
     .container {
       min-height: 800px;
@@ -217,8 +281,6 @@ form.sign-up-form {
       left: 50%;
     }
   
-
-    
     .panels-container {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr 2fr 1fr;
