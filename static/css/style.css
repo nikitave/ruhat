@@ -30,14 +30,14 @@ body,input{
     z-index: 6;
     transition: 1.8s ease-in-out;
 }
-.forms-container{
+.forms-container {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
 }
-form{
+form {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,20 +48,20 @@ form{
     overflow: hidden;
     transition: 0.2s 0.7s ease-in-out;
 }
-form.sign-in-form{
+form.sign-in-form {
     z-index: 2;
 }
-form.sign-up-form{
+form.sign-up-form {
     z-index: 1;
     opacity: 0;
 }
-.title{
+.title {
     font-size: 2.2rem;
     color: #184C57;
     margin-bottom: 10px;
 }
-.plain-text{
-  cursor:default;
+.plain-text {
+  cursor: default;
   user-select: none;
 }
 .input-field{
@@ -69,11 +69,13 @@ form.sign-up-form{
     width: 100%;
     height: 55px;
     background-color: #DDE2E8;
+    border: 2px solid #fff;
     margin: 10px 0;
     border-radius: 55px;
     display: grid;
     grid-template-columns: 15% 85%;
     padding: 0 .4rem;
+    transition: .3s linear;
 }
 .input-field i{
     text-align: center;
@@ -85,6 +87,7 @@ form.sign-up-form{
     background: none;
     outline: none;
     border: none;
+    padding-right: 10px;
     line-height: 1;
     font-weight: 600;
     font-size: 1.1rem;
@@ -95,10 +98,11 @@ form.sign-up-form{
     color: #A9C0C6;
     font-weight: 500;
 }
+
 .btn{
     width: 150px;
     height: 49px;
-    border: none;
+    border: 2px solid #fff;
     outline: none;
     border-radius: 49px;
     cursor: pointer;
@@ -107,11 +111,13 @@ form.sign-up-form{
     text-transform: uppercase;
     font-weight: 600;
     margin: 10px 0;
-    transition: .5s;
+    transition: .3s linear;
 }
 
 .btn:hover{
-    background-color: #184C57;
+  background-color: #fff;
+  color: #005F75;
+  border: 2px solid #005F75;
 }
 .social-text{
     padding: .7rem 0;
@@ -138,6 +144,7 @@ form.sign-up-form{
 .social-icon:hover{
     color: #184C57;
     border-color: #184C57;
+    transform: translateY(-3px);
 }
 .signin-signup{
     position: absolute;
@@ -196,7 +203,7 @@ form.sign-up-form{
     font-size: 0.95rem;
     padding: 0.7rem 0;
 }
-.btn.transparent{
+.transparent{
     margin: 0;
     background: none;
     border: 2px solid #fff;
@@ -204,7 +211,14 @@ form.sign-up-form{
     height: 41px;
     font-weight: 600;
     font-size: 0.8rem;
+    transition: .3s linear;
 }
+
+.transparent:hover {
+  color: #005F75;
+  background-color: #fff;
+}
+
 .right-panel .content, .right-panel .panel-image{
     transform: translateX(800px);
 }

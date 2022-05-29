@@ -61,6 +61,8 @@ form{
     background: none;
     outline: none;
     border: none;
+    padding-left: 10px;
+    padding-right: 10px;
     line-height: 55px;
     font-weight: 600;
     font-size: 1.1rem;
@@ -83,7 +85,7 @@ form{
 .btn{
     width: 150px;
     height: 49px;
-    border: none;
+    border: 2px solid #fff;
     outline: none;
     border-radius: 49px;
     cursor: pointer;
@@ -92,11 +94,13 @@ form{
     text-transform: uppercase;
     font-weight: 600;
     margin: 10px 0;
-    transition: .5s;
+    transition: .3s linear;
 }
 
 .btn:hover{
-    background-color: #184C57;
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
 }
 .get-started{
     width: 100%;
@@ -108,6 +112,10 @@ form{
     padding: 20px;
     border-radius: 45px;
 }
+.plain-text{
+    cursor:default;
+    user-select: none;
+  }
 .welcome-place{
     display: flex;
     justify-content: center;
@@ -126,7 +134,17 @@ form{
     color: #fff;
     font-weight: bold;
     font-weight: 700;
+    display: inline-block;
 }
-.sign-up-link:hover{
-    text-decoration: underline;
+.sign-up-link::after {
+    content: '';
+    width: 0px;
+    height: 2px;
+    display: block;
+    background: #fff;
+    transition: .3s linear;
+}
+
+.sign-up-link:hover::after{
+    width: 100%;
 }
