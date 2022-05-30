@@ -60,3 +60,44 @@ body {
 .dr {
     background: orangered;
 }
+
+
+@media (max-width: 1024px) {
+    .question {
+        font-size: 30px;
+    }
+
+    .item {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 414px) {
+
+    .question {
+        font-size: 25px;
+    }
+
+    .up_item {
+        height: 30vh;
+    }
+
+    .down_item {
+        grid-template-rows: 35vh 34vh;
+        grid-template-columns: 50% 50%;
+    }
+
+    .item {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 300px) {
+    .item {
+        font-size: 13px;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+}
