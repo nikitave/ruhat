@@ -1,6 +1,7 @@
 import json
 import sys
 import flask
+import werkzeug.exceptions
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -13,10 +14,7 @@ application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# application.config['MYSQL_HOST'] = 'localhost'
-# application.config['MYSQL_USER'] = 'u1689524_default'
-# application.config['MYSQL_PASSWORD'] = '2Gir7nQJe2Z4oAnq'
-# application.config['MYSQL_DB'] = 'u1689524_default'
+
 db = SQLAlchemy(application)
 login_manager = LoginManager(application)
 
@@ -134,14 +132,30 @@ def quiz(id_quiz):
         if flask.session['progress'] == len(Quiz.query.filter_by(id=id_quiz).first().questions):
             return redirect(url_for('home'))
     # print(flask.session['progress'])
-    questions = Quiz.query.filter_by(id=id_quiz).first().questions
-    return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+    quiz =  Quiz.query.filter_by(id=id_quiz).first()
+    if quiz:
+        questions = quiz.first().questions
+        return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+    else:
+        raise NotExistingQuiz()
 
 
-@application.errorhandler(500)
+
+@application.errorhandler(404)
+def not_existed_page(e):
+    return '''This page doesn't exist. Please, leave this page immediately.'''
+
+application.register_error_handler(404, not_existed_page)
+
+
+class NotExistingQuiz(werkzeug.exceptions.HTTPException):
+    code = 4040
+    description = "This quiz doesn't exist"
+
+@application.errorhandler(NotExistingQuiz)
 def page_error(e):
-    return f'{e}'
+    return f'{e.description}'
 
-
+application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
     application.run()
