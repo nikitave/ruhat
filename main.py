@@ -6,17 +6,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
-# from flask_mysqldb import MySQL
+
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# application.config['MYSQL_HOST'] = 'localhost'
-# application.config['MYSQL_USER'] = 'u1689524_default'
-# application.config['MYSQL_PASSWORD'] = '2Gir7nQJe2Z4oAnq'
-# application.config['MYSQL_DB'] = 'u1689524_default'
+
 db = SQLAlchemy(application)
 login_manager = LoginManager(application)
 
