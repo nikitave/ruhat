@@ -10,21 +10,28 @@
 <body>
     <div class="question_page">
         <div class="up_item">
-            <p class="question">Question. This is a question you want to ask your audience. So. How be able to do anything useful?</p>
+            <p class="question">{{question.question}}</p>
         </div>
         <div class="down_item">
-            <button type="button" class="item ul">
-                This is option 1. Yes, it is option 1.
+            <form action="{{url_for('quiz', id_quiz=id_quiz)}}" method="POST">
+            {% for i in range(4) %}
+
+                <button type="sumbit" class="item {{['ul','ur','dl','dr'][i]}}" name="{{i}}">
+                {{question.options[i]}}
             </button>
-            <button type="button" class="item ur">
-                This is option 2. No, it is option 2.
-            </button>
-            <button type="button" class="item dl">
-                This is option 3. Probably, it is option 3.
-            </button>
-            <button type="button" class="item dr">
-                This is option 4. It is both option 4.
-            </button>
+
+
+            {% endfor%}
+                </form>
+<!--            <button type="button" class="item ur">-->
+<!--                This is option 2. No, it is option 2.-->
+<!--            </button>-->
+<!--            <button type="button" class="item dl">-->
+<!--                This is option 3. Probably, it is option 3.-->
+<!--            </button>-->
+<!--            <button type="button" class="item dr">-->
+<!--                This is option 4. It is both option 4.-->
+<!--            </button>-->
         </div>
     </div>
 </body>
