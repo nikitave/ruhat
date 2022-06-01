@@ -1,19 +1,22 @@
+import json
 import sys
-
 import flask
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
-import json
 
+# from flask_mysqldb import MySQL
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+# application.config['MYSQL_HOST'] = 'localhost'
+# application.config['MYSQL_USER'] = 'u1689524_default'
+# application.config['MYSQL_PASSWORD'] = '2Gir7nQJe2Z4oAnq'
+# application.config['MYSQL_DB'] = 'u1689524_default'
 db = SQLAlchemy(application)
 login_manager = LoginManager(application)
 
@@ -26,18 +29,6 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     quizzes = db.Column(db.JSON)
 
-#CREATE TABLE IN DB FOR QUIZES
-class Quiz(db.Model):
-    id=db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(100))
-    number_of_questions = db.Column(db.Integer)
-    questions = db.Column(db.JSON)
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
 
 # Structure for quizzes JSON in User class:
 # quizzes = {
@@ -46,22 +37,34 @@ def load_user(user_id):
 # We need to store id for accessing the quiz from Quiz db - to get questions and answers for them
 # We need to store name for showing it to the Teacher
 
+# CREATE TABLE IN DB FOR QUIZES
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    number_of_questions = db.Column(db.Integer)
+    questions = db.Column(db.JSON)
+
+
 # Structure for questions:
 # questions = {
-# {text,options,answer}, {text,answer}, ...
+# {text,answer}, {text,answer}, ...
 # }
-questionsJson = json.dumps([{"question":"What is 2 + 2?", "options":["2","3","4","5"], "answer":"4"},{"question":"What is 2 * 2?", "options":["2","3","4","5"], "answer":"4"}])
 
-example_quiz = Quiz(name="test",number_of_questions=2,questions=questionsJson)
-
+# Line below only required once, when creating DB.
 # db.create_all()
-@application.route('/' , methods=["GET", "POST"])
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+@application.route('/', methods=["GET", "POST"])
 def home():
     flask.session['progress'] = 0
     if request.method == "POST":
         # print(f"{request.form['username']}",file=sys.stderr)
         pincode = request.form['pincode']
-        id_quiz = 123123
+        id_quiz = int(pincode)
         return redirect(url_for('quiz', id_quiz=id_quiz))
     return render_template("startingPage.html")
 
@@ -104,7 +107,7 @@ def register(mode):
                 return redirect(url_for("quiz_management"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
-                return redirect(url_for('register', mode="sign-inmode"))
+                return redirect(url_for('register', mode="sign-in-mode"))
     return render_template("index.html", mode=mode)
 
 
@@ -122,21 +125,23 @@ def quiz_management():
     return render_template('quiz_management.html')
 
 
-@application.route('/quiz/<id_quiz>', methods=["GET","POST"])
+@application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
-    if request.method=="POST":
+    if request.method == "POST":
         answer = request.values
-        flask.session['progress']+=1
-        print(answer)
-        if flask.session['progress']==len(json.loads(example_quiz.questions)):
-            return render_template('startingPage.html')
-    print(flask.session['progress'])
-    questions = None
-    game_pincode = flask.session['game_pincode']
-    if game_pincode == "123":
-        questions = json.loads(example_quiz.questions)
-
+        flask.session['progress'] += 1
+        # print(answer)
+        if flask.session['progress'] == len(Quiz.query.filter_by(id=id_quiz).first().questions):
+            return redirect(url_for('home'))
+    # print(flask.session['progress'])
+    questions = Quiz.query.filter_by(id=id_quiz).first().questions
     return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+
+
+@application.errorhandler(500)
+def page_error(e):
+    return f'{e}'
+
 
 if __name__ == "__main__":
     application.run()
