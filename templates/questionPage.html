@@ -12,11 +12,11 @@
         <div class="up_item">
             <p class="question">{{question.question}}</p>
         </div>
-        <div class="down_item">
-            <form action="{{url_for('quiz', id_quiz=id_quiz)}}" method="POST">
+        <div>
+            <form class="down_item" action="{{url_for('quiz', id_quiz=id_quiz)}}" method="POST">
             {% for i in range(4) %}
 
-                <button type="sumbit" class="item {{['ul','ur','dl','dr'][i]}}" name="{{i}}">
+            <button type="submit" class="item {{['ul','ur','dl','dr'][i]}}" name="{{i}}">
                 {{question.options[i]}}
             </button>
 
