@@ -1,12 +1,13 @@
 import json
 import sys
 import flask
+import werkzeug.exceptions
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
-
+# from flask_mysqldb import MySQL
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
@@ -131,14 +132,30 @@ def quiz(id_quiz):
         if flask.session['progress'] == len(Quiz.query.filter_by(id=id_quiz).first().questions):
             return redirect(url_for('home'))
     # print(flask.session['progress'])
-    questions = Quiz.query.filter_by(id=id_quiz).first().questions
-    return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+    quiz =  Quiz.query.filter_by(id=id_quiz).first()
+    if quiz:
+        questions = quiz.first().questions
+        return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+    else:
+        raise NotExistingQuiz()
 
 
-@application.errorhandler(500)
+
+@application.errorhandler(404)
+def not_existed_page(e):
+    return '''This page doesn't exist. Please, leave this page immediately.'''
+
+application.register_error_handler(404, not_existed_page)
+
+
+class NotExistingQuiz(werkzeug.exceptions.HTTPException):
+    code = 4040
+    description = "This quiz doesn't exist"
+
+@application.errorhandler(NotExistingQuiz)
 def page_error(e):
-    return f'{e}'
+    return f'{e.description}'
 
-
+application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
     application.run()
