@@ -103,7 +103,7 @@ form{
     color: #005F75;
     border: 2px solid #005F75 ;
 }
-.get-started{
+.get-started {
     width: 100%;
     background-color: #fff;
     display: flex;
@@ -114,7 +114,7 @@ form{
     border-radius: 45px;
 }
 .plain-text{
-    cursor:default;
+    cursor: default;
     user-select: none;
   }
 .welcome-place{
@@ -148,4 +148,29 @@ form{
 
 .sign-up-link:hover::after{
     width: 100%;
+}
+
+
+
+@media(max-width: 414px) {
+    .sign-up-instead {
+        font-size: 0.9rem;
+    }
+
+    .get-started {
+        padding: 5px;
+        border-radius: 30px;
+    }
+
+    .welcome-place {
+        width: 350px;
+    }
+
+    .input-field {
+        width: 200px;
+    }
+
+    .input-field input {
+        font-size: 0.8rem;
+    }
 }
