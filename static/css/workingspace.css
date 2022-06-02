@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+@font-face {
+    font-family: 'shago';
+    src: url(../fonts/shago/ZtShago-ExtraBold.ttf) format('truetype');
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,input{
+    font-family: "Poppins",sans-serif;
+}
+
+.main-title{
+    font-size: 2.7rem;
+    color: #005F75;
+    margin-bottom: 10px;
+    font-family: 'shago',sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+}
+[data-initials]:before {
+    background: #005F75;
+    color: #fff;
+    content: attr(data-initials); 
+    display: inline-block; 
+    font-weight: bold; 
+    border-radius: 50%; 
+    margin-right: 0.5em; 
+    width: 50px; 
+    height: 50px; 
+    line-height: 50px; 
+    text-align: center;
+    margin-bottom: 1.75rem; 
+}
+.btn{
+    width: 150px;
+    height: 49px;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #005F75;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: .3s linear;
+}
+
+.btn:hover{
+  background-color: #fff;
+  color: #005F75;
+  border: 2px solid #005F75;
+}
+.nav-bar-container{
+    background-color: #DDE2E8;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content:end ;
+    align-items: center;
+    gap: 1rem;
+}
+.nav-bar-container > *{
+    place-self: center;
+}
+.main-title{
+    margin-right: auto;
+}
+
+
+.profile-container{
+    overflow: visible;
+    height: 50px;
+}
+.dropdown-menu {
+    border-radius: 5px;
+    position: relative;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    transform: translateX(10%);
+    transition: all 0.1s;
+    list-style: none;
+    transition: .3s linear;
+}
+.dropdown-menu a{
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.dropdown-menu li{
+    color: #fff;
+    padding: 1rem;
+    border-bottom: #fff solid 1px;
+}
+.dropdown-menu li:hover{
+    border-radius: 5px;
+    background-color: #13505D;
+}
+.profile-icon:hover  + .dropdown-menu{
+    background-color: #005F75;
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    transition: all 0.1s 0.2s;   
+}
+.dropdown-item {
+    text-align: left;
+    padding: 2rem 2rem 0 2rem;
+  }
+  
+.dropdown-bg {
+  background-color: rgba(243, 243, 243, 0.93);
+  border-radius: 0.3rem;
+  box-shadow: 0 0.5rem 1rem #757575;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
