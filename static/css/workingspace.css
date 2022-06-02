@@ -16,52 +16,39 @@ body,input{
 .main-title{
     font-size: 2.7rem;
     color: #005F75;
-    margin-bottom: 10px;
     font-family: 'shago',sans-serif;
     font-weight: 600;
     text-decoration: none;
+    line-height: 80px;
+    margin-left: 2.5rem;
 }
 [data-initials]:before {
     background: #005F75;
     color: #fff;
     content: attr(data-initials); 
     display: inline-block; 
+    font-size: 2rem;
     font-weight: bold; 
     border-radius: 50%; 
     margin-right: 0.5em; 
-    width: 50px; 
-    height: 50px; 
-    line-height: 50px; 
+    width: 125px; 
+    height: 125px; 
+    line-height: 125px; 
     text-align: center;
-    margin-bottom: 1.75rem; 
-}
-.btn{
-    width: 150px;
-    height: 49px;
-    border: 2px solid #fff;
-    outline: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #005F75;
-    color: #FFF;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin: 10px 0;
-    transition: .3s linear;
+    margin-bottom: 0.5rem; 
+    z-index: 100;
 }
 
-.btn:hover{
-  background-color: #fff;
-  color: #005F75;
-  border: 2px solid #005F75;
-}
 .nav-bar-container{
     background-color: #DDE2E8;
     padding: 1rem 2rem;
     display: flex;
     justify-content:end ;
     align-items: center;
+    border-bottom: #005F75 solid 0.3rem;
     gap: 1rem;
+    z-index: 100;
+    
 }
 .nav-bar-container > *{
     place-self: center;
@@ -69,13 +56,12 @@ body,input{
 .main-title{
     margin-right: auto;
 }
-
-
 .profile-container{
     overflow: visible;
     height: 50px;
 }
 .dropdown-menu {
+    width: 250px;
     border-radius: 5px;
     position: relative;
     z-index: 100;
@@ -85,28 +71,30 @@ body,input{
     transform: translateX(10%);
     transition: all 0.1s;
     list-style: none;
-    transition: .3s linear;
+    overflow: hidden;
 }
 .dropdown-menu a{
     text-decoration: none;
     text-transform: uppercase;
+    font-size: large;
 }
 .dropdown-menu li{
     color: #fff;
     padding: 1rem;
     border-bottom: #fff solid 1px;
 }
+.dropdown-menu a:last-child li{
+    border-bottom: none;
+}
 .dropdown-menu li:hover{
-    border-radius: 5px;
     background-color: #13505D;
 }
-.profile-icon:hover  + .dropdown-menu{
+.profile-container:hover  .dropdown-menu{
     background-color: #005F75;
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
     height: auto;
-    transition: all 0.1s 0.2s;   
 }
 .dropdown-item {
     text-align: left;
@@ -114,7 +102,7 @@ body,input{
   }
   
 .dropdown-bg {
-  background-color: rgba(243, 243, 243, 0.93);
+  background-color: rgba(0, 95, 117, 0.93);
   border-radius: 0.3rem;
   box-shadow: 0 0.5rem 1rem #757575;
   position: absolute;
@@ -122,3 +110,69 @@ body,input{
   visibility: hidden;
   transition: all 0.3s;
 }
+.left-side{
+    padding: 2rem;
+    width: 23%;
+    background-color: #DDE2E8;
+    border-right: #005F75 solid 0.3rem;
+    height: 100%;
+}
+.right-side{
+    width: 77%;
+    background-color: #fff;
+    height: 100%;
+    z-index: -1;
+}
+.home-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: -1;
+}
+.previous-quiz{
+    margin-top: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    transition: all 0.2s linear;
+}
+.previous-quiz:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.delete-icon{
+    border: solid 2px;
+    height: 38px;
+    width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: auto;
+    transition: all 0.4s;
+}
+.delete-icon:hover{
+    background-color: #13505D;
+    border: #13505D solid 2px;
+    color: #fff;
+}
+.previous-quiz a{
+    text-decoration: none;
+    color: #13505D;
+    font-size: larger;
+    font-weight: 600;
+}
+.left-side h3:first-child{
+    color: #13505D;
+    font-weight: 600;
+    margin: 1rem 0 1.5rem 0;
+}
+.plain-text {
+    cursor: default;
+    user-select: none;
+  }
