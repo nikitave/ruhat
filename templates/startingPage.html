@@ -15,7 +15,7 @@
                 <h1 class="main-title plain-text">
                     Ruhat!
                 </h1>
-                <form action="" class="get-started-form">
+                <form action="{{url_for('home')}}" class="get-started-form" method="POST">
                     <div class="input-field">
                         <input type="text" placeholder="Username" name="username" required>
                     </div>
@@ -27,8 +27,7 @@
             </div>
             <div class="sign-up-instead">
                 <p>
-                    <span class="plain-text">Or you can create your own quizz by </span><a href="{{ url_for('register',mode="sign-up-mode") }}" class="sign-up-link">signing in</a>
-
+                    <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('register',mode="sign-in-mode") }}" class="sign-up-link">signing in</a>
                 </p>
             </div>
         </div>
