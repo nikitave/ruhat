@@ -145,7 +145,7 @@ body,input{
 .previous-quiz:hover{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.delete-icon{
+.icon{
     border: solid 2px;
     height: 38px;
     width: 38px;
@@ -155,8 +155,13 @@ body,input{
     border-radius: 50%;
     margin-left: auto;
     transition: all 0.4s;
+    margin-right: 0.3rem;
 }
-.delete-icon:hover{
+.icons-container{
+    margin-left: auto;
+    display: flex;
+}
+.icon:hover{
     background-color: #13505D;
     border: #13505D solid 2px;
     color: #fff;
@@ -166,6 +171,19 @@ body,input{
     color: #13505D;
     font-size: larger;
     font-weight: 600;
+}
+
+.previous-quiz div:first-child a::after {
+    content: '';
+    width: 0px;
+    height: 2px;
+    display: block;
+    background: #13505D;
+    transition: .2s linear;
+}
+
+.previous-quiz div:first-child a:hover::after{
+    width: 100%;
 }
 .left-side h3:first-child{
     color: #13505D;

@@ -9,6 +9,9 @@
     box-sizing: border-box;
 }
 
+html,body{
+    height: 100%;
+}
 body,input{
     font-family: "Poppins",sans-serif;
 }
@@ -128,7 +131,7 @@ form{
     bottom: 0;
     margin: 30px 0;
     position: absolute;
-    font-weight: 100;
+    font-weight: lighter;
 }
 .sign-up-link{
     text-decoration: none;
@@ -152,16 +155,17 @@ form{
 
 
 
-@media(max-width: 414px) {
+@media(max-width: 500px) {
     .sign-up-instead {
         font-size: 0.9rem;
     }
-
     .get-started {
         padding: 5px;
         border-radius: 30px;
     }
-
+    .container{
+        height: 100%;
+    }
     .welcome-place {
         width: 350px;
     }
