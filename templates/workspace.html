@@ -38,46 +38,19 @@
     <div class="home-container">
         <div class="left-side">
             <h3 class="plain-text">Previous quizzes:</h3>
+            {% if current_user.quizzes %}
+            {% for quiz in current_user.quizzes %}
             <div class="previous-quiz">
                 <div>
-                    <a href="#">ITP quiz</a>
+                    <a href="#">{{quiz['name']}}</a>
                 </div>
                 <a href="#" class="delete-icon">
                     <div class=" fa fa-trash"></div>
                 </a>
             </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">ITP quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">DSA quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">MA-II quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">CA quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
+            {% endfor %}
+            {% endif %}
+
         </div>
         <div class="right-side">
 
