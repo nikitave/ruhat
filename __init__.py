@@ -1,13 +1,15 @@
 import json
 
 import flask
-import werkzeug.exceptions
+import werkzeug
+
+from flask_login import login_required, login_user, logout_user, LoginManager
+
 from flask import Flask, render_template, request, url_for, redirect, flash
-from flask_login import login_required, login_user, logout_user, login_manager, LoginManager
-# import routes
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from extensions import db
+# from extensions import db
 from routes import main
 from models import Quiz, User
 
@@ -18,9 +20,15 @@ application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-application.register_blueprint(main)
-db.init_app(application)
 
+application.register_blueprint(main)
+from flask_login import UserMixin
+
+from extensions import db
+
+
+db.init_app(application)
+# db.create_all()
 login_manager = LoginManager(application)
 
 # Structure for quizzes JSON in User class:
@@ -76,7 +84,7 @@ def register(mode):
 
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for("quiz_management"))
+            return redirect(url_for("workspace"))
         else:
             email = request.form.get('email')
             password = request.form.get('password')
@@ -87,7 +95,7 @@ def register(mode):
                 return redirect(url_for('register', mode="sign-in-mode"))
             if check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for("quiz_management"))
+                return redirect(url_for("workspace"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
                 return redirect(url_for('register', mode="sign-in-mode"))
@@ -115,6 +123,7 @@ def workspace():
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
+
     if request.method == "POST":
         answer = request.values
         flask.session['progress'] += 1

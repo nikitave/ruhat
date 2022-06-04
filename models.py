@@ -16,3 +16,4 @@ class Quiz(db.Model):
     number_of_questions = db.Column(db.Integer)
     questions = db.Column(db.JSON)
     opened = db.Column(db.Boolean)
+
