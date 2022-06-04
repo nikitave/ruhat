@@ -16,3 +16,7 @@ Array.from(document.querySelectorAll(".profile-container")).forEach(item => {
     dropdownBg.style.visibility = "hidden";
   };
 });
+
+function delete_quiz(){
+  
+}
