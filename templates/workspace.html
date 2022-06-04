@@ -44,9 +44,16 @@
                 <div>
                     <a href="#">{{quiz['name']}}</a>
                 </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
+                <div class="icons-container">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                      </label>
+                    <a href="#" class="icon">
+                        <div class="fa fa-trash"></div>
+                    </a>
+
+                </div>
             </div>
             {% endfor %}
             {% endif %}
