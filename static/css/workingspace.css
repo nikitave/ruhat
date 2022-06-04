@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+@font-face {
+    font-family: 'shago';
+    src: url(../fonts/shago/ZtShago-ExtraBold.ttf) format('truetype');
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,input{
+    font-family: "Poppins",sans-serif;
+}
+
+.main-title{
+    font-size: 2.7rem;
+    color: #005F75;
+    font-family: 'shago',sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 80px;
+    margin-left: 2.5rem;
+}
+[data-initials]:before {
+    background: #005F75;
+    color: #fff;
+    content: attr(data-initials); 
+    display: inline-block; 
+    font-size: 2rem;
+    font-weight: bold; 
+    border-radius: 50%; 
+    margin-right: 0.5em; 
+    width: 125px; 
+    height: 125px; 
+    line-height: 125px; 
+    text-align: center;
+    margin-bottom: 0.5rem; 
+    z-index: 100;
+}
+
+.nav-bar-container{
+    background-color: #DDE2E8;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content:end ;
+    align-items: center;
+    border-bottom: #005F75 solid 0.3rem;
+    gap: 1rem;
+    z-index: 100;
+    
+}
+.nav-bar-container > *{
+    place-self: center;
+}
+.main-title{
+    margin-right: auto;
+}
+.profile-container{
+    overflow: visible;
+    height: 50px;
+}
+.dropdown-menu {
+    width: 250px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    transform: translateX(10%);
+    transition: all 0.1s;
+    list-style: none;
+    overflow: hidden;
+}
+.dropdown-menu a{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: large;
+}
+.dropdown-menu li{
+    color: #fff;
+    padding: 1rem;
+    border-bottom: #fff solid 1px;
+}
+.dropdown-menu a:last-child li{
+    border-bottom: none;
+}
+.dropdown-menu li:hover{
+    background-color: #13505D;
+}
+.profile-container:hover  .dropdown-menu{
+    background-color: #005F75;
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+}
+.dropdown-item {
+    text-align: left;
+    padding: 2rem 2rem 0 2rem;
+  }
+  
+.dropdown-bg {
+  background-color: rgba(0, 95, 117, 0.93);
+  border-radius: 0.3rem;
+  box-shadow: 0 0.5rem 1rem #757575;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.left-side{
+    padding: 2rem;
+    width: 23%;
+    background-color: #DDE2E8;
+    border-right: #005F75 solid 0.3rem;
+    height: 100%;
+}
+.right-side{
+    width: 77%;
+    background-color: #fff;
+    height: 100%;
+    z-index: -1;
+}
+.home-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: -1;
+}
+.previous-quiz{
+    margin-top: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    transition: all 0.2s linear;
+}
+.previous-quiz:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.icon{
+    border: solid 2px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.4s;
+
+}
+.icons-container{
+    margin-left: auto;
+    display: flex;
+}
+.icon:hover{
+    background-color: #13505D;
+    border: #13505D solid 2px;
+    color: #fff;
+}
+.previous-quiz a{
+    text-decoration: none;
+    color: #13505D;
+    font-size: larger;
+    font-weight: 600;
+}
+
+.previous-quiz div:first-child a::after {
+    content: '';
+    width: 0px;
+    height: 2px;
+    display: block;
+    background: #13505D;
+    transition: .2s linear;
+}
+
+.previous-quiz div:first-child a:hover::after{
+    width: 100%;
+}
+.left-side h3:first-child{
+    color: #13505D;
+    font-weight: 600;
+    margin: 1rem 0 1.5rem 0;
+}
+.plain-text {
+    cursor: default;
+    user-select: none;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 25px;
+    line-height: 60px;
+    margin: auto 0.5rem auto 0;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    border-radius: 20px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #A9C0C6;
+    transition: .4s;
+}
+  
+.slider:before {
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    transition: .4s;
+}
+  
+input:checked + .slider {
+    background-color: #13505D;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #13505D;
+}
+  
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+  

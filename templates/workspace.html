@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
+    <title>Ruhat</title>
+    <link rel="stylesheet" href="../static/css/workingspace.css">
+</head>
+<body>
+    <div class="nav-bar-container">
+        <a href="#" class="main-title">
+            Ruhat!
+        </a>
+        <div class="profile-container">
+            <div class="profile-icon" data-initials="AA"></div>
+            <ul name="settings" class="dropdown-menu">
+                <a href="#">
+                    <li class="drop-down-item">
+                        change password
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="drop-down-item">
+                        delete account
+                    </li>
+                </a>
+                <a href="#">
+                    <li class="drop-down-item">
+                        logout
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="dropdown-bg"></div>
+    </div>
+    <div class="home-container">
+        <div class="left-side">
+            <h3 class="plain-text">Previous quizzes:</h3>
+            {% if current_user.quizzes %}
+            {% for quiz in current_user.quizzes %}
+            <div class="previous-quiz">
+                <div>
+                    <a href="#">{{quiz['name']}}</a>
+                </div>
+                <div class="icons-container">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                      </label>
+                    <a href="#" class="icon">
+                        <i class="fa fa-trash fa-sm"></i> 
+                    </a>
+
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+        </div>
+        <div class="right-side">
+
+        </div>
+    </div>
+    <script src="../static/js/workspace.js"></script>
+</body>
+</html>
