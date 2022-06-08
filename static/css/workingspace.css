@@ -145,18 +145,23 @@ body,input{
 .previous-quiz:hover{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.delete-icon{
+
+.icon{
     border: solid 2px;
-    height: 38px;
-    width: 38px;
+    height: 30px;
+    width: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    margin-left: auto;
     transition: all 0.4s;
+
 }
-.delete-icon:hover{
+.icons-container{
+    margin-left: auto;
+    display: flex;
+}
+.icon:hover{
     background-color: #13505D;
     border: #13505D solid 2px;
     color: #fff;
@@ -167,6 +172,19 @@ body,input{
     font-size: larger;
     font-weight: 600;
 }
+
+.previous-quiz div:first-child a::after {
+    content: '';
+    width: 0px;
+    height: 2px;
+    display: block;
+    background: #13505D;
+    transition: .2s linear;
+}
+
+.previous-quiz div:first-child a:hover::after{
+    width: 100%;
+}
 .left-side h3:first-child{
     color: #13505D;
     font-weight: 600;
@@ -175,4 +193,54 @@ body,input{
 .plain-text {
     cursor: default;
     user-select: none;
-  }
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 25px;
+    line-height: 60px;
+    margin: auto 0.5rem auto 0;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    border-radius: 20px;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #A9C0C6;
+    transition: .4s;
+}
+  
+.slider:before {
+    border-radius: 50%;
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    transition: .4s;
+}
+  
+input:checked + .slider {
+    background-color: #13505D;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #13505D;
+}
+  
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+  

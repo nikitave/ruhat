@@ -26,7 +26,7 @@
                         delete account
                     </li>
                 </a>
-                <a href="#">
+                <a href="{{url_for('logout')}}">
                     <li class="drop-down-item">
                         logout
                     </li>
@@ -38,46 +38,33 @@
     <div class="home-container">
         <div class="left-side">
             <h3 class="plain-text">Previous quizzes:</h3>
+            {% if quiz_list %}
+            {% for quiz in quiz_list %}
             <div class="previous-quiz">
                 <div>
-                    <a href="#">ITP quiz</a>
+                    <a href="#">{{quiz['name']}}</a>
                 </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">ITP quiz</a>
+
+                <div class="icons-container">
+                    <label class="switch">
+                        {% if quiz['opened']==1 %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox" >
+                        {% endif %}
+                        <span class="slider"></span>
+                      </label>
+                    <a href="#" class="icon">
+                        <i class="fa fa-trash fa-sm"></i>
+                    </a>
+
                 </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
+
+
             </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">DSA quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">MA-II quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">CA quiz</a>
-                </div>
-                <a href="#" class="delete-icon">
-                    <div class=" fa fa-trash"></div>
-                </a>
-            </div>
+            {% endfor %}
+            {% endif %}
+
         </div>
         <div class="right-side">
 

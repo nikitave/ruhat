@@ -1,13 +1,17 @@
 import json
-import sys
-import flask
-import werkzeug.exceptions
-from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 
-# from flask_mysqldb import MySQL
+import flask
+import werkzeug
+
+from flask_login import login_required, login_user, logout_user, LoginManager, current_user
+
+from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
+
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from routes import main
+from models import Quiz, User
+
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
@@ -15,56 +19,24 @@ application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(application)
+application.register_blueprint(main)
+
+from extensions import db
+
+db.init_app(application)
 login_manager = LoginManager(application)
 
 
-##CREATE TABLE IN DB
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-    name = db.Column(db.String(1000))
-    quizzes = db.Column(db.JSON)
+def json_to_dict(jsonData):
+    return json.loads(jsonData)
 
 
-# Structure for quizzes JSON in User class:
-# quizzes = {
-# { id, name }, { id, name }, ...
-# }
-# We need to store id for accessing the quiz from Quiz db - to get questions and answers for them
-# We need to store name for showing it to the Teacher
+application.add_template_filter(json_to_dict)
 
-# CREATE TABLE IN DB FOR QUIZES
-class Quiz(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    number_of_questions = db.Column(db.Integer)
-    questions = db.Column(db.JSON)
-
-
-# Structure for questions:
-# questions = {
-# {text,answer}, {text,answer}, ...
-# }
-
-# Line below only required once, when creating DB.
-# db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-@application.route('/', methods=["GET", "POST"])
-def home():
-    flask.session['progress'] = 0
-    if request.method == "POST":
-        # print(f"{request.form['username']}",file=sys.stderr)
-        pincode = request.form['pincode']
-        id_quiz = int(pincode)
-        return redirect(url_for('quiz', id_quiz=id_quiz))
-    return render_template("startingPage.html")
 
 
 @application.route('/register/<mode>', methods=["GET", "POST"])
@@ -91,7 +63,7 @@ def register(mode):
 
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for("quiz_management"))
+            return redirect(url_for("workspace"))
         else:
             email = request.form.get('email')
             password = request.form.get('password')
@@ -102,7 +74,7 @@ def register(mode):
                 return redirect(url_for('register', mode="sign-in-mode"))
             if check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for("quiz_management"))
+                return redirect(url_for("workspace"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
                 return redirect(url_for('register', mode="sign-in-mode"))
@@ -113,37 +85,72 @@ def register(mode):
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 
-@application.route('/quiz-management')
+@application.route('/workspace', methods=["GET", "POST"])
 @login_required
-def quiz_management():
+def workspace():
     # You can see your created quizes and can create a new one
-    return render_template('quiz_management.html')
+    if request.method == "POST":
+        print(request.values)
+    else:
+        quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
+    return render_template('workspace.html', quiz_list=quiz_list)
 
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
+
     if request.method == "POST":
         answer = request.values
         flask.session['progress'] += 1
+        # TODO: to link the user with the database and store his answers and his score in the database
         # print(answer)
-        if flask.session['progress'] == len(Quiz.query.filter_by(id=id_quiz).first().questions):
-            return redirect(url_for('home'))
-    # print(flask.session['progress'])
-    quiz =  Quiz.query.filter_by(id=id_quiz).first()
+        if int(flask.session['progress']) == len(Quiz.query.filter_by(id=id_quiz).first().questions):
+            return redirect(url_for('main.end_quiz'))
+
+    quiz = Quiz.query.filter_by(id=id_quiz).first()
     if quiz:
-        questions = quiz.first().questions
-        return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+        if quiz.opened:
+            questions = quiz.questions
+            return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+        else:
+            return 'Quiz is closed'
     else:
         raise NotExistingQuiz()
 
 
 
+
+@application.route('/api/get_quiz', methods=["GET"])
+def get_questions():
+    if 'id' in request.args:
+        id = int(request.args['id'])
+        quiz = Quiz.query.filter_by(id=id).first()
+        if quiz:
+            if quiz.opened:
+                questions = quiz.questions
+                return jsonify(questions),200
+            else:
+                return jsonify({"status":"closed"}),204
+        else:
+            return jsonify({"status":"not found"}),404
+    else:
+        return "Error",400
+
+@application.route('/api/post_answer', methods=["GET"])
+def post_answer():
+    if 'option' in request.args:
+        pass
+        # request.args['option']
+        # TODO: To link the user of the api with the database
+    return "Errro"
+
 @application.errorhandler(404)
 def not_existed_page(e):
     return '''This page doesn't exist. Please, leave this page immediately.'''
+
 
 application.register_error_handler(404, not_existed_page)
 
@@ -152,10 +159,12 @@ class NotExistingQuiz(werkzeug.exceptions.HTTPException):
     code = 4040
     description = "This quiz doesn't exist"
 
+
 @application.errorhandler(NotExistingQuiz)
 def page_error(e):
     return f'{e.description}'
 
+
 application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
-    application.run()
+    application.run(debug=True)

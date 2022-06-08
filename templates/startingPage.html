@@ -15,20 +15,25 @@
                 <h1 class="main-title plain-text">
                     Ruhat!
                 </h1>
-                <form action="{{url_for('home')}}" class="get-started-form" method="POST">
+                <form action="{{url_for('main.home')}}" class="get-started-form" method="POST">
                     <div class="input-field">
                         <input type="text" placeholder="Username" name="username" required>
                     </div>
                     <div class="input-field">
-                        <input type="text" placeholder="pin code" name="pincode" required>
+                        <input type="text" placeholder="pin code" name="pincode" value="{{id}}" required>
                     </div>
                     <input type="submit" value="enter" class="btn solid" name="enter">
                 </form>
-            </div>
-            <div class="sign-up-instead">
-                <p>
-                    <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('register',mode="sign-in-mode") }}" class="sign-up-link">signing in</a>
-                </p>
+                <div class="sign-up-instead">
+                    <p>
+                        {% if current_user.is_authenticated%}
+                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('workspace') }}" class="sign-up-link">signing in</a>
+                        {% else %}
+                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>
+
+                        {% endif %}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
