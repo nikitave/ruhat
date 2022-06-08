@@ -1,21 +1,18 @@
-const dropdownBg = document.querySelector(".dropdown-bg");
 
-Array.from(document.querySelectorAll(".profile-container")).forEach(item => {
-  item.onmouseover = () => {
-    dropdownBg.style.opacity = 1;
-    dropdownBg.style.visibility = "visible";
-    dropdownBg.style.width = getComputedStyle(item.lastElementChild).width;
-    dropdownBg.style.height = getComputedStyle(item.lastElementChild).height;
-
-    dropdownBg.style.top = `${item.lastElementChild.offsetTop}px`;
-    dropdownBg.style.left = `${item.lastElementChild.offsetLeft}px`;
-  };
-
-  item.onmouseout = () => {
-    dropdownBg.style.opacity = 0;
-    dropdownBg.style.visibility = "hidden";
-  };
-});
+let profile_pic = document.querySelector(".profile-container");
+let dropdown_btn = document.querySelector(".edit-profile");
+let menu_dropped = false;
+dropdown_btn.addEventListener("click",function(){
+  let menu = document.querySelector(".dropdown-menu");
+  if (menu_dropped == false){
+    menu.classList.add("show-menu");
+    menu_dropped=true;
+    }
+  else {
+    menu.classList.remove("show-menu");
+    menu_dropped=false;
+  }
+})
 
 // this funciton is too slow I will optimise it
 let ending_id = [-1,-1,-1,-1,-1,-1];
