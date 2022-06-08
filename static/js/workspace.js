@@ -89,10 +89,13 @@ function updateLisners(){
         content = content.lastElementChild;
         if (content.classList.contains("add-border") == false){
           content.classList.add("add-border");
+          checkForExtraQuestions();
         }
         else {
           content.classList.remove("add-border");
+          checkForExtraQuestions();
         }
+        checkForExtraQuestions();
         ending_id[j]=i;
       });
     }
@@ -178,15 +181,15 @@ if (isOverflownY(question_list) == true){
 
 function checkForExtraQuestions(){
   if (question_list.offsetHeight + question_list.scrollTop >= question_list.scrollHeight - 30 ){
-    if (shadow_exist == true){
-      let add_question = document.querySelector(".add-question");
+    let add_question = document.querySelector(".add-question");
+    if (add_question.classList.contains("shadow-above") == true){
       add_question.classList.remove("shadow-above");
       shadow_exist = false;
     }
   }
   else {
-    if (shadow_exist == false){
-      let add_question = document.querySelector(".add-question");
+    let add_question = document.querySelector(".add-question");
+    if (add_question.classList.contains("shadow-above")  == false){
       add_question.classList.add("shadow-above");
       shadow_exist = true;
     }

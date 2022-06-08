@@ -19,7 +19,6 @@ body{
     margin: 0;
     
 }
-
 .main-title{
     font-size: 2.7rem;
     color: #fff;
@@ -48,7 +47,9 @@ body{
 }
 
 .nav-bar-container{
-    background-color: #005F75;
+    background: url("../img/navbarbackground.svg");
+    
+    background-position: top left;
     padding: 1rem 2rem;
     display: flex;
     justify-content:end ;
@@ -70,16 +71,19 @@ body{
 }
 .dropdown-menu {
     width: 250px;
-    border-radius: 5px;
+    border-radius: 0.7rem;
+    box-shadow: 10px 3px 15px 5px rgba(159, 192, 198, 0.4);
     position: relative;
     z-index: 100;
     opacity: 0;
     visibility: hidden;
     height: 0;
     transform: translateX(10%);
+    transform: translateY(-10%);
     transition: all 0.1s;
     list-style: none;
     overflow: hidden;
+    transition: all 0.5s;
 }
 .dropdown-menu a{
     text-decoration: none;
@@ -94,11 +98,11 @@ body{
 .dropdown-menu a:last-child li{
     border-bottom: none;
 }
-.dshow-menu li:hover{
+.show-menu li:hover{
     background-color: #13505D;
 }
 .show-menu{
-    background-color: #005F75;
+    background: url("../img/navbarbackground.svg");
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
@@ -323,7 +327,7 @@ input:checked + .slider:before {
     grid-template-columns: 50% 50%;
     z-index: 1;
     border-radius: 0 0 15px 15px;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.2s ease-out;
 
 }
 .letter{
@@ -578,9 +582,12 @@ form{
     display: block;
 
 }
+.edit-profile i:hover{
+    background-color: #DDE2E8;
+}
 
 .edit-profile{
-    
+    outline: none;
     border: none;
     padding: 0.5rem;
     margin-left: -1.5rem;

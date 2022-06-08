@@ -18,7 +18,7 @@ body,input{
 
 
 .container{
-    background-color: #184C57;
+    background-image: url("../img/background.svg");
     position: relative;
     height: 100vh;
     width: 100vw;
@@ -32,7 +32,7 @@ body,input{
 }
 .main-title{
     font-size: 3.5rem;
-    color: #184C57;
+    color: #005F75;
     margin-bottom: 10px;
     font-family: 'shago',sans-serif;
     font-weight: 600;
