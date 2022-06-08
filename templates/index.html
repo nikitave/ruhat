@@ -17,7 +17,7 @@
 <div class="container {{ mode }}">
     <div class="forms-container">
         <div class="signin-signup">
-            <form action="{{ url_for('register',mode="sign-in-mode") }}" class="sign-in-form" method="POST">
+            <form action="{{ url_for('register',mode='sign-in-mode') }}" class="sign-in-form" method="POST">
                 {% with messages = get_flashed_messages(category_filter=["login_err"]) %}
                     {% if messages %}
                         {% for message in messages %}
@@ -52,7 +52,7 @@
                 </div>
             </form>
 
-            <form action="{{ url_for('register',mode="sign-up-mode") }}" class="sign-up-form" method="POST">
+            <form action="{{ url_for('register',mode='sign-up-mode') }}" class="sign-up-form" method="POST">
                 {% with messages = get_flashed_messages(category_filter=["reg_err"]) %}
                     {% if messages %}
                         {% for message in messages %}
