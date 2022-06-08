@@ -8,23 +8,31 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-body,input{
+html{
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+body{
     font-family: "Poppins",sans-serif;
+    height: 100%;
+    margin: 0;
+    
 }
 
 .main-title{
     font-size: 2.7rem;
-    color: #005F75;
+    color: #fff;
     font-family: 'shago',sans-serif;
     font-weight: 600;
     text-decoration: none;
-    line-height: 80px;
+    line-height: 5.3rem;
     margin-left: 2.5rem;
 }
 [data-initials]:before {
-    background: #005F75;
-    color: #fff;
+    background: #fff;
+    color: #005F75;
+    border: #005F75 solid 0.3rem;
     content: attr(data-initials); 
     display: inline-block; 
     font-size: 2rem;
@@ -40,12 +48,11 @@ body,input{
 }
 
 .nav-bar-container{
-    background-color: #A9C0C6;
+    background-color: #005F75;
     padding: 1rem 2rem;
     display: flex;
     justify-content:end ;
     align-items: center;
-    border-bottom: #005F75 solid 0.3rem;
     gap: 1rem;
     z-index: 100;
     
@@ -118,17 +125,24 @@ body,input{
     border-right: #005F75 solid 0.3rem;
     height: 100%;
 }
+.quizzes-list{
+    height: calc(100vh - 16rem);
+}
 .right-side{
     padding: 2rem;
     width: 73%;
     background-color: #fff;
-    height: 100%;
+    height: calc(100vh - 12rem);
 }
+
 .home-container{
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+
+}
+body{
+    overflow: hidden;
 }
 .previous-quiz{
     margin-top: 1rem;
@@ -154,8 +168,11 @@ body,input{
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    cursor: pointer;
     transition: all 0.4s;
-
+}
+.right-side .icon{
+    background-color: #DDE2E8;
 }
 .icons-container{
     margin-left: auto;
@@ -166,7 +183,7 @@ body,input{
     border: #005F75 solid 2px;
     color: #fff;
 }
-.previous-quiz a, .previous-quiz button{
+.previous-quiz a, .previous-quiz {
     text-decoration: none;
     color: #005F75;
     font-weight: 600;
@@ -245,28 +262,311 @@ input:checked + .slider:before {
 }
 
 .questions-list{
-    margin: 4rem auto;
+    margin: 2rem auto 4rem auto;
     width: 95%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 0.3rem;
+
 }
-.questions-list li{
+.questions-list::-webkit-scrollbar{
+    width: 0.6rem;
+}
+.questions-list::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+}
+.questions-list::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #005F75;
+  }   
+
+.question-statement{
+    padding: 0.7rem;
+    margin-right: 1rem;
+    border-radius: 1rem;
+    flex: 1 1 auto;
+}
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus{
+
+  outline: rgba(159, 192, 198, 0.3) solid;
+
+}
+.question-panel{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: #DDE2E8;
     border-radius: 15px;
     padding: 1rem 1.5rem;
+    z-index: 3;
+}
+
+[class^=question_]{
+    margin-bottom: 1rem;
+}
+
+.flex-center{
     display: flex;
     width: 100%;
     justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
+    align-items: center;    
+    flex-direction: row;
 }
-.delete-question{
-    margin-left: auto;
+
+.options-container{
+    max-height: 0;
+    display: grid;
+    padding: 0 0.75rem;
+    box-shadow: 2px 10px 5px 0 rgba(159, 192, 198, 0.25);
+    clip-path: inset(0 -15px -15px -15px);
+    grid-template-columns: 50% 50%;
+    z-index: 1;
+    border-radius: 0 0 15px 15px;
+    transition: max-height 0.3s ease-out;
+
 }
-.delete-question{
+.letter{
+    height: 100%;
+}
+.add-border{
+    border: rgba(221, 226, 232, 0.5) solid 2px;
+}
+.icon{
+    margin-left: 0.5rem;
     text-decoration: none;
     color: #005F75;
     font-size: larger;
     font-weight: 600;
     height: 40px;
     width: 40px;
+}
+.delete-question{
+    margin-left: auto;
+}
+
+.logo{
+    background-color: #A9C0C6;
+    border-radius: 15px;
+    padding: 5px;
+    width: 55px;
+    height: 55px;
+}
+.expand-icon{
+    transition: transform 0.5s;
+}
+.rotate{
+    transform: rotate(180deg);
+}
+.add-question,.add-quiz{
+    position: sticky;
+    bottom: 0;
+
+}
+
+
+.container{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.home-container{
+
+    flex: 1 1 auto;
+}
+.nav-bar-container{
+    flex: 0 1 auto;
+}
+.shadow-above{
+    box-shadow: 0px 15px 30px 30px rgba(159, 192, 198, 0.3);
+    border-radius: 15px 10px 0 0;
+    clip-path: inset(-30px 0px 0px 0px);
+}  
+.quiz_name{
+    color: #005F75;
+    margin-top: 1rem;
+}
+
+.options-container div{
+    padding: 1rem;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+.quizzes-list{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 0.2rem;
+}
+
+.quizzes-list::-webkit-scrollbar{
+    width: 0.6rem;
+}
+.quizzes-list::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(159, 192, 198, 0.2);
+    border-radius: 1rem;
+}
+.quizzes-list::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #005F75;
+}   
+
+.option{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    
+}
+
+.letter{
+    color: #13505D;
+    background-color: rgba(255, 0, 0, 0.5);
+    border-radius: 2rem 0 0 2rem;
+    align-items: center;
+    font-size: 1.5rem;
+    height: 100%;
+    font-family: 'shago';
+    flex: 0 1 auto;
+    padding: 1rem;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+.option-statement{
+    display: inline-flex;
+    background-color: rgba(221, 226, 232, 0.6);
+    border-radius: 0 2rem 2rem 0;
+    flex: 1 1 auto;
+}
+.correct-answer{
+    background-color: rgba(159, 192, 198, 0.5);
+}
+
+
+.prompt ,.prompt2{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(40,40,40,.37);
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    transition: .6s opacity, .6s visibility;
+}
+  
+.prompt__form,.prompt__form2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+    width: 500px;
+    background: #fff;
+}
+
+.prompt--show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.prompt2--show{
+    visibility: visible;
+    opacity: 1;
+}
+
+.input-field input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 55px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #184C57;
+}
+.input-field{
+    max-width: 380px;
+    width: 100%;
+    height: 55px;
+    background-color: #DDE2E8;
+    margin: 10px auto;
+    border-radius: 55px;
+   
+}
+.input-field input::placeholder{
+    color: #A9C0C6;
+    font-weight: 500;
+}
+.question-holder{
+    padding-left: 1rem;
+}
+.prompt__text{
+    text-align: center;
+    margin: 1rem auto 2rem auto;
+    font-weight: 600;
+    color: #13505D;
+}
+
+.btn_container > *:hover{
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
+}
+
+
+.btn_container > *{
+    width: 150px;
+    height: 49px;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 49px;
+    cursor: pointer;
+    background-color: #005F75;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 1.2rem;
+    transition: .3s linear;
+}
+.btn_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.prompt2 .input-field input{
+    
+}
+
+form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem 5rem;
+    overflow: hidden;
+    border-radius: 1.5rem;
+}
+
+.prompt__cancel,.prompt__cancel2{
+    font-weight: 700;
+    background-color: rgba(210, 0, 0, 0.6);
+}
+.prompt__cancel:hover,.prompt__cancel2:hover{
+    color: rgba(255, 0, 0, 0.7);
+    border: 2px solid rgba(210, 0, 0, 0.6) ;
 }

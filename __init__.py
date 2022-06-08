@@ -1,11 +1,17 @@
 import json
-import sys
+
 import flask
-import werkzeug.exceptions
-from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
+import werkzeug
+
+from flask_login import login_required, login_user, logout_user, LoginManager
+
+from flask import Flask, render_template, request, url_for, redirect, flash
+
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+
+# from extensions import db
+from routes import main
+from models import Quiz, User
 
 # from flask_mysqldb import MySQL
 application = Flask(__name__)
@@ -15,18 +21,15 @@ application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(application)
+application.register_blueprint(main)
+from flask_login import UserMixin
+
+from extensions import db
+
+
+db.init_app(application)
+# db.create_all()
 login_manager = LoginManager(application)
-
-
-##CREATE TABLE IN DB
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-    name = db.Column(db.String(1000))
-    quizzes = db.Column(db.JSON)
-
 
 # Structure for quizzes JSON in User class:
 # quizzes = {
@@ -36,12 +39,6 @@ class User(UserMixin, db.Model):
 # We need to store name for showing it to the Teacher
 
 # CREATE TABLE IN DB FOR QUIZES
-class Quiz(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    number_of_questions = db.Column(db.Integer)
-    questions = db.Column(db.JSON)
-
 
 # Structure for questions:
 # questions = {
@@ -51,20 +48,16 @@ class Quiz(db.Model):
 # Line below only required once, when creating DB.
 # db.create_all()
 
+
+def json_to_dict(jsonData):
+    return json.loads(jsonData)
+
+application.add_template_filter(json_to_dict)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-@application.route('/', methods=["GET", "POST"])
-def home():
-    flask.session['progress'] = 0
-    if request.method == "POST":
-        # print(f"{request.form['username']}",file=sys.stderr)
-        pincode = request.form['pincode']
-        id_quiz = int(pincode)
-        return redirect(url_for('quiz', id_quiz=id_quiz))
-    return render_template("startingPage.html")
 
 
 @application.route('/register/<mode>', methods=["GET", "POST"])
@@ -91,7 +84,7 @@ def register(mode):
 
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for("quiz_management"))
+            return redirect(url_for("workspace"))
         else:
             email = request.form.get('email')
             password = request.form.get('password')
@@ -102,7 +95,7 @@ def register(mode):
                 return redirect(url_for('register', mode="sign-in-mode"))
             if check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for("quiz_management"))
+                return redirect(url_for("workspace"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
                 return redirect(url_for('register', mode="sign-in-mode"))
@@ -116,26 +109,35 @@ def logout():
     return redirect(url_for('home'))
 
 
-@application.route('/quiz-management')
+
+
+
+
+
+@application.route('/workspace')
 @login_required
-def quiz_management():
+def workspace():
     # You can see your created quizes and can create a new one
-    return render_template('quiz_management.html')
+    return render_template('workspace.html')
 
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
+
     if request.method == "POST":
         answer = request.values
         flask.session['progress'] += 1
         # print(answer)
         if flask.session['progress'] == len(Quiz.query.filter_by(id=id_quiz).first().questions):
-            return redirect(url_for('home'))
+            return redirect(url_for('main.home'))
     # print(flask.session['progress'])
     quiz =  Quiz.query.filter_by(id=id_quiz).first()
     if quiz:
-        questions = quiz.first().questions
-        return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+        if quiz.opened:
+            questions = quiz.questions
+            return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
+        else:
+            return 'Quiz is closed'
     else:
         raise NotExistingQuiz()
 

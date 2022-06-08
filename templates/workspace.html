@@ -9,23 +9,59 @@
     <link rel="stylesheet" href="../static/css/workingspace.css">
 </head>
 <body>
-    <div class="nav-bar-container">
-        <a href="#" class="main-title">
-            Ruhat!
-        </a>
-        <div class="profile-container">
-            <div class="profile-icon" data-initials="AA"></div>
-            <ul name="settings" class="dropdown-menu">
-                <a href="#">
-                    <li class="drop-down-item">
-                        change password
-                    </li>
-                </a>
-                <a href="#">
-                    <li class="drop-down-item">
-                        delete account
-                    </li>
-                </a>
+    <div class="prompt">
+        <form class="prompt__form">
+            <p class="prompt__text"><p>
+            <div class="input-field question-holder">
+                <input type="text" class="prompt__input" placeholder="Enter your quiz name"/>
+            </div>
+            <div class="btn_container">
+                <input type="submit" class="prompt__submit" value="proceed" />
+                <button type="button" class="prompt__cancel"> Cancel </button>
+            </div>
+        </form>  
+    </div>
+
+    <div class="prompt2">
+        <form class="prompt__form2">
+          <p class="prompt__text"><p>
+            <div class="input-field question-holder">
+                <input type="text" class="prompt__input" placeholder="Enter your qestion"/>
+            </div>
+            <div class="options-container2">
+                <div class="option input-field"><div class="letter plain-text">A</div><div class="option-statement"><input type="text" class="prompt__input" placeholder="Enter the first option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">B</div><div class="option-statement"><input type="text" class="prompt__input" placeholder="Enter the second option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">C</div><div class="option-statement"><input type="text" class="prompt__input" placeholder="Enter the third option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">D</div><div class="option-statement"><input type="text" class="prompt__input" placeholder="Enter the fourth option"/></div></div>
+            </div>
+
+          
+            <div class="btn_container">
+                <input type="submit" class="prompt__submit" value="proceed" />
+                <button type="button" class="prompt__cancel2"> Cancel </button>
+            </div>
+        </form>  
+    </div>
+
+    <div class="container">
+
+        <div class="nav-bar-container">
+            <a href="#" class="main-title">              
+                Ruhat!
+            </a>
+            <div class="profile-container">
+                <div class="profile-icon" data-initials="AA"></div>
+                <ul name="settings" class="dropdown-menu">
+                    <a href="#">
+                        <li class="drop-down-item">
+                            change password
+                        </li>
+                    </a>
+                    <a href="#">
+                        <li class="drop-down-item">
+                            delete account
+                        </li>
+                    </a>
                 <a href="#">
                     <li class="drop-down-item">
                         logout
@@ -38,119 +74,58 @@
     <div class="home-container">
         <div class="left-side">
             <h3 class="plain-text">Previous quizzes:</h3>
-            
-            <div class="previous-quiz  quiz-1">
-                <div>
-                    <a href="#">ITP quiz</a>
+            <div class="quizzes-list">
+                <div class="previous-quiz quiz-1">
+                    <div>
+                        <a href="#">ITP quiz</a>
+                    </div>
+                    <div class="icons-container">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <button class="delete-quiz icon">
+                            <i class="fa fa-trash "></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="icons-container">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <button class="delete-quiz icon" onclick="delete_quiz()">
-                        <i class="fa fa-trash "></i>
-                    </button>
-                </div>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">ITP quiz</a>
-                </div>
-                <div class="icons-container">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                      </label>
-                    <button class="delete-quiz icon">
-                        <i class="fa fa-trash "></i>
-                    </button>
-                </div>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">DSA quiz</a>
-                </div>
-                <div class="icons-container">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <button class="delete-quiz icon">
-                        <i class="fa fa-trash "></i>
-                    </button>
-                </div>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">MA-II quiz</a>
-                </div>
-                <div class="icons-container">
-                    <label class="switch" >
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <button class="delete-quiz icon">
-                        <i class="fa fa-trash "></i>
-                    </button>
-                </div>
-            </div>
-            <div class="previous-quiz">
-                <div>
-                    <a href="#">CA quiz</a>
-                </div>
-                <div class="icons-container">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <button class="delete-quiz icon">
-                        <i class="fa fa-trash "></i>
+                <div class="add-quiz previous-quiz flex-center">
+                    <button class="icon" style="margin-left: auto;">
+                        <i class="fa fa-add"></i>
                     </button>
                 </div>
             </div>
         </div>
         <div class="right-side">
-            <h2>ITP Quiz:</h2>
-            <ul class="questions-list">
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-                <li class="question-1">
-                    What is the capital of Russia
-                    <a href="#" class="icon delete-question ">
-                        <i class="fa fa-trash"></i> 
-                    </a>
-                </li>
-            </ul>
+            <h2 class="quiz_name">ITP Quiz:</h2>
+            <div class="questions-list">
+                <div class="question_1">
+                    <div class="question-panel flex-center">
+                        <div class="question-statement" contenteditable="true">
+                            What is the capital of Russia
+                        </div> 
+                        <button class="icon delete-question ">
+                            <i class="fa fa-trash"></i> 
+                        </button>
+                        <button class="icon expand-icon collapsible">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                    </div>
+                    <div class="options-container">
+                        <div class="option"><div class="letter plain-text">A</div><div class="option-statement" contenteditable="true">Damascus</div></div>
+                        <div class="option"><div class="letter plain-text">B</div><div class="option-statement" contenteditable="true">Paris</div></div>
+                        <div class="option"><div class="letter plain-text correct-answer">C</div><div class="option-statement" contenteditable="true">Moscow</div></div>
+                        <div class="option"><div class="letter plain-text">D</div><div class="option-statement" contenteditable="true">Dubai</div></div>
+                    </div>
+                </div>
+                <div class="add-question question-panel flex-center">
+                    <button class="icon" style="margin-left: auto;">
+                        <i class="fa fa-add"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
     <script src="../static/js/workspace.js"></script>
 </body>
