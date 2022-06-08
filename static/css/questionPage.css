@@ -1,6 +1,6 @@
 body {
-    background: #184C57;
-    margin: 3px;
+    background: #005F75;
+    margin: 0;
     padding: 0;
 }
 
@@ -9,18 +9,38 @@ body {
     flex-direction: column;
 }
 
+.exit {
+    height: 10vh;
+    background-color: #13505D;
+    display: grid;
+    align-content: center;
+}
+
+.exit_image {
+    width: 85px;
+    height: 50px;
+    margin-left: 30px;
+}
+
+.exit_button {
+    background-color: inherit;
+    border: 0;
+    width: 100px;
+}
+
 .up_item {
-    height: 40vh;
+    height: 20vh;
     width: 100%;
     display: flex;
-    border-bottom: 2px solid #fff ;
 }
 
 .down_item {
     width: 100%;
     display: grid;
-    grid-template-rows: 30vh 29vh;
-    grid-template-columns: 50% 50%;
+    justify-content: space-between;
+    align-content: space-between;
+    grid-template-rows: 35vh 34vh;
+    grid-template-columns: 50%  50%;
 }
 
 .question {
@@ -34,11 +54,14 @@ body {
 .item {
     padding: 10px;
     color: #fff;
+    height: 80%;
     font-size: 30px;
-    border: 1px solid #fff;
+    border: 0;
+    border-radius: 20px;
     cursor: pointer;
     transition: .3s linear;
     overflow: hidden;
+    
 }
 
 .item:hover {
@@ -46,19 +69,34 @@ body {
 }
 
 .ul {
-    background: red;
+    background: #E23E3E;
+    margin-top: 40px;
+    margin-left: 100px;
+    margin-right: 20px;
 }
 
 .ur {
-    background: goldenrod;
+    background: #A3E252;
+    margin-top: 40px;
+    margin-right: 100px;
+    margin-left: 20px;
+    
 }
 
 .dl {
-    background: forestgreen;
+    background: #4E75FF;
+    margin-top: 10px;
+    margin-left: 100px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .dr {
-    background: orangered;
+    background: #E2E719;
+    margin-top: 10px;
+    margin-right: 100px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 
@@ -70,6 +108,29 @@ body {
     .item {
         font-size: 18px;
     }
+
+    .ul {
+        margin-left: 20px;
+        margin-right: 10px;
+
+    }
+
+    .ur {
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+
+    .dl {
+        margin-left: 20px;
+        margin-right: 10px;
+        margin-top: 0;
+    }
+
+    .dr {
+        margin-right: 20px;
+        margin-left: 10px;
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 414px) {
@@ -79,16 +140,24 @@ body {
     }
 
     .up_item {
-        height: 30vh;
+        height: 10vh;
     }
 
     .down_item {
-        grid-template-rows: 35vh 34vh;
+        grid-template-rows: 40vh 39vh;
         grid-template-columns: 50% 50%;
     }
 
     .item {
         font-size: 15px;
+    }
+
+    .dr {
+        margin-top: 40px;
+    }
+
+    .dl {
+        margin-top: 40px;
     }
 }
 
