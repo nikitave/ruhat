@@ -9,6 +9,12 @@
 </head>
 <body>
     <div class="question_page">
+        <div class="exit">
+            <a href="" class="exit_button">
+                <img class="exit_image" src="../static/img/exit.png" alt="">
+            </a>
+            
+        </div>
         <div class="up_item">
             <p class="question">{{question.question}}</p>
         </div>
@@ -19,10 +25,24 @@
             <button type="submit" class="item {{['ul','ur','dl','dr'][i]}}" name="{{i}}">
                 {{question.options[i]}}
             </button>
+                <!-- <button type="submit" class="item ul">This is option 1</button>
+                <button type="submit" class="item ur">This is option 2</button>
+                <button type="submit" class="item dl">This is option 3</button>
+                <button type="submit" class="item dr">This is option 4</button> -->
 
 
             {% endfor%}
-                </form>
+            </form>
+           <!-- <button type="button" class="item ur">-->
+               <!-- This is option 2. No, it is option 2.
+           </button>
+           <button type="button" class="item dl">
+               This is option 3. Probably, it is option 3.
+           </button>
+           <button type="button" class="item dr">
+               This is option 4. It is both option 4.
+           </button> --> 
+
 
         </div>
     </div>

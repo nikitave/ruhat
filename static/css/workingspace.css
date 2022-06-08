@@ -547,9 +547,6 @@ input:checked + .slider:before {
     width: 100%;
 }
 
-.prompt2 .input-field input{
-    
-}
 
 form{
     width: 100%;
