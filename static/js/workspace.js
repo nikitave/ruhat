@@ -280,28 +280,55 @@ add_question.addEventListener('click',function(){
   });  
 });
 
-function createNewQuiz(quiz_name){
-  let node = createSection("div","previous-quiz quiz-1");
+function createNewQuiz(quiz_name) {
+  fetch('/workspace', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      'quiz_name': quiz_name,
+    })
+  })
+      .then(function (response) {
+
+        if (response.ok) {
+          response.json()
+              .then(function (response) {
+                console.log(response);
+              });
+        } else {
+          throw Error('Something went wrong');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  let node = createSection("div", "previous-quiz quiz-1");
   let child1 = document.createElement("div");
   let child2 = document.createElement("a");
   child2.href = "#";
+
+
+
+
   child2.appendChild(document.createTextNode(quiz_name));
   child1.appendChild(child2);
   node.appendChild(child1);
-  child1 = createSection("div","icons-container");
-  child2 = createSection("label","switch");
+  child1 = createSection("div", "icons-container");
+  child2 = createSection("label", "switch");
   let child3 = document.createElement("input");
-  let child4 = createSection("span","slider");
-  child3.type="checkbox";
-  child2.append(child3,child4);
+  let child4 = createSection("span", "slider");
+  child3.type = "checkbox";
+  child2.append(child3, child4);
   child1.append(child2);
-  child3 = createSection("button","delete-quiz icon");
-  child4 = createSection("i","fa fa-trash");
+  child3 = createSection("button", "delete-quiz icon");
+  child4 = createSection("i", "fa fa-trash");
   child3.appendChild(child4);
   child1.append(child3);
   node.append(child1);
   let quizzes = document.querySelector(".quizzes-list");
-  quizzes.insertBefore(node,add_quiz);
+  quizzes.insertBefore(node, add_quiz);
   updateLisners();
 }
 
