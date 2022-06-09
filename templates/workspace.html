@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous">
+
+    </script>
     <title>Ruhat</title>
     <link rel="stylesheet" href="../static/css/workingspace.css">
 </head>
@@ -62,7 +64,7 @@
                             delete account
                         </li>
                     </a>
-                <a href="#">
+                <a href="{{url_for('logout')}}">
                     <li class="drop-down-item">
                         logout
                     </li>
@@ -75,13 +77,19 @@
         <div class="left-side">
             <h3 class="plain-text">Previous quizzes:</h3>
             <div class="quizzes-list">
+                {% if quiz_list %}
+                {% for quiz in quiz_list %}
                 <div class="previous-quiz quiz-1">
                     <div>
-                        <a href="#">ITP quiz</a>
+                        <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
                     </div>
                     <div class="icons-container">
                         <label class="switch">
+                            {% if quiz['opened']==1 %}
                             <input type="checkbox" checked>
+                            {% else %}
+                            <input type="checkbox" >
+                            {% endif %}
                             <span class="slider"></span>
                         </label>
                         <button class="delete-quiz icon">
@@ -89,6 +97,8 @@
                         </button>
                     </div>
                 </div>
+                {% endfor %}
+            {% endif %}
                 <div class="add-quiz previous-quiz flex-center">
                     <button class="icon" style="margin-left: auto;">
                         <i class="fa fa-add"></i>
@@ -99,12 +109,16 @@
             </div>
         </div>
         <div class="right-side">
-            <h2 class="quiz_name">ITP Quiz:</h2>
+            {% set current_quiz = request.args.get('id') | get_quiz_from_db %}
+            {% set options_letters = ["A","B","C","D"]%}
+            <h2 class="quiz_name">{{current_quiz.name}}</h2>
+            {% if current_quiz%}
             <div class="questions-list">
+                {% for question in current_quiz.questions %}
                 <div class="question_1">
                     <div class="question-panel flex-center">
                         <div class="question-statement" contenteditable="true">
-                            What is the capital of Russia
+                            {{question.question}}
                         </div> 
                         <button class="icon delete-question ">
                             <i class="fa fa-trash"></i> 
@@ -114,18 +128,26 @@
                         </button>
                     </div>
                     <div class="options-container">
-                        <div class="option"><div class="letter plain-text">A</div><div class="option-statement" contenteditable="true">Damascus</div></div>
-                        <div class="option"><div class="letter plain-text">B</div><div class="option-statement" contenteditable="true">Paris</div></div>
-                        <div class="option"><div class="letter plain-text correct-answer">C</div><div class="option-statement" contenteditable="true">Moscow</div></div>
-                        <div class="option"><div class="letter plain-text">D</div><div class="option-statement" contenteditable="true">Dubai</div></div>
-                    </div>
+                        {% for i in range(4)%}
+                        {% if question.options[i] == question.answer%}
+                        <div class="option"><div class="letter plain-text correct-answer">{{options_letters[i]}}</div><div class="option-statement" contenteditable="true"> {{question.options[i]}}</div></div>
+                        {% else %}
+
+                        <div class="option"><div class="letter plain-text">{{options_letters[i]}}</div><div class="option-statement" contenteditable="true">
+                        {{question.options[i]}}</div></div>
+
+                        {% endif %}
+                        {% endfor %}
+                        </div>
                 </div>
+                {% endfor %}
                 <div class="add-question question-panel flex-center">
                     <button class="icon" style="margin-left: auto;">
                         <i class="fa fa-add"></i>
                     </button>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     </div>

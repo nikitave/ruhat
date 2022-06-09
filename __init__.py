@@ -30,9 +30,11 @@ login_manager = LoginManager(application)
 def json_to_dict(jsonData):
     return json.loads(jsonData)
 
+def get_quiz_from_db(id):
+    return Quiz.query.filter_by(id=id).first()
 
 application.add_template_filter(json_to_dict)
-
+application.add_template_filter(get_quiz_from_db)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -96,7 +98,7 @@ def workspace():
         print(request.values)
     else:
         quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
-    return render_template('workspace.html', quiz_list=quiz_list)
+    return render_template('workspace.html', quiz_list=quiz_list, quiz_for_edit=None)
 
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
