@@ -1,4 +1,6 @@
+from flask import jsonify
 from flask_login import UserMixin
+
 
 from extensions import db
 
@@ -8,6 +10,12 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     quizzes = db.Column(db.JSON)
+    def __init__(self,email,password,name,quizzes):
+        self.name = name
+        self.email = email
+        self.password = password
+        self.quizzes = quizzes
+
 
 
 

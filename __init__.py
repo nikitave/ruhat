@@ -6,6 +6,7 @@ import werkzeug
 from flask_login import login_required, login_user, logout_user, LoginManager, current_user
 
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
+from sqlalchemy.orm.attributes import flag_modified
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -61,10 +62,12 @@ def register(mode):
                 email=request.form['email'],
                 name=request.form['username'],
                 password=hash_and_salted_password,
+                quizzes=[]
             )
 
             db.session.add(new_user)
             db.session.commit()
+            login_user(new_user)
             return redirect(url_for("workspace"))
         else:
             email = request.form.get('email')
@@ -95,9 +98,24 @@ def logout():
 def workspace():
     # You can see your created quizes and can create a new one
     if request.method == "POST":
-        print(request.values)
-    else:
-        quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
+        quiz_name =request.json['quiz_name']
+        new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
+        # Add the quiz in Quiz table
+        db.session.add(new_quiz)
+        db.session.commit()
+        # Add the quiz in User table
+        new_quiz_user= {'id':new_quiz.id,'name':new_quiz.name}
+        cur_user = User.query.filter_by(id=current_user.id).first()
+        list_quiz = current_user.quizzes
+        list_quiz.append(new_quiz_user)
+        cur_user.quizzes= list_quiz
+        flag_modified(cur_user, "quizzes")
+        db.session.add(cur_user)
+        # db.session.merge(cur_user)
+        db.session.commit()
+        # print(cur_user.quizzes)
+
+    quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
     return render_template('workspace.html', quiz_list=quiz_list, quiz_for_edit=None)
 
 
@@ -140,6 +158,12 @@ def get_questions():
             return jsonify({"status":"not found"}),404
     else:
         return "Error",400
+
+@application.route('/api/get_quizzes_from_user', methods=["GET"])
+def get_quizzes_from_user():
+    print(current_user.quizzes)
+    return jsonify(current_user.quizzes[-1])
+
 
 @application.route('/api/post_answer', methods=["GET"])
 def post_answer():

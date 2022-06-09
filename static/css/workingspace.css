@@ -19,7 +19,6 @@ body{
     margin: 0;
     
 }
-
 .main-title{
     font-size: 2.7rem;
     color: #fff;
@@ -38,7 +37,7 @@ body{
     font-size: 2rem;
     font-weight: bold; 
     border-radius: 50%; 
-    margin-right: 0.5em; 
+    padding: 0;
     width: 125px; 
     height: 125px; 
     line-height: 125px; 
@@ -48,7 +47,9 @@ body{
 }
 
 .nav-bar-container{
-    background-color: #005F75;
+    background: url("../img/navbarbackground.svg");
+    
+    background-position: top left;
     padding: 1rem 2rem;
     display: flex;
     justify-content:end ;
@@ -70,16 +71,19 @@ body{
 }
 .dropdown-menu {
     width: 250px;
-    border-radius: 5px;
+    border-radius: 0.7rem;
+    box-shadow: 10px 3px 15px 5px rgba(159, 192, 198, 0.4);
     position: relative;
     z-index: 100;
     opacity: 0;
     visibility: hidden;
     height: 0;
     transform: translateX(10%);
+    transform: translateY(-10%);
     transition: all 0.1s;
     list-style: none;
     overflow: hidden;
+    transition: all 0.5s;
 }
 .dropdown-menu a{
     text-decoration: none;
@@ -94,11 +98,11 @@ body{
 .dropdown-menu a:last-child li{
     border-bottom: none;
 }
-.dropdown-menu li:hover{
+.show-menu li:hover{
     background-color: #13505D;
 }
-.profile-container:hover  .dropdown-menu{
-    background-color: #005F75;
+.show-menu{
+    background: url("../img/navbarbackground.svg");
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
@@ -267,7 +271,7 @@ input:checked + .slider:before {
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 0 0.3rem;
+    padding: 0 0.3rem 0 0;
 
 }
 .questions-list::-webkit-scrollbar{
@@ -323,7 +327,7 @@ input:checked + .slider:before {
     grid-template-columns: 50% 50%;
     z-index: 1;
     border-radius: 0 0 15px 15px;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.2s ease-out;
 
 }
 .letter{
@@ -360,7 +364,7 @@ input:checked + .slider:before {
 }
 .add-question,.add-quiz{
     position: sticky;
-    bottom: 0;
+    bottom: -2px;
 
 }
 
@@ -566,4 +570,27 @@ form{
 .prompt__cancel:hover,.prompt__cancel2:hover{
     color: rgba(255, 0, 0, 0.7);
     border: 2px solid rgba(210, 0, 0, 0.6) ;
+}
+
+.edit-profile i{
+    padding: 0.5rem;
+    border-bottom: solid 5px;
+    background-color: #fff;
+    border-radius: 0.7rem;
+    color: #005F75;
+    border: solid #005F75 0.25rem;
+    display: block;
+
+}
+.edit-profile i:hover{
+    background-color: #DDE2E8;
+}
+
+.edit-profile{
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    margin-left: -1.5rem;
+    background-color: transparent;
+    border-radius: 1rem;
 }
