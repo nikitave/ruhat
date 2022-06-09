@@ -73,6 +73,7 @@ function updateLisners(){
         } else {
           content.style.maxHeight = content.scrollHeight + "px";
         }
+        checkForExtraContent(question_list,".add-question");
       });
       ending_id[j]=i;
   }
@@ -336,4 +337,3 @@ function createNewQuestion(questoin_statement, option_1,option_2,option_3,option
   questions_list.insertBefore(node,add_question);
   updateLisners();
 }
-
