@@ -1,222 +1,161 @@
-
-let profile_pic = document.querySelector(".profile-container");
-let dropdown_btn = document.querySelector(".edit-profile");
-let menu_dropped = false;
-dropdown_btn.addEventListener("click",function(){
-  let menu = document.querySelector(".dropdown-menu");
-  if (menu_dropped == false){
-    menu.classList.add("show-menu");
-    menu_dropped=true;
-    }
-  else {
-    menu.classList.remove("show-menu");
-    menu_dropped=false;
-  }
-})
-
-// this funciton is too slow I will optimise it
-let ending_id = [-1,-1,-1,-1,-1,-1];
-function updateLisners(){
-  let coll = document.getElementsByClassName("collapsible");
-  let j=0;
-  for (let i = ending_id[j]; i < coll.length; i++) {
-    if (i>ending_id[j]){
-      coll[i].addEventListener("click", function() {
-        if (this.classList.contains("rotate")){
-          this.classList.remove("rotate");
-        }
-        else {
-          this.classList.add("rotate");
-        }
-        this.classList.toggle("active");
-        var content = this.parentElement;
-        content = content.parentElement;
-        content = content.lastElementChild;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-          
-        }
-      });
-      ending_id[j]=i;
-    }
-  }
-  j++;
-  let delete_quiz = document.getElementsByClassName("delete-quiz");
-  for (let i = ending_id[j]; i<delete_quiz.length;i++){
-    if (i>ending_id[j]){
-
-      delete_quiz[i].addEventListener("click",function(){
-        this.classList.toggle("active");
-        let content = this.parentElement;
-        content = content.parentElement;
-        if (confirm("Are you sure you want to delete this quiz?")){
-          content.parentNode.removeChild(content);
-          checkForExtraQuiz();
-        }
-      });
-      ending_id[j]=i;
-    }
-  }
-  j++;
-  let delete_question = document.getElementsByClassName("delete-question");
-  for (let i = ending_id[j]; i < delete_question.length; i++) {
-    if (i>ending_id[j]){
-
-      delete_question[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        let content = this.parentElement;
-        content = content.parentElement;
-        if (confirm("Are you sure you want to delete this question?")){
-          content.parentNode.removeChild(content);
-          checkForExtraQuestions();
-        }
-      });
-      ending_id[j]=i;
-    }
-  }
-  j++;
-  let expan_icon = document.getElementsByClassName("expand-icon");
-
-  for (let i = ending_id[j]; i < expan_icon.length; i++) {
-    if (i>ending_id[j]){
-      
-      expan_icon[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        let content = this.parentElement;
-        content = content.parentElement;
-        content = content.lastElementChild;
-        if (content.classList.contains("add-border") == false){
-          content.classList.add("add-border");
-          checkForExtraQuestions();
-        }
-        else {
-          content.classList.remove("add-border");
-          checkForExtraQuestions();
-        }
-        checkForExtraQuestions();
-        ending_id[j]=i;
-      });
-    }
-  }
-  j++;
-  let editable_text = document.getElementsByClassName("option-statement");
-  for (let i = ending_id[j]; i < editable_text.length; i++) {
-    if (i>ending_id[j]){
-
-      editable_text[i].addEventListener("keydown", function() {
-        let content = this.parentElement;
-        content = content.parentElement;
-        content.style.maxHeight = "100%";
-        content.style.height = "100%";
-      });
-      ending_id[j]=i;
-    }
-  }
-  j++;
-  let options = document.getElementsByClassName("letter");
-  for (let i = ending_id[j] ; i < options.length;i++){
-    if (i>ending_id[j]){
-      options[i].addEventListener('click',function(){
-        let content = this.parentElement;
-        content = content.parentElement;
-        NodeList.prototype.forEach = Array.prototype.forEach
-        var children = content.childNodes;
-        children.forEach(function(item){
-          if (item.nodeName.toLowerCase() == 'div'){
-            item.childNodes[0].classList.remove("correct-answer");
-          }
-        });
-        this.classList.add("correct-answer");
-      });
-      ending_id[j]=i;
-    }
-  }
-}
-
-updateLisners();
-
-function isOverflownY(element) {
-  return element.scrollHeight > element.clientHeight;
-}
-
+/* global helpers*/
 let quizzes_list = document.querySelector(".quizzes-list");
-let shadow_exist_2 = false;
-if (isOverflownY(quizzes_list) == true){
-  let add_quiz = document.querySelector(".add-quiz");
-  add_quiz.classList.add("shadow-above");
-  shadow_exist_2 = true;
+let question_list = document.querySelector(".questions-list");
+let dropdown_btn = document.querySelector(".edit-profile");
+function addClass(element,new_class){
+  element.classList.add(new_class);
 }
-function checkForExtraQuiz(){
-  if (quizzes_list.offsetHeight + quizzes_list.scrollTop >= quizzes_list.scrollHeight - 30 ){
-    if (shadow_exist_2 == true){
-      let add_quiz = document.querySelector(".add-quiz");
-      add_quiz.classList.remove("shadow-above");
-      shadow_exist_2 = true;
-    }
+function removeClass(element,new_class){
+  element.classList.remove(new_class);
+}
+function xorClass(element,new_class){
+  if (element.classList.contains(new_class) == true){
+    removeClass(element,new_class);
+  }
+  else {
+    addClass(element,new_class);
+  }
+}
+function checkForExtraContent(container, shadowPlace){
+  if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 30 ){
+    removeClass(document.querySelector(shadowPlace),"shadow-above");
   }
   else{
-    if (shadow_exist_2 == false){
-      let add_quiz = document.querySelector(".add-quiz");
-      add_quiz.classList.add("shadow-above");
-      shadow_exist_2 = true;
-    }
+    addClass(document.querySelector(shadowPlace),"shadow-above");
   }
 }
-
-quizzes_list.addEventListener('scroll',function(){
-  checkForExtraQuiz();
-});
-
-let question_list = document.querySelector(".questions-list");
-let shadow_exist = false;
-
-if (isOverflownY(question_list) == true){
-  let add_question = document.querySelector(".add-question");
-  add_question.classList.add("shadow-above");
-  shadow_exist = true;
-}
-
-
-function checkForExtraQuestions(){
-  if (question_list.offsetHeight + question_list.scrollTop >= question_list.scrollHeight - 30 ){
-    let add_question = document.querySelector(".add-question");
-    if (add_question.classList.contains("shadow-above") == true){
-      add_question.classList.remove("shadow-above");
-      shadow_exist = false;
-    }
-  }
-  else {
-    let add_question = document.querySelector(".add-question");
-    if (add_question.classList.contains("shadow-above")  == false){
-      add_question.classList.add("shadow-above");
-      shadow_exist = true;
-    }
-  }
-}
-
-question_list.addEventListener('scroll',function(){
-  checkForExtraQuestions();
-});
-
-
+checkForExtraContent(quizzes_list,".add-quiz");
+checkForExtraContent(question_list,".add-question");
 document.addEventListener('keydown', event => {
   if (event.key === 'Enter') {
     document.execCommand('insertLineBreak');
     event.preventDefault();
   }
-})
+});
+function createSection(name,new_class){
+  let ret = document.createElement(name);
+  ret.className = new_class;
+  return ret;
+}
+function createOption(Letter,correct,option){
+  let child1 = createSection("div","option");
+  let child2 = createSection("div","letter plain-text");
+  if (correct){
+    child2.className="letter plain-text correct-answer"; 
+  }
+  child2.appendChild(document.createTextNode(Letter));
+  let child3 = document.createElement("div");
+  child3.className = "option-statement";
+  child3.contentEditable = "true";
+  child3.appendChild(document.createTextNode(option));
+  child1.appendChild(child2);
+  child1.appendChild(child3);
+  return child1;
+}
+/* global helpers*/
+
+dropdown_btn.addEventListener("click",function(){
+  let menu = document.querySelector(".dropdown-menu");
+  xorClass(menu,"show-menu");
+});
+
+let ending_id = [-1,-1,-1,-1,-1,-1];
+function updateLisners(){
+  let coll = document.getElementsByClassName("collapsible");
+  let j=0;
+  for (let i = ending_id[j]+1; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        xorClass(this,"rotate");
+        this.classList.toggle("active");
+        var content = ((this.parentElement).parentElement).lastElementChild;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+      ending_id[j]=i;
+  }
+  j++;
+
+  let delete_quiz = document.getElementsByClassName("delete-quiz");
+  for (let i = ending_id[j]+1; i<delete_quiz.length;i++){
+    delete_quiz[i].addEventListener("click",function(){
+      this.classList.toggle("active");
+      let content = (this.parentElement).parentElement;
+      if (confirm("Are you sure you want to delete this quiz?")){
+        content.parentNode.removeChild(content);
+        checkForExtraContent(quizzes_list,".add-quiz");
+      }
+    });
+    ending_id[j]=i;
+  }
+  j++;
+  
+  let delete_question = document.getElementsByClassName("delete-question");
+  for (let i = ending_id[j]+1; i < delete_question.length; i++) {
+    delete_question[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      let content = (this.parentElement).parentElement;
+      if (confirm("Are you sure you want to delete this question?")){
+        content.parentNode.removeChild(content);
+        checkForExtraContent(question_list,".add-question");
+      }
+    });
+    ending_id[j]=i;
+  }
+  j++;
+
+  let expan_icon = document.getElementsByClassName("expand-icon");
+  for (let i = ending_id[j]+1; i < expan_icon.length; i++) {
+    expan_icon[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      let content = ((this.parentElement).parentElement).lastElementChild;
+      xorClass(content,"add-border");
+      checkForExtraContent(question_list,".add-question");
+      ending_id[j]=i;
+    });
+  }
+  j++;
+
+  let editable_text = document.getElementsByClassName("option-statement");
+  for (let i = ending_id[j]+1; i < editable_text.length; i++) {
+      editable_text[i].addEventListener("keydown", function() {
+        let content = this.parentElement;
+        content = content.parentElement;
+        content.style.maxHeight = "100%";
+      });
+      ending_id[j]=i;
+  }
+  j++;
+
+  let options = document.getElementsByClassName("letter");
+  for (let i = ending_id[j]+1 ; i < options.length;i++){
+    options[i].addEventListener('click',function(){
+      let content = this.parentElement;
+      content = content.parentElement;
+      NodeList.prototype.forEach = Array.prototype.forEach
+      var children = content.childNodes;
+      children.forEach(function(item){
+        if (item.nodeName.toLowerCase() == 'div'){
+          item.childNodes[0].classList.remove("correct-answer");
+        }
+      });
+      this.classList.add("correct-answer");
+    });
+    ending_id[j]=i;
+  }
+}
+updateLisners();
+
+quizzes_list.addEventListener('scroll',function(){checkForExtraContent(quizzes_list,".add-quiz");});
+question_list.addEventListener('scroll',function(){checkForExtraContent(question_list,".add-question");});
 
 
-
-let add_quiz = document.querySelector(".add-quiz");
-let add_question = document.querySelector(".add-question");
 let id=-1;
 let showPrompt2 =  (function(){
   
-  let promptEl = document.querySelector('.prompt2'),
-    _cb = null;
+  let promptEl = document.querySelector('.prompt2'),_cb = null;
   
   let prompt = {
     el: promptEl,
@@ -248,7 +187,6 @@ let showPrompt2 =  (function(){
         id=i-1;
       }
     }
-    
     e.preventDefault();
     if (ok==false){
       alert("Please fill all required field");
@@ -269,9 +207,7 @@ let showPrompt2 =  (function(){
       }
     }
   }
-  
   return show;
-  
 })();
 
 let showPrompt = (function(){
@@ -315,6 +251,8 @@ let showPrompt = (function(){
   
 })();
 
+
+let add_quiz = document.querySelector(".add-quiz");
 add_quiz.addEventListener('click',function(){
   let quiz_name = "";
   showPrompt('You need to provide your quiz name to continue!', function( answer ){
@@ -325,19 +263,14 @@ add_quiz.addEventListener('click',function(){
   });  
 })
 
-let prompt__cancel = document.querySelector(".prompt__cancel");
-prompt__cancel.addEventListener('click',function(){
-  let promptEl = document.querySelector('.prompt');
-  promptEl.classList.remove('prompt--show');
+document.querySelector(".prompt__cancel").addEventListener('click',function(){
+  document.querySelector('.prompt').classList.remove('prompt--show');
+});
+document.querySelector(".prompt__cancel2").addEventListener('click',function(){
+  document.querySelector('.prompt2').classList.remove('prompt2--show');
 });
 
-let prompt__cancel2 = document.querySelector(".prompt__cancel2");
-prompt__cancel2.addEventListener('click',function(){
-  let promptEl = document.querySelector('.prompt2');
-  promptEl.classList.remove('prompt2--show');
-});
-
-
+let add_question = document.querySelector(".add-question");
 add_question.addEventListener('click',function(){
   showPrompt2('You need to provide information about the question to continue!', function(question_name,option_1,option_2,option_3,option_4){
     if (question_name!=""){
@@ -347,147 +280,59 @@ add_question.addEventListener('click',function(){
 });
 
 function createNewQuiz(quiz_name){
-  let node = document.createElement("div");
-  node.className="previous-quiz quiz-1";
+  let node = createSection("div","previous-quiz quiz-1");
   let child1 = document.createElement("div");
   let child2 = document.createElement("a");
   child2.href = "#";
   child2.appendChild(document.createTextNode(quiz_name));
   child1.appendChild(child2);
   node.appendChild(child1);
-
-  child1 = document.createElement("div");
-  child1.className="icons-container";
-
-  child2 = document.createElement("label");
-  child2.className="switch";
-  
+  child1 = createSection("div","icons-container");
+  child2 = createSection("label","switch");
   let child3 = document.createElement("input");
-  let child4 = document.createElement("span");
-  child4.className="slider";
+  let child4 = createSection("span","slider");
   child3.type="checkbox";
-  
-  child2.append(child3);
-  child2.append(child4);
-
+  child2.append(child3,child4);
   child1.append(child2);
-  node.append(child1);
-
-  child1 = document.createElement("button");
-  child1.className = "delete-quiz icon";
-
-  child2 = document.createElement("i");
-  child2.className = "fa fa-trash";
-
-  child1.appendChild(child2);
-
+  child3 = createSection("button","delete-quiz icon");
+  child4 = createSection("i","fa fa-trash");
+  child3.appendChild(child4);
+  child1.append(child3);
   node.append(child1);
   let quizzes = document.querySelector(".quizzes-list");
   quizzes.insertBefore(node,add_quiz);
   updateLisners();
 }
 
-
 function createNewQuestion(questoin_statement, option_1,option_2,option_3,option_4){
-  let add_question = document.querySelector(".add-question");
-  let node = document.createElement("div");
-  node.className = "question_1";
-
-  let panel = document.createElement("div");
-  panel.className =  "question-panel flex-center";
-
-  let child1 = document.createElement("div");
-  child1.classList = "question-statement";
+  
+  let node = createSection("div","question_1");
+  let panel = createSection("div","question-panel flex-center");
+  let child1 = createSection("div","question-statement");
   child1.contentEditable = "true";
   child1.appendChild(document.createTextNode(questoin_statement));
   panel.appendChild(child1);
-
-  child1 = document.createElement("button");
-  child1.className = "icon delete-question";
-  let child2 = document.createElement("i");
-  child2.className = "fa fa-trash";
+  child1 = createSection("button","icon delete-question");
+  let child2 = createSection("i","fa fa-trash");
   child1.appendChild(child2);
   panel.appendChild(child1);
-
-  child1 = document.createElement("button");
-  child1.className = "icon expand-icon collapsible";
-  child2 = document.createElement("i");
-  child2.className = "fa fa-angle-down";
+  child1 = createSection("button","icon expand-icon collapsible");
+  child2 = createSection("i","fa fa-angle-down");
   child1.appendChild(child2);
   panel.appendChild(child1);
-
   node.appendChild(panel);
+  panel = createSection("div","options-container");
 
-  panel = document.createElement("div");
-  panel.className = "options-container";
-
-  child1 = document.createElement("div");
-  child1.className = "option";
-  child2 = document.createElement("div");
-  child2.className = "letter plain-text";
-  if (id==0){
-    child2.className="letter plain-text correct-answer"; 
+  let options = [option_1,option_2,option_3,option_4];
+  let chars = ["A","B","C","D"];
+  for (let i=0;i<options.length;i++){
+    child1 = createOption(chars[i],(id==i),options[i]);
+    panel.appendChild(child1);
   }
-  child2.appendChild(document.createTextNode("A"));
-  let child3 = document.createElement("div");
-  child3.className = "option-statement";
-  child3.contentEditable = "true";
-  child3.appendChild(document.createTextNode(option_1));
-  child1.appendChild(child2);
-  child1.appendChild(child3);
-  panel.appendChild(child1);
-
-  child1 = document.createElement("div");
-  child1.className = "option";
-  child2 = document.createElement("div");
-  child2.className = "letter plain-text";
-  if (id==1){
-    child2.className="letter plain-text correct-answer"; 
-  }
-  child2.appendChild(document.createTextNode("B"));
-  child3 = document.createElement("div");
-  child3.className = "option-statement";
-  child3.contentEditable = "true";
-  child3.appendChild(document.createTextNode(option_2));
-  child1.appendChild(child2);
-  child1.appendChild(child3);
-  panel.appendChild(child1);
-
-  child1 = document.createElement("div");
-  child1.className = "option";
-  child2 = document.createElement("div");
-  child2.className = "letter plain-text";
-  if (id==2){
-    child2.className="letter plain-text correct-answer"; 
-  }
-  child2.appendChild(document.createTextNode("C"));
-  child3 = document.createElement("div");
-  child3.className = "option-statement";
-  child3.contentEditable = "true";
-  child3.appendChild(document.createTextNode(option_3));
-  child1.appendChild(child2);
-  child1.appendChild(child3);
-  panel.appendChild(child1);
-
-  child1 = document.createElement("div");
-  child1.className = "option";
-  child2 = document.createElement("div");
-  child2.className = "letter plain-text";
-  if (id==3){
-    child2.className="letter plain-text correct-answer"; 
-  }
-  child2.appendChild(document.createTextNode("D"));
-  child3 = document.createElement("div");
-  child3.className = "option-statement";
-  child3.contentEditable = "true";
-  child3.appendChild(document.createTextNode(option_4));
-  child1.appendChild(child2);
-  child1.appendChild(child3);
-  panel.appendChild(child1);
-
+  
   node.appendChild(panel);
-
   let questions_list = document.querySelector(".questions-list");
+  let add_question = document.querySelector(".add-question");
   questions_list.insertBefore(node,add_question);
   updateLisners();
 }

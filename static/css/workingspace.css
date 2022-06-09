@@ -271,7 +271,7 @@ input:checked + .slider:before {
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 0 0.3rem;
+    padding: 0 0.3rem 0 0;
 
 }
 .questions-list::-webkit-scrollbar{
@@ -364,7 +364,7 @@ input:checked + .slider:before {
 }
 .add-question,.add-quiz{
     position: sticky;
-    bottom: 0;
+    bottom: -2px;
 
 }
 
