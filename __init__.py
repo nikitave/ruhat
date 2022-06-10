@@ -133,6 +133,7 @@ def workspace():
             quiz_questions.append(new_question)
             flag_modified(quiz, "questions")
             db.session.add(quiz)
+            db.session.flush()
             db.session.commit()
 
 
