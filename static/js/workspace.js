@@ -37,6 +37,20 @@ function createSection(name,new_class){
   ret.className = new_class;
   return ret;
 }
+function addCollapsibleEvent(child){
+  child.addEventListener("click", function() {
+    xorClass(this,"rotate");
+    this.classList.toggle("active");
+    var content = ((this.parentElement).parentElement).lastElementChild;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+    checkForExtraContent(question_list,".add-question");
+  });
+  return child;
+}
 function createOption(Letter,correct,option){
   let child1 = createSection("div","option");
   let child2 = createSection("div","letter plain-text");
@@ -61,22 +75,7 @@ dropdown_btn.addEventListener("click",function(){
 
 let ending_id = [-1,-1,-1,-1,-1,-1];
 function updateLisners(){
-  let coll = document.getElementsByClassName("collapsible");
   let j=0;
-  for (let i = ending_id[j]+1; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        xorClass(this,"rotate");
-        this.classList.toggle("active");
-        var content = ((this.parentElement).parentElement).lastElementChild;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
-        checkForExtraContent(question_list,".add-question");
-      });
-      ending_id[j]=i;
-  }
   j++;
 
   let delete_quiz = document.getElementsByClassName("delete-quiz");
@@ -92,33 +91,8 @@ function updateLisners(){
     ending_id[j]=i;
   }
   j++;
-  
-  let delete_question = document.getElementsByClassName("delete-question");
-  for (let i = ending_id[j]+1; i < delete_question.length; i++) {
-    delete_question[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      let content = (this.parentElement).parentElement;
-      if (confirm("Are you sure you want to delete this question?")){
-        content.parentNode.removeChild(content);
-        checkForExtraContent(question_list,".add-question");
-      }
-    });
-    ending_id[j]=i;
-  }
   j++;
-
-  let expan_icon = document.getElementsByClassName("expand-icon");
-  for (let i = ending_id[j]+1; i < expan_icon.length; i++) {
-    expan_icon[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      let content = ((this.parentElement).parentElement).lastElementChild;
-      xorClass(content,"add-border");
-      checkForExtraContent(question_list,".add-question");
-      ending_id[j]=i;
-    });
-  }
   j++;
-
   let editable_text = document.getElementsByClassName("option-statement");
   for (let i = ending_id[j]+1; i < editable_text.length; i++) {
       editable_text[i].addEventListener("keydown", function() {
@@ -129,7 +103,6 @@ function updateLisners(){
       ending_id[j]=i;
   }
   j++;
-
   let options = document.getElementsByClassName("letter");
   for (let i = ending_id[j]+1 ; i < options.length;i++){
     options[i].addEventListener('click',function(){
@@ -332,6 +305,19 @@ function createNewQuiz(quiz_name) {
   updateLisners();
 }
 
+
+function addDeleteEvent(child){
+  child.addEventListener("click", function() {
+    this.classList.toggle("active");
+    let content = (this.parentElement).parentElement;
+    if (confirm("Are you sure you want to delete this question?")){
+      content.parentNode.removeChild(content);
+      checkForExtraContent(question_list,".add-question");
+    }
+  });
+  return child;
+}
+
 function createNewQuestion(questoin_statement, option_1,option_2,option_3,option_4){
   
   let node = createSection("div","question_1");
@@ -341,10 +327,13 @@ function createNewQuestion(questoin_statement, option_1,option_2,option_3,option
   child1.appendChild(document.createTextNode(questoin_statement));
   panel.appendChild(child1);
   child1 = createSection("button","icon delete-question");
+  child1 = addDeleteEvent(child1);
   let child2 = createSection("i","fa fa-trash");
   child1.appendChild(child2);
   panel.appendChild(child1);
   child1 = createSection("button","icon expand-icon collapsible");
+  child1 = addCollapsibleEvent(child1);
+
   child2 = createSection("i","fa fa-angle-down");
   child1.appendChild(child2);
   panel.appendChild(child1);
@@ -361,6 +350,6 @@ function createNewQuestion(questoin_statement, option_1,option_2,option_3,option
   node.appendChild(panel);
   let questions_list = document.querySelector(".questions-list");
   let add_question = document.querySelector(".add-question");
-  questions_list.insertBefore(node,add_question);
-  updateLisners();
+  questions_list.insertBefore(node,add_question); 
 }
+
