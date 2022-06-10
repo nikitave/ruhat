@@ -288,9 +288,7 @@ function createNewQuiz(quiz_name) {
     body: JSON.stringify({
       'quiz_name': quiz_name,
     })
-  })
-      .then(function (response) {
-
+  }).then(function (response) {
         if (response.ok) {
           response.json()
               .then(function (response) {
@@ -331,13 +329,38 @@ function createNewQuiz(quiz_name) {
   updateLisners();
 }
 
-function createNewQuestion(questoin_statement, option_1,option_2,option_3,option_4){
-  
+function createNewQuestion(question_statement, option_1,option_2,option_3,option_4){
+  fetch('/workspace', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      'question': question_statement,
+      'option_A': option_1,
+      'option_B': option_2,
+      'option_C': option_3,
+      'option_D': option_4,
+      'right_option': id,
+    })
+  }).then(function (response) {
+        if (response.ok) {
+          response.json()
+              .then(function (response) {
+                console.log(response);
+              });
+        } else {
+          throw Error('Something went wrong');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   let node = createSection("div","question_1");
   let panel = createSection("div","question-panel flex-center");
   let child1 = createSection("div","question-statement");
   child1.contentEditable = "true";
-  child1.appendChild(document.createTextNode(questoin_statement));
+  child1.appendChild(document.createTextNode(question_statement));
   panel.appendChild(child1);
   child1 = createSection("button","icon delete-question");
   let child2 = createSection("i","fa fa-trash");

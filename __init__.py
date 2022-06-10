@@ -98,22 +98,43 @@ def logout():
 def workspace():
     # You can see your created quizes and can create a new one
     if request.method == "POST":
-        quiz_name =request.json['quiz_name']
-        new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
-        # Add the quiz in Quiz table
-        db.session.add(new_quiz)
-        db.session.commit()
-        # Add the quiz in User table
-        new_quiz_user= {'id':new_quiz.id,'name':new_quiz.name}
-        cur_user = User.query.filter_by(id=current_user.id).first()
-        list_quiz = current_user.quizzes
-        list_quiz.append(new_quiz_user)
-        cur_user.quizzes= list_quiz
-        flag_modified(cur_user, "quizzes")
-        db.session.add(cur_user)
-        # db.session.merge(cur_user)
-        db.session.commit()
-        # print(cur_user.quizzes)
+
+        if len(request.json)==1:
+
+            quiz_name =request.json['quiz_name']
+            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
+            # Add the quiz in Quiz table
+            db.session.add(new_quiz)
+            db.session.commit()
+            # Add the quiz in User table
+            new_quiz_user= {'id':new_quiz.id,'name':new_quiz.name}
+            cur_user = User.query.filter_by(id=current_user.id).first()
+            list_quiz = current_user.quizzes
+            list_quiz.append(new_quiz_user)
+            cur_user.quizzes= list_quiz
+            flag_modified(cur_user, "quizzes")
+            db.session.add(cur_user)
+            # db.session.merge(cur_user)
+            db.session.commit()
+            # print(cur_user.quizzes)
+        else:
+            question_text = request.json['question']
+            option_A = request.json['option_A']
+            option_B = request.json['option_B']
+            option_C = request.json['option_C']
+            option_D = request.json['option_D']
+            options = [option_A,option_B,option_C,option_D]
+            right_option = options[request.json['right_option']]
+            new_question = {"answer": right_option, "options":options, "question" : question_text}
+            quiz_id = int(request.headers.get('Referer').split('=')[-1]) # there should be another way to get the quiz_id
+            quiz = Quiz.query.filter_by(id=quiz_id).first()
+            quiz.number_of_questions +=1
+            quiz_questions = quiz.questions
+            quiz_questions.append(new_question)
+            flag_modified(quiz, "questions")
+            db.session.add(quiz)
+            db.session.commit()
+
 
     quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
     return render_template('workspace.html', quiz_list=quiz_list, quiz_for_edit=None)
