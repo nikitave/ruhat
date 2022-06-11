@@ -85,8 +85,7 @@
             <div class="quizzes-list">
                 {% if quiz_list %}
                 {% for quiz in quiz_list %}
-                <div class="previous-quiz quiz-1">
-
+                <div id="go_to_previous_quiz" class="previous-quiz quiz-1">
                     <div>
                         <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
                     </div>
