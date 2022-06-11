@@ -93,7 +93,7 @@ def logout():
     return redirect(url_for('main.home'))
 
 
-@application.route('/workspace', methods=["GET", "POST"])
+@application.route('/workspace', methods=["GET", "POST", "PUT", "DELETE"])
 @login_required
 def workspace():
     # You can see your created quizes and can create a new one
@@ -102,7 +102,7 @@ def workspace():
         if len(request.json)==1:
 
             quiz_name =request.json['quiz_name']
-            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
+            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=True)
             # Add the quiz in Quiz table
             db.session.add(new_quiz)
             db.session.commit()
@@ -135,6 +135,28 @@ def workspace():
             db.session.add(quiz)
             db.session.flush()
             db.session.commit()
+    elif request.method == "PUT":
+        state = request.json['state']
+        quiz_id = int(request.headers.get('Referer').split('=')[-1])
+        quiz = Quiz.query.filter_by(id=quiz_id).first()
+        quiz.opened = state
+        db.session.flush()
+        db.session.commit()
+    elif request.method =="DELETE":
+        quiz_id = int(request.json['quiz_url'].split('=')[-1])
+        quiz = Quiz.query.filter_by(id=quiz_id).first()
+        db.session.delete(quiz)
+        db.session.flush()
+        db.session.commit()
+        cur_user = User.query.filter_by(id=current_user.id).first()
+        list_quiz = current_user.quizzes
+        for index in range(len(list_quiz)):
+            if list_quiz[index]['id']==quiz_id:
+                del list_quiz[index]
+                break
+        flag_modified(cur_user, "quizzes")
+        db.session.add(cur_user)
+        db.session.commit()
 
 
     quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
@@ -215,4 +237,4 @@ def page_error(e):
 
 application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
-    application.run(debug=True)
+    application.run()

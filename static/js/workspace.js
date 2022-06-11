@@ -41,65 +41,68 @@ function createSection(name, new_class) {
     ret.className = new_class;
     return ret;
 }
-function addCollapsibleEvent(child){
-  child.addEventListener("click", function() {
-    xorClass(this,"rotate");
-    this.classList.toggle("active");
-    var content = ((this.parentElement).parentElement).lastElementChild;
-    if (content.style.maxHeight){
-      content.style.maxHeight = null;
-    } else {
-      content.style.maxHeight = content.scrollHeight + "px";
-    }
-    checkForExtraContent(question_list,".add-question");
-  });
-  return child;
+
+function addCollapsibleEvent(child) {
+    child.addEventListener("click", function () {
+        xorClass(this, "rotate");
+        this.classList.toggle("active");
+        var content = ((this.parentElement).parentElement).lastElementChild;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+        checkForExtraContent(question_list, ".add-question");
+    });
+    return child;
 }
 
-function createOption(Letter,correct,option){
-  let child1 = createSection("div","option");
-  let child2 = createSection("div","letter plain-text");
-  child2.addEventListener("click",function(){
-    let content = this.parentElement;
-    content = content.parentElement;
-    NodeList.prototype.forEach = Array.prototype.forEach
-    var children = content.childNodes;
-    children.forEach(function(item){
-      if (item.nodeName.toLowerCase() == 'div'){
-        item.childNodes[0].classList.remove("correct-answer");
-      }
+function createOption(Letter, correct, option) {
+    let child1 = createSection("div", "option");
+    let child2 = createSection("div", "letter plain-text");
+    child2.addEventListener("click", function () {
+        let content = this.parentElement;
+        content = content.parentElement;
+        NodeList.prototype.forEach = Array.prototype.forEach
+        var children = content.childNodes;
+        children.forEach(function (item) {
+            if (item.nodeName.toLowerCase() == 'div') {
+                item.childNodes[0].classList.remove("correct-answer");
+            }
+        });
+        this.classList.add("correct-answer");
     });
-    this.classList.add("correct-answer");
-  });
-  if (correct){
-    child2.className="letter plain-text correct-answer"; 
-  }
-  child2.appendChild(document.createTextNode(Letter));
-  let child3 = document.createElement("div");
-  child3.className = "option-statement";
-  child3.addEventListener("keypress",function(){
-    let content = (this.parentElement).parentElement;
-    content.style.maxHeight = "100%";
-  });
-  child3.contentEditable = "true";
-  child3.appendChild(document.createTextNode(option));
-  child1.appendChild(child2);
-  child1.appendChild(child3);
-  return child1;
-}
-function addDeleteEvent(child){
-  child.addEventListener("click", function() {
-    this.classList.toggle("active");
-    let content = (this.parentElement).parentElement;
-    if (confirm("Are you sure you want to delete this question?")){
-      content.parentNode.removeChild(content);
-      checkForExtraContent(question_list,".add-question");
+    if (correct) {
+        child2.className = "letter plain-text correct-answer";
     }
-  });
-  return child;
+    child2.appendChild(document.createTextNode(Letter));
+    let child3 = document.createElement("div");
+    child3.className = "option-statement";
+    child3.addEventListener("keypress", function () {
+        let content = (this.parentElement).parentElement;
+        content.style.maxHeight = "100%";
+    });
+    child3.contentEditable = "true";
+    child3.appendChild(document.createTextNode(option));
+    child1.appendChild(child2);
+    child1.appendChild(child3);
+    return child1;
 }
-function createQuestionElement(question_statement, option_1, option_2, option_3, option_4){
-  let node = createSection("div", "question_1");
+
+function addDeleteEvent(child) {
+    child.addEventListener("click", function () {
+        this.classList.toggle("active");
+        let content = (this.parentElement).parentElement;
+        if (confirm("Are you sure you want to delete this question?")) {
+            content.parentNode.removeChild(content);
+            checkForExtraContent(question_list, ".add-question");
+        }
+    });
+    return child;
+}
+
+function createQuestionElement(question_statement, option_1, option_2, option_3, option_4) {
+    let node = createSection("div", "question_1");
     let panel = createSection("div", "question-panel flex-center");
     let child1 = createSection("div", "question-statement");
     child1.contentEditable = "true";
@@ -125,11 +128,12 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
     }
     node.appendChild(panel);
 }
+
 quizzes_list.addEventListener('scroll', function () {
-  checkForExtraContent(quizzes_list, ".add-quiz");
+    checkForExtraContent(quizzes_list, ".add-quiz");
 });
 question_list.addEventListener('scroll', function () {
-  checkForExtraContent(question_list, ".add-question");
+    checkForExtraContent(question_list, ".add-question");
 });
 
 /* global helpers*/
@@ -139,85 +143,97 @@ dropdown_btn.addEventListener("click", function () {
     xorClass(menu, "show-menu");
 });
 
-function updateLisners(){
-  let coll = document.getElementsByClassName("collapsible");
-  for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      xorClass(this,"rotate");
-      this.classList.toggle("active");
-      var content = (this.parentElement).parentElement;
-      content = content.lastElementChild;
-      if (content.style.maxHeight){
-        content.style.maxHeight = null;
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px"; 
-      }
-    });
-  }
-  let delete_quiz = document.getElementsByClassName("delete-quiz");
-  for (let i = 0; i<delete_quiz.length;i++){
-      delete_quiz[i].addEventListener("click",function(){
-        this.classList.toggle("active");
-        let content = (this.parentElement).parentElement;
-        if (confirm("Are you sure you want to delete this quiz?")){
-          content.parentNode.removeChild(content);
-        }
-      });
-  }
-  let share_quiz = document.getElementsByClassName("share-quiz");
-  for (let i=0;i<share_quiz.length;i++){
-    share_quiz[i].addEventListener("click",function(){
-      this.classList.toggle("active");
-      // to be implemented
-    })
-  }
-  let delete_question = document.getElementsByClassName("delete-question");
-  for (let i = 0; i < delete_question.length; i++) {
-      delete_question[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        let content = this.parentElement;
-        content = content.parentElement;
-        if (confirm("Are you sure you want to delete this question?")){
-          content.parentNode.removeChild(content);
-          checkForExtraQuestions();
-        }
-      });
-  }
-  let expan_icon = document.getElementsByClassName("expand-icon");
-  for (let i = 0; i < expan_icon.length; i++) {  
-      expan_icon[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        let content = (this.parentElement).parentElement;
-        content = content.lastElementChild;
-        xorClass(content,"add-border");
-      });
-  }
-  let editable_text = document.getElementsByClassName("option-statement");
-  for (let i = 0; i < editable_text.length; i++) {
-       editable_text[i].addEventListener("keydown", function() {
-        let content = this.parentElement;
-        content = content.parentElement;
-        content.style.maxHeight = "100%";
-      });
-  }
-  let options = document.getElementsByClassName("letter");
-  for (let i = 0; i < options.length;i++){
-    options[i].addEventListener('click',function(){
-      let content = this.parentElement;
-      content = content.parentElement;
-      NodeList.prototype.forEach = Array.prototype.forEach
-      var children = content.childNodes;
-      children.forEach(function(item){
-        if (item.nodeName.toLowerCase() == 'div'){
-          item.childNodes[0].classList.remove("correct-answer");
-        }
-      });
-      this.classList.add("correct-answer");
-    });
-  }
-}
-updateLisners();
+function updateLisners() {
+    let coll = document.getElementsByClassName("collapsible");
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            xorClass(this, "rotate");
+            this.classList.toggle("active");
+            var content = (this.parentElement).parentElement;
+            content = content.lastElementChild;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+    let delete_quiz = document.getElementsByClassName("delete-quiz");
+    for (let i = 0; i < delete_quiz.length; i++) {
+        delete_quiz[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            let content = (this.parentElement).parentElement;
+            if (confirm("Are you sure you want to delete this quiz?")) {
 
+                fetch('/workspace', {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                        'quiz_url': content.firstElementChild.firstElementChild.getAttribute('href'),
+                    })
+                });
+
+                content.parentNode.removeChild(content);
+
+            }
+        });
+    }
+    let share_quiz = document.getElementsByClassName("share-quiz");
+    for (let i = 0; i < share_quiz.length; i++) {
+        share_quiz[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            // to be implemented
+        })
+    }
+    let delete_question = document.getElementsByClassName("delete-question");
+    for (let i = 0; i < delete_question.length; i++) {
+        delete_question[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            let content = this.parentElement;
+            content = content.parentElement;
+            if (confirm("Are you sure you want to delete this question?")) {
+                content.parentNode.removeChild(content);
+                checkForExtraQuestions();
+            }
+        });
+    }
+    let expan_icon = document.getElementsByClassName("expand-icon");
+    for (let i = 0; i < expan_icon.length; i++) {
+        expan_icon[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            let content = (this.parentElement).parentElement;
+            content = content.lastElementChild;
+            xorClass(content, "add-border");
+        });
+    }
+    let editable_text = document.getElementsByClassName("option-statement");
+    for (let i = 0; i < editable_text.length; i++) {
+        editable_text[i].addEventListener("keydown", function () {
+            let content = this.parentElement;
+            content = content.parentElement;
+            content.style.maxHeight = "100%";
+        });
+    }
+    let options = document.getElementsByClassName("letter");
+    for (let i = 0; i < options.length; i++) {
+        options[i].addEventListener('click', function () {
+            let content = this.parentElement;
+            content = content.parentElement;
+            NodeList.prototype.forEach = Array.prototype.forEach
+            var children = content.childNodes;
+            children.forEach(function (item) {
+                if (item.nodeName.toLowerCase() == 'div') {
+                    item.childNodes[0].classList.remove("correct-answer");
+                }
+            });
+            this.classList.add("correct-answer");
+        });
+    }
+}
+
+updateLisners();
 
 
 let id = -1;
@@ -372,41 +388,41 @@ async function createNewQuiz(quiz_name) {
         })
     }).then(function (response) {
         get_id().then(function (response) {
-        let node = createSection("div", "previous-quiz quiz-1");
-        let child1 = document.createElement("div");
-        let child2 = document.createElement("a");
-        console.log(response);
-        child2.href = "workspace?id=" + response['id'];
-        // console.log("child2.href")
-        // console.log(child2.href); // Promise
-        // console.log("child2.href")
-        child2.appendChild(document.createTextNode(quiz_name));
-        child1.appendChild(child2);
-        node.appendChild(child1);
-        child1 = createSection("div", "icons-container");
-        child2 = createSection("button", "share-quiz icon");
-        let child3 = createSection("i","fa fa-share");
-        let child4;
-        child2.append(child3);
-        child1.append(child2);
-        child3 = createSection("button", "delete-quiz icon");
-        child3.addEventListener("click", function() {
-          this.classList.toggle("active");
-          let content = this.parentElement;
-          content = content.parentElement;
-          if (confirm("Are you sure you want to delete this question?")){
-            content.parentNode.removeChild(content);
-            checkForExtraQuestions();
-          }
+            let node = createSection("div", "previous-quiz quiz-1");
+            let child1 = document.createElement("div");
+            let child2 = document.createElement("a");
+            console.log(response);
+            child2.href = "workspace?id=" + response['id'];
+            // console.log("child2.href")
+            // console.log(child2.href); // Promise
+            // console.log("child2.href")
+            child2.appendChild(document.createTextNode(quiz_name));
+            child1.appendChild(child2);
+            node.appendChild(child1);
+            child1 = createSection("div", "icons-container");
+            child2 = createSection("button", "share-quiz icon");
+            let child3 = createSection("i", "fa fa-share");
+            let child4;
+            child2.append(child3);
+            child1.append(child2);
+            child3 = createSection("button", "delete-quiz icon");
+            child3.addEventListener("click", function () {
+                this.classList.toggle("active");
+                let content = this.parentElement;
+                content = content.parentElement;
+                if (confirm("Are you sure you want to delete this question?")) {
+                    content.parentNode.removeChild(content);
+                    checkForExtraQuestions();
+                }
+            });
+            child4 = createSection("i", "fa fa-trash");
+            child3.appendChild(child4);
+            child1.append(child3);
+            node.append(child1);
+            let quizzes = document.querySelector(".quizzes-list");
+            // wait for the child2.href
+            quizzes.insertBefore(node, add_quiz);
         });
-        child4 = createSection("i", "fa fa-trash");
-        child3.appendChild(child4);
-        child1.append(child3);
-        node.append(child1);
-        let quizzes = document.querySelector(".quizzes-list");
-        // wait for the child2.href
-        quizzes.insertBefore(node, add_quiz);
-    });
 
     })
         .catch(function (error) {
@@ -414,7 +430,6 @@ async function createNewQuiz(quiz_name) {
         });
 
 }
-
 
 
 function createNewQuestion(question_statement, option_1, option_2, option_3, option_4) {
@@ -450,6 +465,18 @@ function createNewQuestion(question_statement, option_1, option_2, option_3, opt
 }
 
 
-let slider = document.querySelector(".switch input").addEventListener("click",function(){
-  xorClass((this.parentElement).lastElementChild,"slider-clicked");
+let slider = document.querySelector(".switch input").addEventListener("click", function () {
+
+
+    xorClass((this.parentElement).lastElementChild, "slider-clicked");
+    slider_state = document.querySelector(".slider").classList.contains('slider-clicked');
+    fetch('/workspace', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify({
+            'state': slider_state,
+        })
+    });
 });
