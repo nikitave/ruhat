@@ -459,3 +459,5 @@ let slider = document.querySelector(".switch input").addEventListener("click",fu
 document.getElementById('go_to_previous_quiz').onclick = function(event) {
   window.location.href = "/workspace?id={{quiz['id']}}";
 }
+
+
