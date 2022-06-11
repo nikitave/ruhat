@@ -100,30 +100,31 @@ function addDeleteEvent(child){
 }
 function createQuestionElement(question_statement, option_1, option_2, option_3, option_4){
   let node = createSection("div", "question_1");
-    let panel = createSection("div", "question-panel flex-center");
-    let child1 = createSection("div", "question-statement");
-    child1.contentEditable = "true";
-    child1.appendChild(document.createTextNode(question_statement));
-    panel.appendChild(child1);
-    child1 = createSection("button", "icon delete-question");
-    child1 = addDeleteEvent(child1);
-    let child2 = createSection("i", "fa fa-trash");
-    child1.appendChild(child2);
-    panel.appendChild(child1);
-    child1 = createSection("button", "icon expand-icon collapsible");
-    child1 = addCollapsibleEvent(child1);
-    child2 = createSection("i", "fa fa-angle-down");
-    child1.appendChild(child2);
-    panel.appendChild(child1);
-    node.appendChild(panel);
-    panel = createSection("div", "options-container");
-    let options = [option_1, option_2, option_3, option_4];
-    let chars = ["A", "B", "C", "D"];
-    for (let i = 0; i < options.length; i++) {
-        child1 = createOption(chars[i], (id == i), options[i]);
-        panel.appendChild(child1);
-    }
-    node.appendChild(panel);
+  let panel = createSection("div", "question-panel flex-center");
+  let child1 = createSection("div", "question-statement");
+  child1.contentEditable = "true";
+  child1.appendChild(document.createTextNode(question_statement));
+  panel.appendChild(child1);
+  child1 = createSection("button", "icon delete-question");
+  child1 = addDeleteEvent(child1);
+  let child2 = createSection("i", "fa fa-trash");
+  child1.appendChild(child2);
+  panel.appendChild(child1);
+  child1 = createSection("button", "icon expand-icon collapsible");
+  child1 = addCollapsibleEvent(child1);
+  child2 = createSection("i", "fa fa-angle-down");
+  child1.appendChild(child2);
+  panel.appendChild(child1);
+  node.appendChild(panel);
+  panel = createSection("div", "options-container");
+  let options = [option_1, option_2, option_3, option_4];
+  let chars = ["A", "B", "C", "D"];
+  for (let i = 0; i < options.length; i++) {
+      child1 = createOption(chars[i], (id == i), options[i]);
+      panel.appendChild(child1);
+  }
+  node.appendChild(panel);
+  return node;
 }
 quizzes_list.addEventListener('scroll', function () {
   checkForExtraContent(quizzes_list, ".add-quiz");
