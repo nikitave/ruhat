@@ -91,14 +91,9 @@
                         <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
                     </div>
                     <div class="icons-container">
-                        <label class="switch">
-                            {% if quiz['opened']==1 %}
-                            <input type="checkbox" checked>
-                            {% else %}
-                            <input type="checkbox" >
-                            {% endif %}
-                            <span class="slider"></span>
-                        </label>
+                        <button class="share-quiz icon">
+                            <i class="fa fa-share "></i>
+                        </button>
                         <button class="delete-quiz icon">
                             <i class="fa fa-trash "></i>
                         </button>
@@ -118,7 +113,14 @@
         <div class="right-side">
             {% set current_quiz = request.args.get('id') | get_quiz_from_db %}
             {% set options_letters = ["A","B","C","D"]%}
-            <h2 class="quiz_name">{{current_quiz.name}}</h2>
+            <div class="quiz-header">
+                <h2 class="quiz_name">{{current_quiz.name}}</h2>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider slider-clicked"></span>
+                </label>
+            </div>
+
 
             <div class="questions-list">
                 {% for question in current_quiz.questions %}
