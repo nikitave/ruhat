@@ -480,3 +480,8 @@ let slider = document.querySelector(".switch input").addEventListener("click", f
         })
     });
 });
+
+
+document.getElementById('go_to_previous_quiz').onclick = function(event) {
+    window.location.href = "/workspace?id={{quiz['id']}}";
+}
