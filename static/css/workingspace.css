@@ -315,6 +315,9 @@ input:focus + .slider {
     align-items: center;    
     flex-direction: row;
 }
+.question-panel > div:first-child{
+    width: 70%;
+}
 
 .options-container{
     max-height: 0;
