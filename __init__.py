@@ -156,6 +156,7 @@ def workspace():
                 break
         flag_modified(cur_user, "quizzes")
         db.session.add(cur_user)
+        db.session.flush()
         db.session.commit()
 
 
