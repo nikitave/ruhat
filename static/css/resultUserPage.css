@@ -1,0 +1,83 @@
+body {
+    background-color: #005F75;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.labels {
+    display: flex;
+    flex-direction: column;
+}
+
+.main_label {
+    font-size: 100px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30vh;
+}
+
+.label_passed {
+    font-size: 50px;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.label_scored {
+    font-size: 50px;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.div_button {
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.button {
+    width: 150px;
+    height: 49px;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 49px;
+    cursor: pointer;
+    background-color: #005F75;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    transition: .3s linear;
+}
+
+.button:hover{
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
+}
+
+@media(max-width: 414px) {
+    
+    .main_label {
+        font-size: 50px;
+        height: 28vh;
+    }
+
+    .label_passed {
+        font-size: 30px;
+        height: 28vh;
+    }
+
+    .label_scored {
+        font-size: 30px;
+        height: 28vh;
+    }
+}
