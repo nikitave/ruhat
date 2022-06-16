@@ -73,7 +73,7 @@ function createOption(Letter,correct,option){
     this.classList.add("correct-answer");
   });
   if (correct){
-    child2.className="letter plain-text correct-answer";
+    child2.className="letter plain-text correct-answer"; 
   }
   child2.appendChild(document.createTextNode(Letter));
   let child3 = document.createElement("div");
@@ -162,15 +162,15 @@ function QREvent(child){
     }
     quiz_id = quiz_id.split("").reverse().join("");
     qr.querySelector(".prompt__text").textContent="Quiz ID : " + quiz_id;
-
+    
     var parametersJson = {
         "size": 300, // Size of Qr Code
         "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
         "qrColor": "255-255-255", // Color of Qr Code (In RGB)
-        "padding": 2, // Padding
+        "padding": 2, // Padding 
         "data": "dev.to"
     };
-
+    
     var parameters;
     var img = document.querySelector(".prompt3 img");
     img.addEventListener("click",function(){
@@ -199,7 +199,7 @@ function updateLisners(){
       if (content.style.maxHeight){
         content.style.maxHeight = null;
       } else {
-        content.style.maxHeight = content.scrollHeight + "px";
+        content.style.maxHeight = content.scrollHeight + "px"; 
       }
     });
   }
@@ -232,7 +232,7 @@ function updateLisners(){
       });
   }
   let expan_icon = document.getElementsByClassName("expand-icon");
-  for (let i = 0; i < expan_icon.length; i++) {
+  for (let i = 0; i < expan_icon.length; i++) {  
       expan_icon[i].addEventListener("click", function() {
         this.classList.toggle("active");
         let content = (this.parentElement).parentElement;

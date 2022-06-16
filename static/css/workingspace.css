@@ -473,7 +473,7 @@ input:focus + .slider {
     align-items: center;
     border-radius: 2rem;
 }
-
+  
 .prompt__form,.prompt__form2,.prompt-container {
     position: fixed;
     top: 50%;
@@ -510,7 +510,7 @@ input:focus + .slider {
     background-color: #DDE2E8;
     margin: 10px auto;
     border-radius: 55px;
-
+   
 }
 .input-field input::placeholder{
     color: #A9C0C6;
