@@ -1,7 +1,6 @@
 import json
 
 import flask
-from sqlalchemy import true
 import werkzeug
 
 from flask_login import login_required, login_user, logout_user, LoginManager, current_user
@@ -239,4 +238,4 @@ def page_error(e):
 
 application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
-    application.run(debug=true)
+    application.run()

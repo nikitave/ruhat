@@ -99,6 +99,16 @@ function addDeleteEvent(child){
   });
   return child;
 }
+function addDeleteQuizEvent(child){
+  child.addEventListener("click",function(){
+    this.classList.toggle("active");
+    let content = (this.parentElement).parentElement;
+    if (confirm("Are you sure you want to delete this quiz?")){
+      content.parentNode.removeChild(content);
+    }
+  });
+  return child;
+}
 function createQuestionElement(question_statement, option_1, option_2, option_3, option_4){
   let node = createSection("div", "question_1");
   let panel = createSection("div", "question-panel flex-center");
@@ -146,7 +156,6 @@ function isNumber(char) {
   return !isNaN(char);
 }
 function QREvent(child){
-  console.log(child);
     child.classList.toggle("active");
     let quiz = (child.parentElement).parentElement;
     quiz = (quiz.firstElementChild).firstElementChild;
@@ -191,27 +200,11 @@ dropdown_btn.addEventListener("click", function () {
 function updateLisners(){
   let coll = document.getElementsByClassName("collapsible");
   for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      xorClass(this,"rotate");
-      this.classList.toggle("active");
-      var content = (this.parentElement).parentElement;
-      content = content.lastElementChild;
-      if (content.style.maxHeight){
-        content.style.maxHeight = null;
-      } else {
-        content.style.maxHeight = content.scrollHeight + "px"; 
-      }
-    });
+    coll[i] = addCollapsibleEvent(coll[i]);
   }
   let delete_quiz = document.getElementsByClassName("delete-quiz");
   for (let i = 0; i<delete_quiz.length;i++){
-      delete_quiz[i].addEventListener("click",function(){
-        this.classList.toggle("active");
-        let content = (this.parentElement).parentElement;
-        if (confirm("Are you sure you want to delete this quiz?")){
-          content.parentNode.removeChild(content);
-        }
-      });
+      delete_quiz[i] = addDeleteEvent(delete_quiz[i]);
   }
   let share_quiz = document.getElementsByClassName("share-quiz");
   for (let i=0;i<share_quiz.length;i++){
@@ -221,15 +214,7 @@ function updateLisners(){
   }
   let delete_question = document.getElementsByClassName("delete-question");
   for (let i = 0; i < delete_question.length; i++) {
-      delete_question[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        let content = this.parentElement;
-        content = content.parentElement;
-        if (confirm("Are you sure you want to delete this question?")){
-          content.parentNode.removeChild(content);
-          checkForExtraQuestions();
-        }
-      });
+      delete_question[i] = addDeleteEvent(delete_question[i])
   }
   let expan_icon = document.getElementsByClassName("expand-icon");
   for (let i = 0; i < expan_icon.length; i++) {  
@@ -441,15 +426,7 @@ async function createNewQuiz(quiz_name) {
         child2.append(child3);
         child1.append(child2);
         child3 = createSection("button", "delete-quiz icon");
-        child3.addEventListener("click", function() {
-          this.classList.toggle("active");
-          let content = this.parentElement;
-          content = content.parentElement;
-          if (confirm("Are you sure you want to delete this question?")){
-            content.parentNode.removeChild(content);
-            checkForExtraQuestions();
-          }
-        });
+        child3 = addDeleteQuizEvent(child3);
         child4 = createSection("i", "fa fa-trash");
         child3.appendChild(child4);
         child1.append(child3);
