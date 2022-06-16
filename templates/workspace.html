@@ -134,8 +134,14 @@
             <div class="quiz-header">
                 <h2 class="quiz_name">{{current_quiz.name}}</h2>
                 <label class="switch">
-                    <input type="checkbox" checked>
-                    <span class="slider slider-clicked"></span>
+
+                            {% if current_quiz['opened']==1 %}
+                            <input type="checkbox" checked>
+                                <span class="slider slider-clicked"></span>
+                            {% else %}
+                            <input type="checkbox" >
+                                <span class="slider"></span>
+                            {% endif %}
                 </label>
             </div>
             
