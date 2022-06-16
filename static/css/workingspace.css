@@ -454,7 +454,7 @@ input:focus + .slider {
 }
 
 
-.prompt ,.prompt2{
+.prompt ,.prompt2,.prompt3{
     position: fixed;
     top: 0;
     left: 0;
@@ -466,8 +466,15 @@ input:focus + .slider {
     opacity: 0;
     transition: .6s opacity, .6s visibility;
 }
-  
-.prompt__form,.prompt__form2 {
+.img-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2rem;
+}
+
+.prompt__form,.prompt__form2,.prompt-container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -476,15 +483,11 @@ input:focus + .slider {
     background: #fff;
 }
 
-.prompt--show {
+.prompt--show,.prompt2--show,.prompt3--show {
     visibility: visible;
     opacity: 1;
 }
 
-.prompt2--show{
-    visibility: visible;
-    opacity: 1;
-}
 
 .input-field input{
     display: flex;
@@ -507,7 +510,7 @@ input:focus + .slider {
     background-color: #DDE2E8;
     margin: 10px auto;
     border-radius: 55px;
-   
+
 }
 .input-field input::placeholder{
     color: #A9C0C6;
@@ -522,13 +525,44 @@ input:focus + .slider {
     font-weight: 600;
     color: #13505D;
 }
-
+.prompt3 .prompt__text{
+    text-align: center;
+    margin: 1rem auto 2rem auto;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #13505D;
+}
+.prompt__img{
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
 .btn_container > *:hover{
     background-color: #fff;
     color: #005F75;
     border: 2px solid #005F75 ;
 }
+.btn{
+    width: 150px;
+    height: 49px;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 49px;
+    cursor: pointer;
+    background-color: #005F75;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 2rem auto 1rem auto;
+    transition: .3s linear;
+}
 
+.btn:hover{
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
+}
 
 .btn_container > *{
     width: 150px;
@@ -563,6 +597,30 @@ form{
     overflow: hidden;
     border-radius: 1.5rem;
 }
+.prompt-container{
+    padding: 1.5rem 3rem 3rem 3rem;
+    border-radius: 1.5rem 0 1.5rem 1.5rem;
+}
+.exit-icon{
+    position: absolute;
+    right: 0rem;
+    top: 0rem;
+    border-left: #005F75 solid 0.2rem;
+    border-bottom: #005F75 solid 0.2rem;
+    width: 38px;
+    height: 38px;
+    color: #005F75;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 0 0.5rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.exit-icon:hover{
+    background-color: #005F75;
+    color: #fff;
+}
 
 .prompt__cancel,.prompt__cancel2{
     font-weight: 700;
@@ -588,10 +646,22 @@ form{
 }
 
 .edit-profile{
+    cursor: pointer;
     outline: none;
     border: none;
     padding: 0.5rem;
     margin-left: -1.5rem;
     background-color: transparent;
     border-radius: 1rem;
+}
+.no-quiz-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.no-quiz-container h2{
+    color: #13505D;
+    margin: auto;
 }

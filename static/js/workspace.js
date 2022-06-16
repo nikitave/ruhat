@@ -20,11 +20,12 @@ function xorClass(element, new_class) {
 }
 
 function checkForExtraContent(container, shadowPlace) {
-    if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 30) {
-        removeClass(document.querySelector(shadowPlace), "shadow-above");
-    } else {
-        addClass(document.querySelector(shadowPlace), "shadow-above");
-    }
+  if (container==null)return;
+  if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 30) {
+      removeClass(document.querySelector(shadowPlace), "shadow-above");
+  } else {
+      addClass(document.querySelector(shadowPlace), "shadow-above");
+  }
 }
 
 checkForExtraContent(quizzes_list, ".add-quiz");
@@ -72,7 +73,7 @@ function createOption(Letter,correct,option){
     this.classList.add("correct-answer");
   });
   if (correct){
-    child2.className="letter plain-text correct-answer"; 
+    child2.className="letter plain-text correct-answer";
   }
   child2.appendChild(document.createTextNode(Letter));
   let child3 = document.createElement("div");
@@ -129,10 +130,57 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
 quizzes_list.addEventListener('scroll', function () {
   checkForExtraContent(quizzes_list, ".add-quiz");
 });
+if (question_list!=null)
 question_list.addEventListener('scroll', function () {
   checkForExtraContent(question_list, ".add-question");
 });
+function isNumber(char) {
+  if (typeof char !== 'string') {
+    return false;
+  }
 
+  if (char.trim() === '') {
+    return false;
+  }
+
+  return !isNaN(char);
+}
+function QREvent(child){
+  console.log(child);
+    child.classList.toggle("active");
+    let quiz = (child.parentElement).parentElement;
+    quiz = (quiz.firstElementChild).firstElementChild;
+    let qr = document.querySelector(".prompt3");
+    qr.classList.add("prompt3--show");
+    let quiz_link = quiz.href;
+    let quiz_id = "";
+    for (let i=quiz_link.length-1;i>=0;i--){
+      if (isNumber(quiz_link[i])){
+        quiz_id += quiz_link.charAt(i);
+      }
+      else break;
+    }
+    quiz_id = quiz_id.split("").reverse().join("");
+    qr.querySelector(".prompt__text").textContent="Quiz ID : " + quiz_id;
+
+    var parametersJson = {
+        "size": 300, // Size of Qr Code
+        "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
+        "qrColor": "255-255-255", // Color of Qr Code (In RGB)
+        "padding": 2, // Padding
+        "data": "dev.to"
+    };
+
+    var parameters;
+    var img = document.querySelector(".prompt3 img");
+    img.addEventListener("click",function(){
+      window.location.href = "/quiz/"+quiz_id;
+    })
+    parametersJson.data = window.location.hostname + "/quiz/"+quiz_id;
+    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+    img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}` ;
+    return child;
+}
 /* global helpers*/
 
 dropdown_btn.addEventListener("click", function () {
@@ -151,7 +199,7 @@ function updateLisners(){
       if (content.style.maxHeight){
         content.style.maxHeight = null;
       } else {
-        content.style.maxHeight = content.scrollHeight + "px"; 
+        content.style.maxHeight = content.scrollHeight + "px";
       }
     });
   }
@@ -168,9 +216,8 @@ function updateLisners(){
   let share_quiz = document.getElementsByClassName("share-quiz");
   for (let i=0;i<share_quiz.length;i++){
     share_quiz[i].addEventListener("click",function(){
-      this.classList.toggle("active");
-      // to be implemented
-    })
+      QREvent(this);
+    });
   }
   let delete_question = document.getElementsByClassName("delete-question");
   for (let i = 0; i < delete_question.length; i++) {
@@ -185,7 +232,7 @@ function updateLisners(){
       });
   }
   let expan_icon = document.getElementsByClassName("expand-icon");
-  for (let i = 0; i < expan_icon.length; i++) {  
+  for (let i = 0; i < expan_icon.length; i++) {
       expan_icon[i].addEventListener("click", function() {
         this.classList.toggle("active");
         let content = (this.parentElement).parentElement;
@@ -218,7 +265,6 @@ function updateLisners(){
   }
 }
 updateLisners();
-
 
 
 let id = -1;
@@ -338,6 +384,7 @@ document.querySelector(".prompt__cancel2").addEventListener('click', function ()
 });
 
 let add_question = document.querySelector(".add-question");
+if (add_question!=null)
 add_question.addEventListener('click', function () {
     showPrompt2('You need to provide information about the question to continue!', function (question_name, option_1, option_2, option_3, option_4) {
         if (question_name != "") {
@@ -386,6 +433,9 @@ async function createNewQuiz(quiz_name) {
         node.appendChild(child1);
         child1 = createSection("div", "icons-container");
         child2 = createSection("button", "share-quiz icon");
+        child2.addEventListener("click",function(){
+          QREvent(this);
+        });
         let child3 = createSection("i","fa fa-share");
         let child4;
         child2.append(child3);
@@ -451,13 +501,23 @@ function createNewQuestion(question_statement, option_1, option_2, option_3, opt
 }
 
 
-let slider = document.querySelector(".switch input").addEventListener("click",function(){
+let slider = document.querySelector(".switch input");
+if (slider!=null)
+slider.addEventListener("click",function(){
   xorClass((this.parentElement).lastElementChild,"slider-clicked");
 });
 
 
-document.getElementById('go_to_previous_quiz').onclick = function(event) {
-  window.location.href = "/workspace?id={{quiz['id']}}";
-}
+// document.querySelector('#go_to_previous_quiz:first-child').onclick = function(event) {
+//   window.location.href = "/workspace?id={{quiz['id']}}";
+// }
 
 
+let exit_sharing = document.querySelector(".exit-icon");
+exit_sharing.addEventListener("click",function(){
+  this.classList.toggle("active");
+  let quiz = (this.parentElement).parentElement;
+  quiz = (quiz.firstElementChild).firstElementChild;
+  let qr = document.querySelector(".prompt3");
+  qr.classList.remove("prompt3--show");
+});

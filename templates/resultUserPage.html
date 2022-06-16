@@ -10,10 +10,12 @@
 <body>
     <div class="labels">
         <div class="main_label">Congratulation!</div>
-        <div class="label_passed">You answered correctly on ... questions</div>
+        <div class="label_passed">You answered correctly on {{ count }} questions</div>
         <div class="label_scored">You scored ... points </div>
         <form class="div_button">
-            <button class="button" type="button">Exit</button>
+            <a href="{{ url_for('main.home') }}">
+                <button class="button" type="button">Exit</button>
+            </a>
         </form>
     </div>
 </body>

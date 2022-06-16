@@ -11,7 +11,9 @@ from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from routes import main
+from auth import auth
 from models import Quiz, User
+from ruhat_api import api
 
 application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
@@ -21,6 +23,8 @@ application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 application.register_blueprint(main)
+application.register_blueprint(api)
+application.register_blueprint(auth)
 
 from extensions import db
 
@@ -161,7 +165,7 @@ def workspace():
 
 
     quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
-    return render_template('workspace.html', quiz_list=quiz_list, quiz_for_edit=None)
+    return render_template('workspace.html', quiz_list=quiz_list)
 
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])

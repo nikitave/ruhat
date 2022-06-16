@@ -45,10 +45,28 @@
         </form>  
     </div>
 
+    <div class="prompt3">
+        <div class="prompt-container">
+            <div class="exit-icon">
+                <i class="fa fa-times fa-2x"></i>
+            </div>
+            <p class="prompt__text"></p>
+            <div class="img-container">
+                <img class="prompt__img" src>
+            </div>
+            <div style="width: 100%;display:flex;">
+                <button class="btn solid">
+                    RESULTS
+                </button>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
 
         <div class="nav-bar-container">
-            <a href="#" class="main-title">              
+            <a href="#" class="main-title">
                 Ruhat!
             </a>
             <div class="profile-container">
@@ -70,7 +88,7 @@
                         </li>
                     </a>
 
-                    <a href="{{url_for('logout')}}">
+                    <a href="{{url_for('auth.logout')}}">
                         <li class="drop-down-item">
                             logout
                         </li>
@@ -85,8 +103,8 @@
             <div class="quizzes-list">
                 {% if quiz_list %}
                 {% for quiz in quiz_list %}
-                <div id="go_to_previous_quiz" class="previous-quiz quiz-1">
-                    <div>
+                <div  class="previous-quiz quiz-1">
+                    <div id="go_to_previous_quiz">
                         <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
                     </div>
                     <div class="icons-container">
@@ -112,6 +130,7 @@
         <div class="right-side">
             {% set current_quiz = request.args.get('id') | get_quiz_from_db %}
             {% set options_letters = ["A","B","C","D"]%}
+            {% if current_quiz.name != null %}
             <div class="quiz-header">
                 <h2 class="quiz_name">{{current_quiz.name}}</h2>
                 <label class="switch">
@@ -121,15 +140,16 @@
             </div>
 
 
+
             <div class="questions-list">
                 {% for question in current_quiz.questions %}
                 <div class="question_1">
                     <div class="question-panel flex-center">
                         <div class="question-statement" contenteditable="true">
                             {{question.question}}
-                        </div> 
+                        </div>
                         <button class="icon delete-question ">
-                            <i class="fa fa-trash"></i> 
+                            <i class="fa fa-trash"></i>
                         </button>
                         <button class="icon expand-icon collapsible">
                             <i class="fa fa-angle-down"></i>
@@ -155,6 +175,11 @@
                     </button>
                 </div>
             </div>
+            {% else %}
+            <div class="no-quiz-container">
+                <h2 class="plain-text"><i class="fa fa-arrow-left" style="margin-right: 1rem;"></i>Select a quiz or create a new one</h2>
+            </div>
+            {% endif %}
 
         </div>
     </div>
