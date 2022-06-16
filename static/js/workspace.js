@@ -132,7 +132,53 @@ quizzes_list.addEventListener('scroll', function () {
 question_list.addEventListener('scroll', function () {
   checkForExtraContent(question_list, ".add-question");
 });
+function isNumber(char) {
+  if (typeof char !== 'string') {
+    return false;
+  }
 
+  if (char.trim() === '') {
+    return false;
+  }
+
+  return !isNaN(char);
+}
+function QREvent(child){
+  console.log(child);
+  child.classList.toggle("active");
+  let quiz = (child.parentElement).parentElement;
+  quiz = (quiz.firstElementChild).firstElementChild;
+  let qr = document.querySelector(".prompt3");
+  qr.classList.add("prompt3--show");
+  let quiz_link = quiz.href;
+  let quiz_id = "";
+  for (let i=quiz_link.length-1;i>=0;i--){
+    if (isNumber(quiz_link[i])){
+      quiz_id += quiz_link.charAt(i);
+    }
+    else break;
+  }
+  quiz_id = quiz_id.split("").reverse().join("");
+  qr.querySelector(".prompt__text").textContent="Quiz ID : " + quiz_id;
+  
+  var parametersJson = {
+      "size": 300, // Size of Qr Code
+      "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
+      "qrColor": "255-255-255", // Color of Qr Code (In RGB)
+      "padding": 2, // Padding 
+      "data": "dev.to"
+  };
+  
+  var parameters;
+  var img = document.querySelector(".prompt3 img");
+  img.addEventListener("click",function(){
+    window.location.href = "/quiz/"+quiz_id;
+  })
+  parametersJson.data = window.location.hostname + "/quiz/"+quiz_id;
+  parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}` ;
+  return child;
+}
 /* global helpers*/
 
 dropdown_btn.addEventListener("click", function () {
@@ -168,9 +214,8 @@ function updateLisners(){
   let share_quiz = document.getElementsByClassName("share-quiz");
   for (let i=0;i<share_quiz.length;i++){
     share_quiz[i].addEventListener("click",function(){
-      this.classList.toggle("active");
-      // to be implemented
-    })
+      QREvent(this);
+    });
   }
   let delete_question = document.getElementsByClassName("delete-question");
   for (let i = 0; i < delete_question.length; i++) {
@@ -218,7 +263,6 @@ function updateLisners(){
   }
 }
 updateLisners();
-
 
 
 let id = -1;
@@ -386,6 +430,9 @@ async function createNewQuiz(quiz_name) {
         node.appendChild(child1);
         child1 = createSection("div", "icons-container");
         child2 = createSection("button", "share-quiz icon");
+        child2.addEventListener("click",function(){
+          QREvent(this);
+        });
         let child3 = createSection("i","fa fa-share");
         let child4;
         child2.append(child3);
@@ -456,8 +503,16 @@ let slider = document.querySelector(".switch input").addEventListener("click",fu
 });
 
 
-document.getElementById('go_to_previous_quiz').onclick = function(event) {
-  window.location.href = "/workspace?id={{quiz['id']}}";
-}
+// document.querySelector('#go_to_previous_quiz:first-child').onclick = function(event) {
+//   window.location.href = "/workspace?id={{quiz['id']}}";
+// }
 
 
+let exit_sharing = document.querySelector(".exit-icon");
+exit_sharing.addEventListener("click",function(){
+  this.classList.toggle("active");
+  let quiz = (this.parentElement).parentElement;
+  quiz = (quiz.firstElementChild).firstElementChild;
+  let qr = document.querySelector(".prompt3");
+  qr.classList.remove("prompt3--show");
+});

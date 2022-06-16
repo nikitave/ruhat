@@ -45,6 +45,24 @@
         </form>  
     </div>
 
+    <div class="prompt3">
+        <div class="prompt-container">
+            <div class="exit-icon">
+                <i class="fa fa-times fa-2x"></i>
+            </div>
+            <p class="prompt__text"></p>
+            <div class="img-container">
+                <img class="prompt__img" src>
+            </div>
+            <div style="width: 100%;display:flex;">
+                <button class="btn solid">
+                    RESULTS
+                </button>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
 
         <div class="nav-bar-container">
@@ -85,8 +103,8 @@
             <div class="quizzes-list">
                 {% if quiz_list %}
                 {% for quiz in quiz_list %}
-                <div id="go_to_previous_quiz" class="previous-quiz quiz-1">
-                    <div>
+                <div  class="previous-quiz quiz-1">
+                    <div id="go_to_previous_quiz">
                         <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
                     </div>
                     <div class="icons-container">
