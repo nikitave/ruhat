@@ -130,6 +130,7 @@
         <div class="right-side">
             {% set current_quiz = request.args.get('id') | get_quiz_from_db %}
             {% set options_letters = ["A","B","C","D"]%}
+            {% if current_quiz.name != null %}
             <div class="quiz-header">
                 <h2 class="quiz_name">{{current_quiz.name}}</h2>
                 <label class="switch">
@@ -137,6 +138,7 @@
                     <span class="slider slider-clicked"></span>
                 </label>
             </div>
+            
 
 
             <div class="questions-list">
@@ -173,6 +175,11 @@
                     </button>
                 </div>
             </div>
+            {% else %}
+            <div class="no-quiz-container">
+                <h2 class="plain-text"><i class="fa fa-arrow-left" style="margin-right: 1rem;"></i>Select a quiz or create a new one</h2>
+            </div>
+            {% endif %}
 
         </div>
     </div>
