@@ -16,8 +16,15 @@
                     Ruhat!
                 </h1>
                 <form action="{{url_for('main.home')}}" class="get-started-form" method="POST">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                     <div class="input-field">
-                        <input type="text" placeholder="Username" name="username" required>
+                        <input type="text" placeholder="Username" name="username" value="{{name}}" required>
                     </div>
                     <div class="input-field">
                         <input type="text" placeholder="pin code" name="pincode" value="{{id}}" required>
@@ -29,7 +36,7 @@
                         {% if current_user.is_authenticated%}
                         <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('workspace') }}" class="sign-up-link">signing in</a>
                         {% else %}
-                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>
+                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('auth.register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>
 
                         {% endif %}
                     </p>

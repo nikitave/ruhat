@@ -27,11 +27,16 @@ class Quiz(db.Model):
     opened = db.Column(db.Boolean)
 
 
-class Current_quizzes(db.Model):
+class current_quiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     players = db.Column(db.JSON)
     owner = db.Column(db.Integer)
+    def __init__(self, quiz):
+        self.id = quiz.id
+        self.name = quiz.name
+        self.players = []
+
 
 
 # Structure for quizzes JSON in User class:
