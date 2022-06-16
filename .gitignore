@@ -1,1 +1,5 @@
-/node_modules/
+
+__pycache__/extensions.cpython-39.pyc
+__pycache__/models.cpython-39.pyc
+__pycache__/routes.cpython-39.pyc
+.idea/workspace.xml
