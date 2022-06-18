@@ -58,11 +58,18 @@ body {
     transition: .3s linear;
 }
 
-.button:hover{
+.button:hover {
     background-color: #fff;
     color: #005F75;
     border: 2px solid #005F75 ;
 }
+
+.button:focus {
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
+}
+
 
 @media(max-width: 414px) {
     

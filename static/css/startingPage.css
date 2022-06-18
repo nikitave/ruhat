@@ -9,15 +9,15 @@
     box-sizing: border-box;
 }
 
-html,body{
+html,body {
     height: 100%;
 }
-body,input{
+body,input {
     font-family: "Poppins",sans-serif;
 }
 
 
-.container{
+.container {
     background-image: url("../img/background.svg");
     position: relative;
     height: 100vh;
@@ -30,25 +30,25 @@ body,input{
     overflow: hidden;
     
 }
-.main-title{
+.main-title {
     font-size: 3.5rem;
     color: #005F75;
     margin-bottom: 10px;
     font-family: 'shago',sans-serif;
     font-weight: 600;
 }
-.flex-column{
+.flex-column {
     display: flex;
     flex-direction: column;
 }
-.flex-center{
+.flex-center {
     justify-content: center;
     align-items: center;
 }
-.justify-center{
+.justify-center {
     justify-content: center;
 }
-.tex-center{
+.tex-center {
     text-align: center;
 }
 form{
@@ -61,7 +61,7 @@ form{
     overflow: hidden;
     transition: 0.2s 0.7s ease-in-out;
 }
-.input-field input{
+.input-field input {
     background: none;
     outline: none;
     border: none;
@@ -73,7 +73,7 @@ form{
     color: #184C57;
     text-align: center;
 }
-.input-field{
+.input-field {
     max-width: 380px;
     width: 100%;
     height: 55px;
@@ -82,11 +82,11 @@ form{
     border-radius: 55px;
     padding: 0 .4rem;
 }
-.input-field input::placeholder{
+.input-field input::placeholder {
     color: #A9C0C6;
     font-weight: 500;
 }
-.btn{
+.btn {
     width: 150px;
     height: 49px;
     border: 2px solid #fff;
@@ -101,11 +101,18 @@ form{
     transition: .3s linear;
 }
 
-.btn:hover{
+.btn:hover {
     background-color: #fff;
     color: #005F75;
     border: 2px solid #005F75 ;
 }
+
+.btn:focus {
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75 ;
+}
+
 .get-started {
     width: 100%;
     background-color: #fff;
@@ -120,12 +127,12 @@ form{
     cursor: default;
     user-select: none;
   }
-.welcome-place{
+.welcome-place {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.sign-up-instead{
+.sign-up-instead {
     font-size: 1.3rem;
     color: #fff;
     bottom: 0;
@@ -133,7 +140,7 @@ form{
     position: absolute;
     font-weight: lighter;
 }
-.sign-up-link{
+.sign-up-link {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
@@ -149,7 +156,7 @@ form{
     transition: .3s linear;
 }
 
-.sign-up-link:hover::after{
+.sign-up-link:hover::after {
     width: 100%;
 }
 
