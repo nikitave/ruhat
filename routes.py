@@ -25,4 +25,4 @@ def home(id=None):
 
 @main.route('/end_quiz')
 def end_quiz():
-    return render_template("resultUserPage.html",count=flask.session['count'])
+    return render_template("resultUserPage.html",count=flask.session['count'], points = int(flask.session['points']))

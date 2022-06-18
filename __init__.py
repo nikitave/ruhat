@@ -18,7 +18,7 @@ application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
-
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://u1689524_default:2Gir7nQJe2Z4oAnq@37.140.192.174:3306/u1689524_default'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 application.register_blueprint(main)
@@ -158,9 +158,24 @@ def quiz(id_quiz):
             quiz_taken = current_quiz.query.filter_by(id=id_quiz).first()
             quiz_players = quiz_taken.players
 
+
             for index in range(len(quiz_players)):
                 if quiz_players[index]['name'] == flask.session['name']:
                     quiz_players[index]['correct_answers'] += 1
+                    quiz_players[index]['current_streak'] +=1
+                    quiz_players[index]['points'] += (1+(quiz_players[index]['current_streak']-1)/10)*100
+                    flag_modified(quiz_taken, "players")
+                    db.session.add(quiz_taken)
+                    db.session.flush()
+                    db.session.commit()
+                    break
+        else:
+            quiz_taken = current_quiz.query.filter_by(id=id_quiz).first()
+            quiz_players = quiz_taken.players
+
+            for index in range(len(quiz_players)):
+                if quiz_players[index]['name'] == flask.session['name']:
+                    quiz_players[index]['current_streak'] = 0
                     flag_modified(quiz_taken, "players")
                     db.session.add(quiz_taken)
                     db.session.flush()
@@ -173,6 +188,7 @@ def quiz(id_quiz):
             for index in range(len(quiz_players)):
                 if quiz_players[index]['name'] == flask.session['name']:
                     flask.session['count'] = quiz_players[index]['correct_answers']
+                    flask.session['points'] = quiz_players[index]['points']
                     return redirect(url_for('main.end_quiz'))
 
         else:
@@ -183,7 +199,7 @@ def quiz(id_quiz):
         if quiz.opened:
             questions = quiz.questions
             if flask.session['progress'] == 0:
-                current_player = {"name": flask.session['name'], "correct_answers": 0}
+                current_player = {"name": flask.session['name'], "correct_answers": 0, "current_streak": 0, "points":0}
                 add_player_to_the_quiz(current_player, quiz.id)
 
             return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
