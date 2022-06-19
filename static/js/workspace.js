@@ -567,3 +567,11 @@ exit_sharing.addEventListener("click", function () {
     let qr = document.querySelector(".prompt3");
     qr.classList.remove("prompt3--show");
 });
+
+
+
+let menuBtn = document.querySelector('.menu_btn');
+let menu = document.querySelector('.left-side');
+menuBtn.addEventListener('click', function() {
+    menu.classList.toggle('active');
+})
