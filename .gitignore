@@ -1,0 +1,12 @@
+
+*.xml
+*.dat
+*.len
+*.values
+*.at
+*.dat_i
+*.s
+*.meta
+*.iml
+*.json
+*.pyc
