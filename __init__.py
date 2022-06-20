@@ -18,6 +18,7 @@ application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
+
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 application.register_blueprint(main)
