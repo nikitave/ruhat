@@ -1,31 +1,36 @@
 import json
 
 import flask
-import werkzeug
 
-from flask_login import login_required, login_user, logout_user, LoginManager, current_user
+from flask_login import login_required, LoginManager, current_user
 
-from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
+from flask import Flask, render_template, request, url_for, redirect, flash
 from sqlalchemy.orm.attributes import flag_modified
 
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from routes import main
-from models import Quiz, User
-
-application = Flask(__name__)
-application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
-
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
-
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-application.register_blueprint(main)
 
 from extensions import db
+def create_app():
+    application = Flask(__name__)
+    application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
-db.init_app(application)
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
+
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    from routes import main
+    from auth import auth
+
+    from ruhat_api import api
+    application.register_blueprint(main)
+    application.register_blueprint(api)
+    application.register_blueprint(auth)
+    db.init_app(application)
+    return application
+application = create_app()
 login_manager = LoginManager(application)
+
+from models import Quiz, User, current_quiz
+from ruhat_api import add_player_to_the_quiz
 
 
 def json_to_dict(jsonData):
@@ -42,55 +47,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@application.route('/register/<mode>', methods=["GET", "POST"])
-def register(mode):
-    if request.method == "POST":
-        # if request.form has 3 elements in it (password,email,username),
-        # an user tries to register
-        # otherwise the user tries to log in
-        if len(request.form) == 3:
-            # if user already exists, flash them a message
-            if User.query.filter_by(email=request.form['email']).first():
-                flash("We have found your email in our database, try to log in.", 'reg_err')
-                return redirect(url_for('register', mode=mode))
-            hash_and_salted_password = generate_password_hash(
-                request.form['password'],
-                method='pbkdf2:sha256',
-                salt_length=8
-            )
-            new_user = User(
-                email=request.form['email'],
-                name=request.form['username'],
-                password=hash_and_salted_password,
-                quizzes=[]
-            )
-
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user)
-            return redirect(url_for("workspace"))
-        else:
-            email = request.form.get('email')
-            password = request.form.get('password')
-            user = User.query.filter_by(email=email).first()
-            if not user:
-                flash("We can't find your email in our database, please try again.", 'login_err')
-                # print(request.form, file=sys.stderr)
-                return redirect(url_for('register', mode="sign-in-mode"))
-            if check_password_hash(user.password, password):
-                login_user(user)
-                return redirect(url_for("workspace"))
-            else:
-                flash("We can't let you in until you enter the correct password.", 'login_err')
-                return redirect(url_for('register', mode="sign-in-mode"))
-    return render_template("index.html", mode=mode)
-
-
-@application.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('main.home'))
 
 
 @application.route('/workspace', methods=["GET", "POST", "PUT", "DELETE"])
@@ -102,7 +58,7 @@ def workspace():
         if len(request.json)==1:
 
             quiz_name =request.json['quiz_name']
-            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=True)
+            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
             # Add the quiz in Quiz table
             db.session.add(new_quiz)
             db.session.commit()
@@ -140,82 +96,125 @@ def workspace():
         quiz_id = int(request.headers.get('Referer').split('=')[-1])
         quiz = Quiz.query.filter_by(id=quiz_id).first()
         quiz.opened = state
+        if quiz.opened:
+            running_quiz = current_quiz(quiz)
+            running_quiz.owner = current_user.id
+            db.session.add(running_quiz)
+        else:
+            quiz_for_deleting = current_quiz.query.filter_by(id=quiz_id).first()
+            db.session.delete(quiz_for_deleting)
         db.session.flush()
         db.session.commit()
     elif request.method =="DELETE":
-        quiz_id = int(request.json['quiz_url'].split('=')[-1])
-        quiz = Quiz.query.filter_by(id=quiz_id).first()
-        db.session.delete(quiz)
-        db.session.flush()
-        db.session.commit()
-        cur_user = User.query.filter_by(id=current_user.id).first()
-        list_quiz = current_user.quizzes
-        for index in range(len(list_quiz)):
-            if list_quiz[index]['id']==quiz_id:
-                del list_quiz[index]
-                break
-        flag_modified(cur_user, "quizzes")
-        db.session.add(cur_user)
-        db.session.commit()
+
+        if request.json['object_to_delete']=='question':
+
+            quiz_id = int(request.headers.get('Referer').split('=')[-1])
+            quiz = Quiz.query.filter_by(id=quiz_id).first()
+            if quiz.opened:
+                # if quiz is opened, we shouldn't let the teacher change it
+                pass
+            else:
+                question = request.json['question']
+                question_text = question.strip()
+                quiz.number_of_questions -= 1
+                quiz_questions = quiz.questions
+                question_id = quiz_questions.index(question_text)
+                # print(question_text)
+                quiz_questions.pop(question_text)
+                print(quiz_questions)
+                flag_modified(quiz, "questions")
+                db.session.add(quiz)
+                db.session.flush()
+                db.session.commit()
+
+
+        else:
+            quiz_id = int(request.json['quiz_url'].split('=')[-1])
+            quiz = Quiz.query.filter_by(id=quiz_id).first()
+            db.session.delete(quiz)
+            db.session.flush()
+            db.session.commit()
+            cur_user = User.query.filter_by(id=current_user.id).first()
+            list_quiz = current_user.quizzes
+            for index in range(len(list_quiz)):
+                if list_quiz[index]['id']==quiz_id:
+                    del list_quiz[index]
+                    break
+            flag_modified(cur_user, "quizzes")
+            db.session.add(cur_user)
+            db.session.flush()
+            db.session.commit()
 
 
     quiz_list = [Quiz.query.filter_by(id=quiz_user['id']).first() for quiz_user in current_user.quizzes]
-    return render_template('workspace.html', quiz_list=quiz_list, quiz_for_edit=None)
+    return render_template('workspace.html', quiz_list=quiz_list)
 
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
 
     if request.method == "POST":
-        answer = request.values
+        answer = list(request.form.to_dict().keys())[0]
+        correct_option = Quiz.query.filter_by(id=id_quiz).first().questions[flask.session['progress']]["options"].index(
+            Quiz.query.filter_by(id=id_quiz).first().questions[flask.session['progress']]['answer'])
+
+        if answer == str(correct_option):
+            quiz_taken = current_quiz.query.filter_by(id=id_quiz).first()
+            quiz_players = quiz_taken.players
+
+
+            for index in range(len(quiz_players)):
+                if quiz_players[index]['name'] == flask.session['name']:
+                    quiz_players[index]['correct_answers'] += 1
+                    quiz_players[index]['current_streak'] +=1
+                    quiz_players[index]['points'] += (1+(quiz_players[index]['current_streak']-1)/10)*100
+                    flag_modified(quiz_taken, "players")
+                    db.session.add(quiz_taken)
+                    db.session.flush()
+                    db.session.commit()
+                    break
+        else:
+            quiz_taken = current_quiz.query.filter_by(id=id_quiz).first()
+            quiz_players = quiz_taken.players
+
+            for index in range(len(quiz_players)):
+                if quiz_players[index]['name'] == flask.session['name']:
+                    quiz_players[index]['current_streak'] = 0
+                    flag_modified(quiz_taken, "players")
+                    db.session.add(quiz_taken)
+                    db.session.flush()
+                    db.session.commit()
+                    break
         flask.session['progress'] += 1
-        # TODO: to link the user with the database and store his answers and his score in the database
-        # print(answer)
         if int(flask.session['progress']) == len(Quiz.query.filter_by(id=id_quiz).first().questions):
-            return redirect(url_for('main.end_quiz'))
+            quiz_taken = current_quiz.query.filter_by(id=id_quiz).first()
+            quiz_players = quiz_taken.players
+            for index in range(len(quiz_players)):
+                if quiz_players[index]['name'] == flask.session['name']:
+                    flask.session['count'] = quiz_players[index]['correct_answers']
+                    flask.session['points'] = quiz_players[index]['points']
+                    return redirect(url_for('main.end_quiz'))
+
+        else:
+            return redirect(url_for('quiz', id_quiz=id_quiz))
 
     quiz = Quiz.query.filter_by(id=id_quiz).first()
     if quiz:
         if quiz.opened:
             questions = quiz.questions
+            if flask.session['progress'] == 0:
+                current_player = {"name": flask.session['name'], "correct_answers": 0, "current_streak": 0, "points":0}
+                add_player_to_the_quiz(current_player, quiz.id)
+
             return render_template('questionPage.html', question=questions[flask.session['progress']], id_quiz=id_quiz)
         else:
-            return 'Quiz is closed'
+            flash("The quiz is closed.")
     else:
-        raise NotExistingQuiz()
+        flash("The quiz does not exist.")
+    return redirect(url_for('main.home'))
 
 
-
-
-@application.route('/api/get_quiz', methods=["GET"])
-def get_questions():
-    if 'id' in request.args:
-        id = int(request.args['id'])
-        quiz = Quiz.query.filter_by(id=id).first()
-        if quiz:
-            if quiz.opened:
-                questions = quiz.questions
-                return jsonify(questions),200
-            else:
-                return jsonify({"status":"closed"}),204
-        else:
-            return jsonify({"status":"not found"}),404
-    else:
-        return "Error",400
-
-@application.route('/api/get_quizzes_from_user', methods=["GET"])
-def get_quizzes_from_user():
-    print(current_user.quizzes)
-    return jsonify(current_user.quizzes[-1])
-
-
-@application.route('/api/post_answer', methods=["GET"])
-def post_answer():
-    if 'option' in request.args:
-        pass
-        # request.args['option']
-        # TODO: To link the user of the api with the database
-    return "Errro"
 
 @application.errorhandler(404)
 def not_existed_page(e):
@@ -224,17 +223,5 @@ def not_existed_page(e):
 
 application.register_error_handler(404, not_existed_page)
 
-
-class NotExistingQuiz(werkzeug.exceptions.HTTPException):
-    code = 4040
-    description = "This quiz doesn't exist"
-
-
-@application.errorhandler(NotExistingQuiz)
-def page_error(e):
-    return f'{e.description}'
-
-
-application.register_error_handler(NotExistingQuiz, page_error)
 if __name__ == "__main__":
-    application.run()
+    application.run(debug=True)

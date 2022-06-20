@@ -8,18 +8,21 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=["GET", "POST"])
 def home(id=None):
     flask.session['progress'] = 0
-
+    if "_flashes" not in dict(flask.session.items()):
+        flask.session['name'] = ''
     if request.method == "POST":
-        # print(f"{request.form['username']}",file=sys.stderr)
+
         pincode = request.form['pincode']
         id_quiz = int(pincode)
+        user_name = request.form['username']
+        flask.session['name'] = user_name
         return redirect(url_for('quiz', id_quiz=id_quiz))
     if id:
         return render_template("startingPage.html",id=id)
-    return render_template("startingPage.html")
+    return render_template("startingPage.html", name = flask.session['name'])
 
 
 
-@main.route('/')
+@main.route('/end_quiz')
 def end_quiz():
-    return 'End of the quiz'
+    return render_template("resultUserPage.html",count=flask.session['count'], points = int(flask.session['points']))
