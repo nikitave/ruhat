@@ -18,7 +18,6 @@ application = Flask(__name__)
 application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://u1689524_default:2Gir7nQJe2Z4oAnq@37.140.192.174:3306/u1689524_default'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 application.register_blueprint(main)
@@ -219,4 +218,4 @@ def not_existed_page(e):
 application.register_error_handler(404, not_existed_page)
 
 if __name__ == "__main__":
-    application.run()
+    application.run(debug=True)
