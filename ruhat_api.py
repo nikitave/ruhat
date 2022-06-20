@@ -1,4 +1,4 @@
-# import flask
+
 from flask import Blueprint, jsonify
 from flask import request
 from flask_login import current_user
@@ -61,15 +61,11 @@ def post_answer():
             db.session.flush()
             db.session.commit()
             return jsonify({"status": "success"}), 200
-            break
-        # request.args['option']
-        # TODO: To link the user of the api with the database
     return jsonify({"status": "fail"}), 400
 
 
 @api.route('/api/get_result', methods=["GET"])
 def get_result():
-    # print(request.args)
     try:
         quiz_taken = current_quiz.query.filter_by(id=int(request.args['id'])).first()
         quiz_players = quiz_taken.players
@@ -79,8 +75,6 @@ def get_result():
             if sorted_list_of_players[index]['name'] == request.args['name']:
                 percentage = round(index / len(sorted_list_of_players) * 100, 2)
                 return jsonify({"status": "success", "points": sorted_list_of_players[index]['points'], "percentage": percentage, "correct_answers": sorted_list_of_players[index]['correct_answers']}), 200
-    # request.args['option']
-    # TODO: To link the user of the api with the database
     except Exception as e:
         return jsonify({"status": "fail", "error":e}), 400
     return jsonify({"status": "fail"}), 400

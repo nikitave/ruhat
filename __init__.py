@@ -1,7 +1,6 @@
 import json
 
 import flask
-from sqlalchemy import true
 
 from flask_login import login_required, LoginManager, current_user
 
@@ -9,26 +8,29 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 from sqlalchemy.orm.attributes import flag_modified
 
 
-from routes import main
-from auth import auth
-from models import Quiz, User, current_quiz
-from ruhat_api import api, add_player_to_the_quiz
-
-application = Flask(__name__)
-application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
-
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
-
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-application.register_blueprint(main)
-application.register_blueprint(api)
-application.register_blueprint(auth)
-
 from extensions import db
+def create_app():
+    application = Flask(__name__)
+    application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
 
-db.init_app(application)
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
+
+    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    from routes import main
+    from auth import auth
+
+    from ruhat_api import api
+    application.register_blueprint(main)
+    application.register_blueprint(api)
+    application.register_blueprint(auth)
+    db.init_app(application)
+    return application
+application = create_app()
 login_manager = LoginManager(application)
+
+from models import Quiz, User, current_quiz
+from ruhat_api import add_player_to_the_quiz
 
 
 def json_to_dict(jsonData):
@@ -56,7 +58,7 @@ def workspace():
         if len(request.json)==1:
 
             quiz_name =request.json['quiz_name']
-            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=True)
+            new_quiz = Quiz(name=quiz_name, number_of_questions=0, questions=[], opened=False)
             # Add the quiz in Quiz table
             db.session.add(new_quiz)
             db.session.commit()
@@ -113,10 +115,13 @@ def workspace():
                 # if quiz is opened, we shouldn't let the teacher change it
                 pass
             else:
-                question_id = request.json['question']
+                question = request.json['question']
+                question_text = question.strip()
                 quiz.number_of_questions -= 1
                 quiz_questions = quiz.questions
-                quiz_questions.pop(question_id)
+                question_id = quiz_questions.index(question_text)
+                # print(question_text)
+                quiz_questions.pop(question_text)
                 print(quiz_questions)
                 flag_modified(quiz, "questions")
                 db.session.add(quiz)

@@ -483,6 +483,16 @@ async function createNewQuiz(quiz_name) {
                 let content = this.parentElement;
                 content = content.parentElement;
                 if (confirm("Are you sure you want to delete this question?")) {
+                    fetch('/workspace', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    'question': content,
+                    'object_to_delete': 'question',
+                })
+            });
                     content.parentNode.removeChild(content);
                     checkForExtraQuestions();
                 }
