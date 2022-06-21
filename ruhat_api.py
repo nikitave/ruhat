@@ -1,4 +1,3 @@
-
 from flask import Blueprint, jsonify
 from flask import request
 from flask_login import current_user
@@ -69,12 +68,14 @@ def get_result():
     try:
         quiz_taken = current_quiz.query.filter_by(id=int(request.args['id'])).first()
         quiz_players = quiz_taken.players
-        sorted_list_of_players = sorted(quiz_players, key= lambda d: d['points'])
+        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'])
 
         for index in range(len(sorted_list_of_players)):
             if sorted_list_of_players[index]['name'] == request.args['name']:
                 percentage = round(index / len(sorted_list_of_players) * 100, 2)
-                return jsonify({"status": "success", "points": sorted_list_of_players[index]['points'], "percentage": percentage, "correct_answers": sorted_list_of_players[index]['correct_answers']}), 200
+                return jsonify(
+                    {"status": "success", "points": sorted_list_of_players[index]['points'], "percentage": percentage,
+                     "correct_answers": sorted_list_of_players[index]['correct_answers']}), 200
     except Exception as e:
-        return jsonify({"status": "fail", "error":e}), 400
+        return jsonify({"status": "fail", "error": e}), 400
     return jsonify({"status": "fail"}), 400

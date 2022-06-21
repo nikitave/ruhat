@@ -292,7 +292,7 @@ function updateLisners() {
             NodeList.prototype.forEach = Array.prototype.forEach
             var children = content.childNodes;
             children.forEach(function (item) {
-                if (item.nodeName.toLowerCase() == 'div') {
+                if (item.nodeName.toLowerCase() === 'div') {
                     item.childNodes[0].classList.remove("correct-answer");
                 }
             });
