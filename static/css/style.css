@@ -424,6 +424,7 @@ form.sign-up-form {
   @media(max-width: 570px){
     @media (max-height: 800px) {
       .container {
+        padding: 0.5rem;
         min-height: 580px;
         height: 100vh;
       }
@@ -432,9 +433,6 @@ form.sign-up-form {
       }
       :root{
         font-size: 0.8rem;
-      }
-      .container{
-        padding: 0.5rem;
       }
       .panel-image {
         display: none;
