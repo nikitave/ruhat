@@ -21,7 +21,7 @@
                 <input type="submit" class="prompt__submit" value="proceed">
                 <button type="button" class="prompt__cancel"> Cancel </button>
             </div>
-        </form>
+        </form>  
     </div>
 
     <div class="prompt2">
@@ -37,22 +37,22 @@
                 <div class="option input-field"><div class="letter plain-text">D</div><div class="option-statement"><input type="text" class="prompt__input" name="option_D" placeholder="Enter the fourth option"/></div></div>
             </div>
 
-
+          
             <div class="btn_container">
                 <input type="submit" class="prompt__submit" value="proceed" />
                 <button type="button" class="prompt__cancel2"> Cancel </button>
             </div>
-        </form>
+        </form>  
     </div>
 
     <div class="prompt3">
         <div class="prompt-container">
             <div class="exit-icon">
-                <i class="fa fa-times fa-2x"></i>
+                <em class="fa fa-times fa-2x"></em>
             </div>
             <p class="prompt__text"></p>
             <div class="img-container">
-                <img class="prompt__img" src>
+                <img class="prompt__img" alt="" src>
             </div>
             <div style="width: 100%;display:flex;">
                 <button class="btn solid">
@@ -66,16 +66,16 @@
     <div class="container">
 
         <div class="nav-bar-container">
-
-                <a href="/" class="main-title">
+            <div>
+                <a href="#" class="main-title">
                     Ruhat!
                 </a>
                 <div class="menu_btn">
                     <span></span>
                 </div>
-
+            </div>
             <div class="profile-container">
-                <div class="profile-icon" data-initials="AA"><button class="edit-profile"><i class="fa-solid fa-edit fa-bold"></i></button></div>
+                <div class="profile-icon" data-initials="AA"><button class="edit-profile"><em class="fa-solid fa-edit fa-bold"></em></button></div>
                 <ul name="settings" class="dropdown-menu">
                     <a href="#">
                         <li class="drop-down-item">
@@ -114,10 +114,10 @@
                     </div>
                     <div class="icons-container">
                         <button class="share-quiz icon">
-                            <i class="fa fa-share "></i>
+                            <em class="fa fa-share "></em>
                         </button>
                         <button class="delete-quiz icon">
-                            <i class="fa fa-trash "></i>
+                            <em class="fa fa-trash "></em>
                         </button>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
             {% endif %}
                 <div class="add-quiz previous-quiz flex-center">
                     <button class="icon" style="margin-left: auto;">
-                        <i class="fa fa-add"></i>
+                        <em class="fa fa-add"></em>
                     </button>
                 </div>
 
@@ -149,6 +149,7 @@
                             {% endif %}
                 </label>
             </div>
+            
 
 
 
@@ -160,10 +161,10 @@
                             {{question.question}}
                         </div>
                         <button class="icon delete-question ">
-                            <i class="fa fa-trash"></i>
+                            <em class="fa fa-trash"></em>
                         </button>
                         <button class="icon expand-icon collapsible">
-                            <i class="fa fa-angle-down"></i>
+                            <em class="fa fa-angle-down"></em>
                         </button>
                     </div>
                     <div class="options-container">
@@ -182,13 +183,13 @@
                 {% endfor %}
                 <div class="add-question question-panel flex-center">
                     <button class="icon" style="margin-left: auto;">
-                        <i class="fa fa-add"></i>
+                        <em class="fa fa-add"></em>
                     </button>
                 </div>
             </div>
             {% else %}
             <div class="no-quiz-container">
-                <h2 class="plain-text"><i class="fa fa-arrow-left" style="margin-right: 1rem;"></i>Select a quiz or create a new one</h2>
+                <h2 class="plain-text"><em class="fa fa-arrow-left" style="margin-right: 1rem;"></em>Select a quiz or create a new one</h2>
             </div>
             {% endif %}
 

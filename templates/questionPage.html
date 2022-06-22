@@ -20,31 +20,12 @@
     </div>
     <div>
         <form class="down_item" action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST">
-        
             {% for i in range(4) %}
-
                 <button type="submit" class="item {{ ['ul','ur','dl','dr'][i] }}" name="{{ i }}">
                     {{ question.options[i] }}
                 </button>
-                <!-- <button type="submit" class="item ul">This is option 1</button>
-                <button type="submit" class="item ur">This is option 2</button>
-                <button type="submit" class="item dl">This is option 3</button>
-                <button type="submit" class="item dr">This is option 4</button> -->
-
-
             {% endfor %}
-        </form>
-        <!-- <button type="button" class="item ur">-->
-        <!-- This is option 2. No, it is option 2.
-    </button>
-    <button type="button" class="item dl">
-        This is option 3. Probably, it is option 3.
-    </button>
-    <button type="button" class="item dr">
-        This is option 4. It is both option 4.
-    </button> -->
-
-
+       </form>
     </div>
 </div>
 </body>
