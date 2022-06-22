@@ -8,12 +8,9 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 from sqlalchemy.orm.attributes import flag_modified
 
 from extensions import db
-from flask_wtf.csrf import CSRFProtect
 
-csrf = CSRFProtect()
 def create_app():
     application = Flask(__name__)
-    csrf.init_app(application)
     application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
     application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
     application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
