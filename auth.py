@@ -34,7 +34,7 @@ def register(mode):
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return redirect(url_for("workspace"))
+            return redirect(url_for("workspace_bp.workspace"))
         else:
             email = request.form.get('email')
             password = request.form.get('password')
@@ -45,7 +45,7 @@ def register(mode):
                 return redirect(url_for('auth.register', mode="sign-in-mode"))
             if check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for("workspace"))
+                return redirect(url_for("workspace_bp.workspace"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
                 return redirect(url_for('auth.register', mode="sign-in-mode"))

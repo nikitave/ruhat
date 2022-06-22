@@ -18,6 +18,13 @@ def add_player_to_the_quiz(current_player, id):
     db.session.flush()
     db.session.commit()
 
+def check_player_in_the_quiz(quiz_id,player_name):
+    quiz_taken = current_quiz.query.filter_by(id=quiz_id).first()
+    quiz_players = quiz_taken.players
+    for player in quiz_players:
+        if player['name'] == player_name:
+            return True
+    return False
 
 @api.route('/api/result', methods=["GET"])
 def result():

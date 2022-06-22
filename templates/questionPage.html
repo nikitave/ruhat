@@ -19,7 +19,7 @@
         <p class="question">{{ question.question }}</p>
     </div>
     <div>
-        <form class="down_item" action="{{ url_for('quiz', id_quiz=id_quiz) }}" method="POST">
+        <form class="down_item" action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST">
         
             {% for i in range(4) %}
 
