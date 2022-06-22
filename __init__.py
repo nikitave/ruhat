@@ -8,38 +8,38 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 from sqlalchemy.orm.attributes import flag_modified
 
 from extensions import db
+from models import Quiz, User, current_quiz
+from ruhat_api import add_player_to_the_quiz
+
 
 def create_app():
-    application = Flask(__name__)
-    application.config['SECRET_KEY'] = 'any-secret-key-you-choose'
-    application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
-    application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'any-secret-key-you-choose'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbUsers.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     from routes import main
     from auth import auth
     from workspace import workspace_bp
     from ruhat_api import api
-    application.register_blueprint(main)
-    application.register_blueprint(api)
-    application.register_blueprint(auth)
-    application.register_blueprint(workspace_bp)
-    db.init_app(application)
-    return application
+    app.register_blueprint(main)
+    app.register_blueprint(api)
+    app.register_blueprint(auth)
+    app.register_blueprint(workspace_bp)
+    db.init_app(app)
+    return app
 
 
 application = create_app()
 login_manager = LoginManager(application)
-
-from models import Quiz, User, current_quiz
-from ruhat_api import add_player_to_the_quiz
 
 
 def json_to_dict(json_data):
     return json.loads(json_data)
 
 
-def get_quiz_from_db(id):
-    return Quiz.query.filter_by(id=id).first()
+def get_quiz_from_db(quiz_id):
+    return Quiz.query.filter_by(id=quiz_id).first()
 
 
 application.add_template_filter(json_to_dict)
@@ -49,6 +49,7 @@ application.add_template_filter(get_quiz_from_db)
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
@@ -101,7 +102,7 @@ def quiz(id_quiz):
 
 
 @application.errorhandler(404)
-def not_existed_page(e):
+def not_existed_page():
     return '''This page doesn't exist. Please, leave this page immediately.'''
 
 

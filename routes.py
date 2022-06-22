@@ -1,5 +1,5 @@
 import flask
-from flask import Blueprint, redirect, url_for, render_template
+from flask import Blueprint, redirect, url_for, render_template, current_app
 from flask import request
 
 main = Blueprint('main', __name__)
@@ -8,6 +8,7 @@ main = Blueprint('main', __name__)
 @main.route('/invited/<id>')
 @main.route('/', methods=["GET", "POST"])
 def home(id=None):
+    current_app.logger.info("Home page")
     flask.session['progress'] = 0
     if "_flashes" not in dict(flask.session.items()):
         flask.session['name'] = ''

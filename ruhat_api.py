@@ -8,6 +8,7 @@ from models import Quiz, current_quiz
 api = Blueprint('api', __name__)
 
 
+
 def add_player_to_the_quiz(current_player, id):
     quiz_taken = current_quiz.query.filter_by(id=id).first()
     quiz_players = quiz_taken.players
@@ -21,10 +22,12 @@ def add_player_to_the_quiz(current_player, id):
 @api.route('/api/result', methods=["GET"])
 def result():
     quiz = current_quiz.query.filter_by(id=int(request.args['id'])).first()
-    quiz_players = quiz.players
-    sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'],reverse=True)
-    return {'players':sorted_list_of_players}
-
+    if quiz:
+        quiz_players = quiz.players
+        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'],reverse=True)
+        return jsonify({'players':sorted_list_of_players})
+    else:
+        return jsonify({'status':'Quiz is closed or does not exist'})
 
 @api.route('/api/get_quiz', methods=["GET"])
 def get_quiz():
