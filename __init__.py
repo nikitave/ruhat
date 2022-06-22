@@ -53,11 +53,6 @@ application.add_template_filter(get_quiz_from_db)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@application.before_request
-def force_https():
-    if request.endpoint in application.view_functions and not request.is_secure:
-        return redirect(request.url.replace('http://', 'https://'))
-
 @application.route('/quiz/<id_quiz>', methods=["GET", "POST"])
 def quiz(id_quiz):
     if request.method == "POST":
