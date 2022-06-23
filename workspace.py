@@ -1,5 +1,4 @@
-import flask
-from flask import Blueprint, redirect, url_for, render_template
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask import request
 from flask_login import login_required, current_user
 from sqlalchemy.orm.attributes import flag_modified
@@ -7,15 +6,13 @@ from sqlalchemy.orm.attributes import flag_modified
 from models import Quiz, current_quiz, User
 from extensions import db
 
-workspace_bp = Blueprint('workspace', __name__)
+workspace_bp = Blueprint('workspace_bp', __name__)
 
 
 @workspace_bp.route('/workspace', methods=["GET", "POST", "PUT", "DELETE"])
 @login_required
 def workspace():
-    # You can see your created quizzes and can create a new one
     if request.method == "POST":
-
         if len(request.json) == 1:
 
             quiz_name = request.json['quiz_name']
@@ -34,11 +31,10 @@ def workspace():
             db.session.commit()
         else:
             question_text = request.json['question']
-            option_A = request.json['option_A']
-            option_B = request.json['option_B']
-            option_C = request.json['option_C']
-            option_D = request.json['option_D']
-            options = [option_A, option_B, option_C, option_D]
+            options = [request.json['option_A'],
+                       request.json['option_B'],
+                       request.json['option_C'],
+                       request.json['option_D']]
             right_option = options[request.json['right_option']]
             new_question = {"answer": right_option, "options": options, "question": question_text}
             quiz_id = int(request.headers.get('Referer').split('=')[-1])
@@ -65,28 +61,26 @@ def workspace():
         db.session.flush()
         db.session.commit()
     elif request.method == "DELETE":
-
         if request.json['object_to_delete'] == 'question':
-
             quiz_id = int(request.headers.get('Referer').split('=')[-1])
             quiz = Quiz.query.filter_by(id=quiz_id).first()
+
             if quiz.opened:
+                flash('You can\'t delete a question while the quiz is running!')
+                return redirect(url_for('workspace_bp.workspace'))
                 # there should be a message that informs an user that the quiz cannot be changed while it's opened
-                pass
             else:
                 question = request.json['question']
                 question_text = question.strip()
                 quiz.number_of_questions -= 1
                 quiz_questions = quiz.questions
-                question_entry = list(filter(lambda quest: quest['question']==question_text,quiz_questions))[0]
+                question_entry = list(filter(lambda quest: quest['question'] == question_text, quiz_questions))[0]
                 question_id = quiz_questions.index(question_entry)
                 quiz_questions.pop(question_id)
                 flag_modified(quiz, "questions")
                 db.session.add(quiz)
                 db.session.flush()
                 db.session.commit()
-
-
         else:
             quiz_id = int(request.json['quiz_url'].split('=')[-1])
             quiz = Quiz.query.filter_by(id=quiz_id).first()

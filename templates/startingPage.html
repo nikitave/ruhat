@@ -35,7 +35,7 @@
                 <p>
                     {% if current_user.is_authenticated %}
                         <span class="plain-text">Or you can create your own quiz by </span>
-                        <a href="{{ url_for('workspace.workspace') }}" class="sign-up-link">signing in</a>
+                        <a href="{{ url_for('workspace_bp.workspace') }}" class="sign-up-link">signing in</a>
                     {% else %}
                         <span class="plain-text">Or you can create your own quiz by </span>
                         <a href="{{ url_for('auth.register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>

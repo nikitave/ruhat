@@ -12,7 +12,7 @@ function removeClass(element, new_class) {
 }
 
 function xorClass(element, new_class) {
-    if (element.classList.contains(new_class) == true) {
+    if (element.classList.contains(new_class)) {
         removeClass(element, new_class);
     } else {
         addClass(element, new_class);
@@ -47,7 +47,7 @@ function addCollapsibleEvent(child) {
     child.addEventListener("click", function () {
         xorClass(this, "rotate");
         this.classList.toggle("active");
-        var content = ((this.parentElement).parentElement).lastElementChild;
+        let content = ((this.parentElement).parentElement).lastElementChild;
         if (content.style.maxHeight) {
             content.style.maxHeight = null;
         } else {
@@ -65,7 +65,7 @@ function createOption(Letter, correct, option) {
         let content = this.parentElement;
         content = content.parentElement;
         NodeList.prototype.forEach = Array.prototype.forEach
-        var children = content.childNodes;
+        let children = content.childNodes;
         children.forEach(function (item) {
             if (item.nodeName.toLowerCase() == 'div') {
                 item.childNodes[0].classList.remove("correct-answer");
@@ -178,7 +178,7 @@ function QREvent(child) {
     quiz_id = quiz_id.split("").reverse().join("");
     qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quiz_id;
 
-    var parametersJson = {
+    let parametersJson = {
         "size": 300, // Size of Qr Code
         "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
         "qrColor": "255-255-255", // Color of Qr Code (In RGB)
@@ -186,8 +186,8 @@ function QREvent(child) {
         "data": "dev.to"
     };
 
-    var parameters;
-    var img = document.querySelector(".prompt3 img");
+    let parameters;
+    let img = document.querySelector(".prompt3 img");
     img.addEventListener("click", function () {
         window.location.href = "/quiz/" + quiz_id;
     })
@@ -210,7 +210,7 @@ function updateLisners() {
         coll[i].addEventListener("click", function () {
             xorClass(this, "rotate");
             this.classList.toggle("active");
-            var content = (this.parentElement).parentElement;
+            let content = (this.parentElement).parentElement;
             content = content.lastElementChild;
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
@@ -290,7 +290,7 @@ function updateLisners() {
             let content = this.parentElement;
             content = content.parentElement;
             NodeList.prototype.forEach = Array.prototype.forEach
-            var children = content.childNodes;
+            let children = content.childNodes;
             children.forEach(function (item) {
                 if (item.nodeName.toLowerCase() === 'div') {
                     item.childNodes[0].classList.remove("correct-answer");
@@ -335,12 +335,12 @@ let showPrompt2 = (function () {
             if (prompt.input[i].value == "") {
                 ok = false;
             }
-            if (i > 0 && option.classList.contains("correct-answer") == true) {
+            if (i > 0 && option.classList.contains("correct-answer")) {
                 id = i - 1;
             }
         }
         e.preventDefault();
-        if (ok == false) {
+        if (!ok) {
             alert("Please fill all required field");
         } else if (id == -1) {
             alert("Please check the correct answer by clicking on its letter")
@@ -438,7 +438,6 @@ function get_id() {
         method: 'GET'
     }).then((response) => response.json())
         .then((responseData) => {
-            // console.log(responseData);
             return responseData;
         })
         .catch(function (error) {
@@ -462,9 +461,6 @@ async function createNewQuiz(quiz_name) {
             let child2 = document.createElement("a");
             console.log(response);
             child2.href = "workspace?id=" + response['id'];
-            // console.log("child2.href")
-            // console.log(child2.href); // Promise
-            // console.log("child2.href")
             child2.appendChild(document.createTextNode(quiz_name));
             child1.appendChild(child2);
             node.appendChild(child1);
@@ -563,12 +559,6 @@ if (slider != null)
         });
     });
 
-
-// document.querySelector('#go_to_previous_quiz:first-child').onclick = function(event) {
-//   window.location.href = "/workspace?id={{quiz['id']}}";
-// }
-
-
 let exit_sharing = document.querySelector(".exit-icon");
 exit_sharing.addEventListener("click", function () {
     this.classList.toggle("active");
@@ -577,7 +567,6 @@ exit_sharing.addEventListener("click", function () {
     let qr = document.querySelector(".prompt3");
     qr.classList.remove("prompt3--show");
 });
-
 
 
 let menuBtn = document.querySelector('.menu_btn');
