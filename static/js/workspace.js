@@ -62,7 +62,7 @@ function createOption(Letter, correct, option) {
     child2.addEventListener("click", function () {
         let content = this.parentElement;
         content = content.parentElement;
-        NodeList.prototype.forEach = Array.prototype.forEach
+        NodeList.prototype.forEach = Array.prototype.forEach;
         let children = content.childNodes;
         children.forEach(function (item) {
             if (item.nodeName.toLowerCase() == 'div') {
@@ -188,9 +188,9 @@ function QREvent(child) {
     let img = document.querySelector(".prompt3 img");
     img.addEventListener("click", function () {
         window.location.href = "/quiz/" + quizId;
-    })
+    });
     parametersJson.data = window.location.hostname + "/invited/" + quizId;
-    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}`; // Stitch Together all Paramenters
     img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`;
     return child;
 }
@@ -261,7 +261,7 @@ function updateLisners() {
         element.addEventListener('click', function () {
             let content = this.parentElement;
             content = content.parentElement;
-            NodeList.prototype.forEach = Array.prototype.forEach
+            NodeList.prototype.forEach = Array.prototype.forEach;
             let children = content.childNodes;
             children.forEach(function (item) {
                 if (item.nodeName.toLowerCase() === 'div') {
@@ -287,7 +287,7 @@ let showPrompt2 = (function () {
         text: promptEl.querySelector('.prompt__text'),
         input: promptEl.querySelectorAll('.prompt__input'),
         submit: promptEl.querySelector('.prompt__submit')
-    }
+    };
 
     prompt.form.addEventListener('submit', hide, false);
 
@@ -315,7 +315,7 @@ let showPrompt2 = (function () {
         if (!ok) {
             alert("Please fill all required field");
         } else if (id == -1) {
-            alert("Please check the correct answer by clicking on its letter")
+            alert("Please check the correct answer by clicking on its letter");
         } else {
             prompt.el.classList.remove('prompt2--show');
             _cb.call(prompt, prompt.input[0].value, prompt.input[1].value, prompt.input[2].value, prompt.input[3].value, prompt.input[4].value);
@@ -344,7 +344,7 @@ let showPrompt = (function () {
         text: promptEl.querySelector('.prompt__text'),
         input: promptEl.querySelector('.prompt__input'),
         submit: promptEl.querySelector('.prompt__submit')
-    }
+    };
 
     prompt.form.addEventListener('submit', hide, false);
 
@@ -361,7 +361,7 @@ let showPrompt = (function () {
         } else {
             prompt.el.classList.remove('prompt--show');
             _cb.call(prompt, prompt.input.value);
-            let inpuVals = document.querySelectorAll(".prompt .input-field input")
+            let inpuVals = document.querySelectorAll(".prompt .input-field input");
             for (let i = 0; i < inpuVals.length; i++) {
                 inpuVals[i].value = "";
             }
@@ -383,7 +383,7 @@ addQuiz.addEventListener('click', function () {
             createNewQuiz(quizName);
         }
     });
-})
+});
 
 document.querySelector(".prompt__cancel").addEventListener('click', function () {
     document.querySelector('.prompt').classList.remove('prompt--show');
@@ -462,7 +462,6 @@ async function createNewQuiz(quizName) {
                 })
             });
                     content.parentNode.removeChild(content);
-                    checkForExtraQuestions();
                 }
             });
             child4 = createSection("i", "fa fa-trash");
@@ -541,4 +540,4 @@ let menuBtn = document.querySelector('.menu_btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
     menu.classList.toggle('active');
-})
+});

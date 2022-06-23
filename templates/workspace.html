@@ -109,9 +109,11 @@
                 {% if quiz_list %}
                 {% for quiz in quiz_list %}
                 <div  class="previous-quiz quiz-1">
-                    <div id="go_to_previous_quiz">
-                        <a href="/workspace?id={{quiz['id']}}">{{quiz['name']}}</a>
-                    </div>
+                    <a id="go_to_previous_quiz" href="/workspace?id={{quiz['id']}}">
+                        <div>
+                            {{quiz['name']}}
+                        </div>
+                    </a>
                     <div class="icons-container">
                         <button class="share-quiz icon">
                             <i class="fa fa-share "></i>
@@ -123,7 +125,7 @@
                 </div>
                 {% endfor %}
             {% endif %}
-                <div class="add-quiz previous-quiz flex-center">
+                <div class="previous-quiz flex-center add-quiz ">
                     <button class="icon" style="margin-left: auto;">
                         <i class="fa fa-add"></i>
                     </button>
