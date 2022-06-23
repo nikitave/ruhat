@@ -32,7 +32,6 @@ checkForExtraContent(quizzes_list, ".add-quiz");
 checkForExtraContent(question_list, ".add-question");
 document.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-        document.execCommand('insertLineBreak');
         event.preventDefault();
     }
 });
@@ -200,28 +199,25 @@ function QREvent(child) {
 /* global helpers*/
 
 dropdown_btn.addEventListener("click", function () {
-    let menu = document.querySelector(".dropdown-menu");
-    xorClass(menu, "show-menu");
+    xorClass(document.querySelector(".dropdown-menu"), "show-menu");
 });
 
 function updateLisners() {
-    let coll = document.getElementsByClassName("collapsible");
-    for (let i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            xorClass(this, "rotate");
-            this.classList.toggle("active");
-            let content = (this.parentElement).parentElement;
-            content = content.lastElementChild;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
+    Array.from(document.getElementsByClassName("collapsible")).forEach(element=>{
+        element.addEventListener("click", function () {
+        xorClass(this, "rotate");
+        this.classList.toggle("active");
+        let content = (this.parentElement).parentElement;
+        content = content.lastElementChild;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
         });
-    }
-    let delete_quiz = document.getElementsByClassName("delete-quiz");
-    for (let i = 0; i < delete_quiz.length; i++) {
-        delete_quiz[i].addEventListener("click", function () {
+    });
+    Array.from(document.getElementsByClassName("delete-quiz")).forEach(element=>{
+        element.addEventListener("click", function () {
             this.classList.toggle("active");
             let content = (this.parentElement).parentElement;
             if (confirm("Are you sure you want to delete this quiz?")) {
@@ -238,55 +234,32 @@ function updateLisners() {
                 content.parentNode.removeChild(content);
             }
         });
-    }
-    let share_quiz = document.getElementsByClassName("share-quiz");
-    for (let i = 0; i < share_quiz.length; i++) {
-        share_quiz[i].addEventListener("click", function () {
+    });
+    Array.from(document.getElementsByClassName("share-quiz")).forEach(element=>{
+        element.addEventListener("click", function () {
             QREvent(this);
         });
-    }
-    let delete_question = document.getElementsByClassName("delete-question");
-    for (let i = 0; i < delete_question.length; i++) {
-        delete_question[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            let content = this.parentElement;
-            content = content.parentElement;
-            if (confirm("Are you sure you want to delete this question?")) {
-                fetch('/workspace', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'DELETE',
-                body: JSON.stringify({
-                    'question': content.firstElementChild.firstElementChild.textContent,
-                    'object_to_delete': 'question',
-                })
-            });
-                content.parentNode.removeChild(content);
-                checkForExtraQuestions();
-            }
-        });
-    }
-    let expan_icon = document.getElementsByClassName("expand-icon");
-    for (let i = 0; i < expan_icon.length; i++) {
-        expan_icon[i].addEventListener("click", function () {
+    });
+    Array.from(document.getElementsByClassName("delete-question")).forEach(element=>{
+        element = addDeleteEvent(element);
+    });
+    Array.from(document.getElementsByClassName("expand-icon")).forEach(element=>{
+        element.addEventListener("click", function () {
             this.classList.toggle("active");
             let content = (this.parentElement).parentElement;
             content = content.lastElementChild;
             xorClass(content, "add-border");
         });
-    }
-    let editable_text = document.getElementsByClassName("option-statement");
-    for (let i = 0; i < editable_text.length; i++) {
-        editable_text[i].addEventListener("keydown", function () {
+    });
+    Array.from(document.getElementsByClassName("option-statement")).forEach(element=>{
+        element.addEventListener("keydown", function () {
             let content = this.parentElement;
             content = content.parentElement;
             content.style.maxHeight = "100%";
         });
-    }
-    let options = document.getElementsByClassName("letter");
-    for (let i = 0; i < options.length; i++) {
-        options[i].addEventListener('click', function () {
+    });
+    Array.from(document.getElementsByClassName("letter")).forEach(element=>{
+        element.addEventListener('click', function () {
             let content = this.parentElement;
             content = content.parentElement;
             NodeList.prototype.forEach = Array.prototype.forEach
@@ -298,7 +271,7 @@ function updateLisners() {
             });
             this.classList.add("correct-answer");
         });
-    }
+    });
 }
 
 updateLisners();
@@ -454,7 +427,7 @@ async function createNewQuiz(quiz_name) {
         body: JSON.stringify({
             'quiz_name': quiz_name,
         })
-    }).then(function (response) {
+    }).then(function () {
         get_id().then(function (response) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
@@ -538,7 +511,6 @@ function createNewQuestion(question_statement, option_1, option_2, option_3, opt
             console.log(error);
         });
     let questions_list = document.querySelector(".questions-list");
-    let add_question = document.querySelector(".add-question");
     questions_list.insertBefore(createQuestionElement(question_statement, option_1, option_2, option_3, option_4), add_question);
 }
 
@@ -561,9 +533,6 @@ if (slider != null)
 
 let exit_sharing = document.querySelector(".exit-icon");
 exit_sharing.addEventListener("click", function () {
-    this.classList.toggle("active");
-    let quiz = (this.parentElement).parentElement;
-    quiz = (quiz.firstElementChild).firstElementChild;
     let qr = document.querySelector(".prompt3");
     qr.classList.remove("prompt3--show");
 });
