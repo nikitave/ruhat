@@ -97,9 +97,9 @@ def quiz(quiz_id):
 
             return render_template('questionPage.html', question=questions[flask.session['progress']], quiz_id=quiz_id)
         else:
-            flash("The quiz is closed or does not exist.")
+            flash("The quiz is closed")
     else:
-        flash("The quiz is closed or does not exist.")
+        flash("The quiz does not exist.")
     return redirect(url_for('main.home'))
 
 
