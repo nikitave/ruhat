@@ -84,8 +84,7 @@ body {
     opacity: 0;
     visibility: hidden;
     height: 0;
-    transform: translateX(10%);
-    transform: translateY(-10%);
+    transform: translateX(10%) translateY(-10%);
     list-style: none;
     overflow: hidden;
     transition: all 0.5s;
@@ -309,7 +308,6 @@ input:focus+.slider {
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 0 0.3rem 0 0;
-
 }
 
 .questions-list::-webkit-scrollbar {
@@ -651,8 +649,8 @@ form {
 
 .exit-icon {
     position: absolute;
-    right: 0rem;
-    top: 0rem;
+    right: 0;
+    top: 0;
     border-left: #005F75 solid 0.2rem;
     border-bottom: #005F75 solid 0.2rem;
     width: 38px;

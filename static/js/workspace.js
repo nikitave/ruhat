@@ -216,23 +216,7 @@ function updateLisners() {
         });
     });
     Array.from(document.getElementsByClassName("delete-quiz")).forEach(element=>{
-        element.addEventListener("click", function () {
-            this.classList.toggle("active");
-            let content = (this.parentElement).parentElement;
-            if (confirm("Are you sure you want to delete this quiz?")) {
-                fetch('/workspace', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        'quiz_url': content.firstElementChild.firstElementChild.getAttribute('href'),
-                        'object_to_delete': 'quiz',
-                    })
-                });
-                content.parentNode.removeChild(content);
-            }
-        });
+        element = addDeleteEvent(element);
     });
     Array.from(document.getElementsByClassName("share-quiz")).forEach(element=>{
         element.addEventListener("click", function () {
@@ -446,24 +430,7 @@ async function createNewQuiz(quizName) {
             child2.append(child3);
             child1.append(child2);
             child3 = createSection("button", "delete-quiz icon");
-            child3.addEventListener("click", function () {
-                this.classList.toggle("active");
-                let content = this.parentElement;
-                content = content.parentElement;
-                if (confirm("Are you sure you want to delete this question?")) {
-                    fetch('/workspace', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'DELETE',
-                body: JSON.stringify({
-                    'question': content,
-                    'object_to_delete': 'question',
-                })
-            });
-                    content.parentNode.removeChild(content);
-                }
-            });
+            child3 = addDeleteEvent(child3);
             child4 = createSection("i", "fa fa-trash");
             child3.appendChild(child4);
             child1.append(child3);
