@@ -32,7 +32,6 @@ checkForExtraContent(quizzes_list, ".add-quiz");
 checkForExtraContent(question_list, ".add-question");
 document.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-        document.execCommand('insertLineBreak');
         event.preventDefault();
     }
 });
@@ -200,25 +199,24 @@ function QREvent(child) {
 /* global helpers*/
 
 dropdown_btn.addEventListener("click", function () {
-    let menu = document.querySelector(".dropdown-menu");
-    xorClass(menu, "show-menu");
+    xorClass(document.querySelector(".dropdown-menu"), "show-menu");
 });
 
 function updateLisners() {
     let coll = document.getElementsByClassName("collapsible");
-    for (let i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            xorClass(this, "rotate");
-            this.classList.toggle("active");
-            let content = (this.parentElement).parentElement;
-            content = content.lastElementChild;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
+    Array.from(coll).forEach(element=>{
+        element.addEventListener("click", function () {
+        xorClass(this, "rotate");
+        this.classList.toggle("active");
+        let content = (this.parentElement).parentElement;
+        content = content.lastElementChild;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
         });
-    }
+    });
     let delete_quiz = document.getElementsByClassName("delete-quiz");
     for (let i = 0; i < delete_quiz.length; i++) {
         delete_quiz[i].addEventListener("click", function () {
