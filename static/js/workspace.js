@@ -1,21 +1,20 @@
-/* global helpers*/
-let quizzes_list = document.querySelector(".quizzes-list");
-let question_list = document.querySelector(".questions-list");
-let dropdown_btn = document.querySelector(".edit-profile");
+let quizzesList = document.querySelector(".quizzes-list");
+let questionList = document.querySelector(".questions-list");
+let dropdownBtn = document.querySelector(".edit-profile");
 
-function addClass(element, new_class) {
-    element.classList.add(new_class);
+function addClass(element, newClass) {
+    element.classList.add(newClass);
 }
 
-function removeClass(element, new_class) {
-    element.classList.remove(new_class);
+function removeClass(element, newClass) {
+    element.classList.remove(newClass);
 }
 
-function xorClass(element, new_class) {
-    if (element.classList.contains(new_class)) {
-        removeClass(element, new_class);
+function xorClass(element, newClass) {
+    if (element.classList.contains(newClass)) {
+        removeClass(element, newClass);
     } else {
-        addClass(element, new_class);
+        addClass(element, newClass);
     }
 }
 
@@ -28,17 +27,17 @@ function checkForExtraContent(container, shadowPlace) {
     }
 }
 
-checkForExtraContent(quizzes_list, ".add-quiz");
-checkForExtraContent(question_list, ".add-question");
+checkForExtraContent(quizzesList, ".add-quiz");
+checkForExtraContent(questionList, ".add-question");
 document.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         event.preventDefault();
     }
 });
 
-function createSection(name, new_class) {
+function createSection(name, newClass) {
     let ret = document.createElement(name);
-    ret.className = new_class;
+    ret.className = newClass;
     return ret;
 }
 
@@ -52,7 +51,7 @@ function addCollapsibleEvent(child) {
         } else {
             content.style.maxHeight = content.scrollHeight + "px";
         }
-        checkForExtraContent(question_list, ".add-question");
+        checkForExtraContent(questionList, ".add-question");
     });
     return child;
 }
@@ -105,18 +104,18 @@ function addDeleteEvent(child) {
                 })
             });
             content.parentNode.removeChild(content);
-            checkForExtraContent(question_list, ".add-question");
+            checkForExtraContent(questionList, ".add-question");
         }
     });
     return child;
 }
 
-function createQuestionElement(question_statement, option_1, option_2, option_3, option_4) {
+function createQuestionElement(questionStatement, option1, option2, option3, option4) {
     let node = createSection("div", "question_1");
     let panel = createSection("div", "question-panel flex-center");
     let child1 = createSection("div", "question-statement");
     child1.contentEditable = "true";
-    child1.appendChild(document.createTextNode(question_statement));
+    child1.appendChild(document.createTextNode(questionStatement));
     panel.appendChild(child1);
     child1 = createSection("button", "icon delete-question");
     child1 = addDeleteEvent(child1);
@@ -130,7 +129,7 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
     panel.appendChild(child1);
     node.appendChild(panel);
     panel = createSection("div", "options-container");
-    let options = [option_1, option_2, option_3, option_4];
+    let options = [option1, option2, option3, option4];
     let chars = ["A", "B", "C", "D"];
     for (let i = 0; i < options.length; i++) {
         child1 = createOption(chars[i], (id == i), options[i]);
@@ -140,12 +139,12 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
     return node;
 }
 
-quizzes_list.addEventListener('scroll', function () {
-    checkForExtraContent(quizzes_list, ".add-quiz");
+quizzesList.addEventListener('scroll', function () {
+    checkForExtraContent(quizzesList, ".add-quiz");
 });
-if (question_list != null)
-    question_list.addEventListener('scroll', function () {
-        checkForExtraContent(question_list, ".add-question");
+if (questionList != null)
+    questionList.addEventListener('scroll', function () {
+        checkForExtraContent(questionList, ".add-question");
     });
 
 function isNumber(char) {
@@ -167,15 +166,15 @@ function QREvent(child) {
     quiz = (quiz.firstElementChild).firstElementChild;
     let qr = document.querySelector(".prompt3");
     qr.classList.add("prompt3--show");
-    let quiz_link = quiz.href;
-    let quiz_id = "";
-    for (let i = quiz_link.length - 1; i >= 0; i--) {
-        if (isNumber(quiz_link[i])) {
-            quiz_id += quiz_link.charAt(i);
+    let quizLink = quiz.href;
+    let quizId = "";
+    for (let i = quizLink.length - 1; i >= 0; i--) {
+        if (isNumber(quizLink[i])) {
+            quizId += quizLink.charAt(i);
         } else break;
     }
-    quiz_id = quiz_id.split("").reverse().join("");
-    qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quiz_id;
+    quizId = quizId.split("").reverse().join("");
+    qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quizId;
 
     let parametersJson = {
         "size": 300, // Size of Qr Code
@@ -188,9 +187,9 @@ function QREvent(child) {
     let parameters;
     let img = document.querySelector(".prompt3 img");
     img.addEventListener("click", function () {
-        window.location.href = "/quiz/" + quiz_id;
+        window.location.href = "/quiz/" + quizId;
     })
-    parametersJson.data = window.location.hostname + "/invited/" + quiz_id;
+    parametersJson.data = window.location.hostname + "/invited/" + quizId;
     parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
     img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`;
     return child;
@@ -198,7 +197,7 @@ function QREvent(child) {
 
 /* global helpers*/
 
-dropdown_btn.addEventListener("click", function () {
+dropdownBtn.addEventListener("click", function () {
     xorClass(document.querySelector(".dropdown-menu"), "show-menu");
 });
 
@@ -320,10 +319,10 @@ let showPrompt2 = (function () {
         } else {
             prompt.el.classList.remove('prompt2--show');
             _cb.call(prompt, prompt.input[0].value, prompt.input[1].value, prompt.input[2].value, prompt.input[3].value, prompt.input[4].value);
-            let inpu_vals = document.querySelectorAll(".prompt2 .input-field input");
+            let inpuVals = document.querySelectorAll(".prompt2 .input-field input");
             let options = document.querySelectorAll(".prompt2 .letter");
-            for (let i = 0; i < inpu_vals.length; i++) {
-                inpu_vals[i].value = "";
+            for (let i = 0; i < inpuVals.length; i++) {
+                inpuVals[i].value = "";
             }
             for (let i = 0; i < options.length; i++) {
                 options[i].classList.remove("correct-answer");
@@ -362,9 +361,9 @@ let showPrompt = (function () {
         } else {
             prompt.el.classList.remove('prompt--show');
             _cb.call(prompt, prompt.input.value);
-            let inpu_vals = document.querySelectorAll(".prompt .input-field input")
-            for (let i = 0; i < inpu_vals.length; i++) {
-                inpu_vals[i].value = "";
+            let inpuVals = document.querySelectorAll(".prompt .input-field input")
+            for (let i = 0; i < inpuVals.length; i++) {
+                inpuVals[i].value = "";
             }
         }
     }
@@ -375,13 +374,13 @@ let showPrompt = (function () {
 })();
 
 
-let add_quiz = document.querySelector(".add-quiz");
-add_quiz.addEventListener('click', function () {
-    let quiz_name = "";
+let addQuiz = document.querySelector(".add-quiz");
+addQuiz.addEventListener('click', function () {
+    let quizName = "";
     showPrompt('You need to provide your quiz name to continue!', function (answer) {
-        quiz_name = answer;
-        if (quiz_name != "") {
-            createNewQuiz(quiz_name);
+        quizName = answer;
+        if (quizName != "") {
+            createNewQuiz(quizName);
         }
     });
 })
@@ -393,17 +392,17 @@ document.querySelector(".prompt__cancel2").addEventListener('click', function ()
     document.querySelector('.prompt2').classList.remove('prompt2--show');
 });
 
-let add_question = document.querySelector(".add-question");
-if (add_question != null)
-    add_question.addEventListener('click', function () {
-        showPrompt2('You need to provide information about the question to continue!', function (question_name, option_1, option_2, option_3, option_4) {
-            if (question_name != "") {
-                createNewQuestion(question_name, option_1, option_2, option_3, option_4);
+let addQuestion = document.querySelector(".add-question");
+if (addQuestion != null)
+    addQuestion.addEventListener('click', function () {
+        showPrompt2('You need to provide information about the question to continue!', function (questionName, option1, option2, option3, option4) {
+            if (questionName != "") {
+                createNewQuestion(questionName, option1, option2, option3, option4);
             }
         });
     });
 
-function get_id() {
+function getId() {
     return fetch('/api/get_quizzes_from_user', {
         headers: {
             'Content-Type': 'application/json'
@@ -418,23 +417,23 @@ function get_id() {
         });
 }
 
-async function createNewQuiz(quiz_name) {
+async function createNewQuiz(quizName) {
     fetch('/workspace', {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            'quiz_name': quiz_name,
+            'quiz_name': quizName,
         })
     }).then(function () {
-        get_id().then(function (response) {
+        getId().then(function (response) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
             let child2 = document.createElement("a");
             console.log(response);
             child2.href = "workspace?id=" + response['id'];
-            child2.appendChild(document.createTextNode(quiz_name));
+            child2.appendChild(document.createTextNode(quizName));
             child1.appendChild(child2);
             node.appendChild(child1);
             child1 = createSection("div", "icons-container");
@@ -472,7 +471,7 @@ async function createNewQuiz(quiz_name) {
             node.append(child1);
             let quizzes = document.querySelector(".quizzes-list");
             // wait for the child2.href
-            quizzes.insertBefore(node, add_quiz);
+            quizzes.insertBefore(node, addQuiz);
         });
 
     })
@@ -483,18 +482,18 @@ async function createNewQuiz(quiz_name) {
 }
 
 
-function createNewQuestion(question_statement, option_1, option_2, option_3, option_4) {
+function createNewQuestion(questionStatement, option1, option2, option3, option4) {
     fetch('/workspace', {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            'question': question_statement,
-            'option_A': option_1,
-            'option_B': option_2,
-            'option_C': option_3,
-            'option_D': option_4,
+            'question': questionStatement,
+            'option_A': option1,
+            'option_B': option2,
+            'option_C': option3,
+            'option_D': option4,
             'right_option': id,
         })
     }).then(function (response) {
@@ -510,8 +509,8 @@ function createNewQuestion(question_statement, option_1, option_2, option_3, opt
         .catch(function (error) {
             console.log(error);
         });
-    let questions_list = document.querySelector(".questions-list");
-    questions_list.insertBefore(createQuestionElement(question_statement, option_1, option_2, option_3, option_4), add_question);
+    let questionsList = document.querySelector(".questions-list");
+    questionsList.insertBefore(createQuestionElement(questionStatement, option1, option2, option3, option4), addQuestion);
 }
 
 
@@ -519,20 +518,20 @@ let slider = document.querySelector(".switch input");
 if (slider != null)
     slider.addEventListener("click", function () {
         xorClass((this.parentElement).lastElementChild, "slider-clicked");
-        slider_state = document.querySelector(".slider").classList.contains('slider-clicked');
+        sliderState = document.querySelector(".slider").classList.contains('slider-clicked');
         fetch('/workspace', {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'PUT',
             body: JSON.stringify({
-                'state': slider_state,
+                'state': sliderState,
             })
         });
     });
 
-let exit_sharing = document.querySelector(".exit-icon");
-exit_sharing.addEventListener("click", function () {
+let exitSharing = document.querySelector(".exit-icon");
+exitSharing.addEventListener("click", function () {
     let qr = document.querySelector(".prompt3");
     qr.classList.remove("prompt3--show");
 });
