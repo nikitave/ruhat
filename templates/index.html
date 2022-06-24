@@ -32,21 +32,6 @@
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <input type="submit" value="login" class="btn solid">
-                <p class="social-text plain-text">Or sign in using social platforms</p>
-                <div class="social-media">
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </form>
 
             <form action="{{ url_for('auth.register',mode='sign-up-mode') }}" class="sign-up-form" method="POST">
@@ -71,7 +56,6 @@
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <input type="submit" value="Sign up" class="btn solid">
-                <p class="social-text plain-text">Or sign up using social platforms</p>
             </form>
         </div>
     </div>
