@@ -216,7 +216,7 @@ function updateLisners() {
         });
     });
     Array.from(document.getElementsByClassName("delete-quiz")).forEach(element=>{
-        element = addDeleteEvent(element);
+        addDeleteEvent(element);
     });
     Array.from(document.getElementsByClassName("share-quiz")).forEach(element=>{
         element.addEventListener("click", function () {
@@ -224,7 +224,7 @@ function updateLisners() {
         });
     });
     Array.from(document.getElementsByClassName("delete-question")).forEach(element=>{
-        element = addDeleteEvent(element);
+        addDeleteEvent(element);
     });
     Array.from(document.getElementsByClassName("expand-icon")).forEach(element=>{
         element.addEventListener("click", function () {
@@ -305,12 +305,12 @@ let showPrompt2 = (function () {
             _cb.call(prompt, prompt.input[0].value, prompt.input[1].value, prompt.input[2].value, prompt.input[3].value, prompt.input[4].value);
             let inpuVals = document.querySelectorAll(".prompt2 .input-field input");
             let options = document.querySelectorAll(".prompt2 .letter");
-            for (let i = 0; i < inpuVals.length; i++) {
-                inpuVals[i].value = "";
-            }
-            for (let i = 0; i < options.length; i++) {
-                options[i].classList.remove("correct-answer");
-            }
+            Array.from(inpuVals).forEach(element=>{
+                element.value = "";
+            });
+            Array.from(options).forEach(element=>{
+                element.classList.remove("correct-answer");
+            });
         }
     }
 
@@ -346,9 +346,9 @@ let showPrompt = (function () {
             prompt.el.classList.remove('prompt--show');
             _cb.call(prompt, prompt.input.value);
             let inpuVals = document.querySelectorAll(".prompt .input-field input");
-            for (let i = 0; i < inpuVals.length; i++) {
-                inpuVals[i].value = "";
-            }
+            Array.from(inpuVals).forEach(element=>{
+                element.value = "";
+            });
         }
     }
 
@@ -415,11 +415,11 @@ async function createNewQuiz(quizName) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
             let child2 = document.createElement("a");
-            console.log(response);
+            child2.setAttribute("id","go_to_previous_quiz");
             child2.href = "workspace?id=" + response['id'];
-            child2.appendChild(document.createTextNode(quizName));
-            child1.appendChild(child2);
-            node.appendChild(child1);
+            child1.appendChild(document.createTextNode(quizName));
+            child2.appendChild(child1);
+            node.appendChild(child2);
             child1 = createSection("div", "icons-container");
             child2 = createSection("button", "share-quiz icon");
             child2.addEventListener("click", function () {
@@ -465,8 +465,8 @@ function createNewQuestion(questionStatement, option1, option2, option3, option4
     }).then(function (response) {
         if (response.ok) {
             response.json()
-                .then(function (response) {
-                    console.log(response);
+                .then(function (response2) {
+                    console.log(response2);
                 });
         } else {
             throw Error('Something went wrong');
@@ -484,7 +484,7 @@ let slider = document.querySelector(".switch input");
 if (slider != null)
     slider.addEventListener("click", function () {
         xorClass((this.parentElement).lastElementChild, "slider-clicked");
-        sliderState = document.querySelector(".slider").classList.contains('slider-clicked');
+        let sliderState = document.querySelector(".slider").classList.contains('slider-clicked');
         fetch('/workspace', {
             headers: {
                 'Content-Type': 'application/json'
