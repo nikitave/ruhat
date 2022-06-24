@@ -10,7 +10,7 @@ body {
     flex-direction: column;
 }
 
-.main_label {
+.main-label {
     font-size: 100px;
     font-weight: bold;
     display: flex;
@@ -19,7 +19,7 @@ body {
     height: 30vh;
 }
 
-.label_passed {
+.label-passed {
     font-size: 50px;
     height: 30vh;
     display: flex;
@@ -28,7 +28,7 @@ body {
     text-align: center;
 }
 
-.label_scored {
+.label-scored {
     font-size: 50px;
     height: 30vh;
     display: flex;
@@ -36,7 +36,7 @@ body {
     align-items: center;
 }
 
-.div_button {
+.div-button {
     height: 8vh;
     display: flex;
     justify-content: center;
@@ -72,18 +72,17 @@ body {
 
 
 @media(max-width: 414px) {
-    
-    .main_label {
+    .main-label {
         font-size: 50px;
         height: 28vh;
     }
 
-    .label_passed {
+    .label-passed {
         font-size: 30px;
         height: 28vh;
     }
 
-    .label_scored {
+    .label-scored {
         font-size: 30px;
         height: 28vh;
     }

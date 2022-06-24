@@ -8,18 +8,18 @@
     <title>Ruhat</title>
 </head>
 <body>
-<div class="question_page">
+<div class="question-page">
     <div class="exit">
-        <a href="{{ url_for('main.home') }}" class="exit_button">
-            <img class="exit_image" src="../static/img/exit.png" alt="">
+        <a href="{{ url_for('main.home') }}" class="exit-button">
+            <img class="exit-image" src="../static/img/exit.png" alt="">
         </a>
 
     </div>
-    <div class="up_item">
+    <div class="up-item">
         <p class="question">{{ question.question }}</p>
     </div>
     <div>
-        <form class="down_item" action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST">
+        <form class="down-item" action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST">
             {% for i in range(4) %}
                 <button type="submit" class="item {{ ['ul','ur','dl','dr'][i] }}" name="{{ i }}">
                     {{ question.options[i] }}
