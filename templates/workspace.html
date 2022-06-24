@@ -4,43 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous">
-
-    </script>
     <title>Ruhat</title>
     <link rel="stylesheet" href="../static/css/workingspace.css">
 </head>
 <body>
     <div class="prompt">
-        <form class="prompt__form" method="POST">
-            <p class="prompt__text"><p>
+        <form class="prompt-form" method="POST">
+            <p class="prompt-text"><p>
             <div class="input-field question-holder">
-                <input type="text" name="quiz_name" class="prompt__input" placeholder="Enter your quiz name"/>
+                <input type="text" name="quiz_name" class="prompt-input" placeholder="Enter your quiz name"/>
             </div>
-            <div class="btn_container">
-                <input type="submit" class="prompt__submit" value="proceed">
-                <button type="button" class="prompt__cancel"> Cancel </button>
+            <div class="btn-container">
+                <input type="submit" class="prompt-submit" value="proceed">
+                <button type="button" class="prompt-cancel"> Cancel </button>
             </div>
         </form>  
     </div>
 
     <div class="prompt2">
-        <form class="prompt__form2" method="POST">
-          <p class="prompt__text"><p>
+        <form class="prompt-form2" method="POST">
+          <p class="prompt-text"></p>
             <div class="input-field question-holder">
-                <input type="text" name="question" class="prompt__input" placeholder="Enter your question"/>
+                <input type="text" name="question" class="prompt-input" placeholder="Enter your question"/>
             </div>
             <div class="options-container2">
-                <div class="option input-field"><div class="letter plain-text">A</div><div class="option-statement"><input type="text" class="prompt__input" name="option_A" placeholder="Enter the first option"/></div></div>
-                <div class="option input-field"><div class="letter plain-text">B</div><div class="option-statement"><input type="text" class="prompt__input" name="option_B" placeholder="Enter the second option"/></div></div>
-                <div class="option input-field"><div class="letter plain-text">C</div><div class="option-statement"><input type="text" class="prompt__input" name="option_C" placeholder="Enter the third option"/></div></div>
-                <div class="option input-field"><div class="letter plain-text">D</div><div class="option-statement"><input type="text" class="prompt__input" name="option_D" placeholder="Enter the fourth option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">A</div><div class="option-statement"><input type="text" class="prompt-input" name="option_A" placeholder="Enter the first option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">B</div><div class="option-statement"><input type="text" class="prompt-input" name="option_B" placeholder="Enter the second option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">C</div><div class="option-statement"><input type="text" class="prompt-input" name="option_C" placeholder="Enter the third option"/></div></div>
+                <div class="option input-field"><div class="letter plain-text">D</div><div class="option-statement"><input type="text" class="prompt-input" name="option_D" placeholder="Enter the fourth option"/></div></div>
             </div>
 
           
-            <div class="btn_container">
-                <input type="submit" class="prompt__submit" value="proceed" />
-                <button type="button" class="prompt__cancel2"> Cancel </button>
+            <div class="btn-container">
+                <input type="submit" class="prompt-submit" value="proceed" />
+                <button type="button" class="prompt-cancel2"> Cancel </button>
             </div>
         </form>  
     </div>
@@ -50,9 +47,9 @@
             <div class="exit-icon">
                 <i class="fa fa-times fa-2x"></i>
             </div>
-            <p class="prompt__text"></p>
+            <p class="prompt-text"></p>
             <div class="img-container">
-                <img class="prompt__img" alt="" src>
+                <img class="prompt-img" alt="" src="">
             </div>
             <div style="width: 100%;display:flex;">
                 <button class="btn solid">
@@ -70,29 +67,12 @@
                 <a href="#" class="main-title">
                     Ruhat!
                 </a>
-                <div class="menu_btn">
+                <div class="menu-btn">
                     <span></span>
-             
-            </div>
+                </div>
             <div class="profile-container">
                 <div class="profile-icon" data-initials="AA"><button class="edit-profile"><i class="fa-solid fa-edit fa-bold"></i></button></div>
                 <ul name="settings" class="dropdown-menu">
-                    <a href="#">
-                        <li class="drop-down-item">
-                            change password
-                        </li>
-                    </a>
-                    <a href="#">
-                        <li class="drop-down-item">
-                            Change avatar
-                        </li>
-                    </a>
-                    <a href="#">
-                        <li class="drop-down-item">
-                            FAQ
-                        </li>
-                    </a>
-
                     <a href="{{url_for('auth.logout')}}">
                         <li class="drop-down-item">
                             logout
@@ -109,7 +89,7 @@
                 {% if quiz_list %}
                 {% for quiz in quiz_list %}
                 <div  class="previous-quiz quiz-1">
-                    <a id="go_to_previous_quiz" href="/workspace?id={{quiz['id']}}">
+                    <a id="go-to-previous-quiz" href="/workspace?id={{quiz['id']}}">
                         <div>
                             {{quiz['name']}}
                         </div>
@@ -139,7 +119,7 @@
             {% set options_letters = ["A","B","C","D"]%}
             {% if current_quiz.name != null %}
             <div class="quiz-header">
-                <h2 class="quiz_name">{{current_quiz.name}}</h2>
+                <h2 class="quiz-name">{{current_quiz.name}}</h2>
                 <label class="switch">
 
                             {% if current_quiz['opened']==1 %}
@@ -157,7 +137,7 @@
 
             <div class="questions-list">
                 {% for question in current_quiz.questions %}
-                <div class="question_1">
+                <div class="question-1">
                     <div class="question-panel flex-center">
                         <div class="question-statement" contenteditable="true">
                             {{question.question}}
@@ -199,5 +179,7 @@
     </div>
     </div>
     <script src="../static/js/workspace.js"></script>
+    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous">
+    </script>
 </body>
 </html>

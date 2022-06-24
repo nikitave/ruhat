@@ -5,7 +5,6 @@
     <title>Ruhat</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
     <title>Ruhat</title>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
@@ -32,21 +31,6 @@
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <input type="submit" value="login" class="btn solid">
-                <p class="social-text plain-text">Or sign in using social platforms</p>
-                <div class="social-media">
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
             </form>
 
             <form action="{{ url_for('auth.register',mode='sign-up-mode') }}" class="sign-up-form" method="POST">
@@ -71,7 +55,6 @@
                     <input type="password" placeholder="Password" name="password" required>
                 </div>
                 <input type="submit" value="Sign up" class="btn solid">
-                <p class="social-text plain-text">Or sign up using social platforms</p>
             </form>
         </div>
     </div>
@@ -96,5 +79,6 @@
     </div>
 </div>
 <script src="../static/js/main.js"></script>
+<script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
 </body>
 </html>
