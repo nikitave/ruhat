@@ -85,7 +85,7 @@ def post_answer():
 def get_result():
     try:
         sorted_list_of_players = result().json['players']
-        print(sorted_list_of_players)
+        # print(sorted_list_of_players)
 
         for index in range(len(sorted_list_of_players)):
             if sorted_list_of_players[index]['name'] == request.args['name']:
@@ -105,6 +105,20 @@ def close_quiz():
         quiz.opened = False
         quiz_for_deleting = current_quiz.query.filter_by(id=int(request.args['id'])).first()
         db.session.delete(quiz_for_deleting)
+        db.session.flush()
+        db.session.commit()
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        return jsonify({"status": "fail", "error": e}), 400
+
+@api.route('/api/open_quiz', methods=["GET"])
+def open_quiz():
+    try:
+        quiz = Quiz.query.filter_by(id=int(request.args['id'])).first()
+        quiz.opened = True
+        running_quiz = current_quiz(quiz)
+        running_quiz.owner = 666
+        db.session.add(running_quiz)
         db.session.flush()
         db.session.commit()
         return jsonify({"status": "success"}), 200

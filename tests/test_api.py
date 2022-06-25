@@ -13,6 +13,16 @@ def client():
         yield client
 
 
+def test_open_quiz(client):
+    id = '666'
+    result = client.get('/api/open_quiz', query_string={"id": id})
+    result_json = result.data.decode('utf8').replace("'", '"')
+    import json
+    data = json.loads(result_json)
+    assert data == {
+        "status": "success"
+    }
+
 def test_get_quiz(client):
     id = '666'
     name = 'TestApi'
