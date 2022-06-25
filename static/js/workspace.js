@@ -1,21 +1,20 @@
-/* global helpers*/
-let quizzes_list = document.querySelector(".quizzes-list");
-let question_list = document.querySelector(".questions-list");
-let dropdown_btn = document.querySelector(".edit-profile");
+let quizzesList = document.querySelector(".quizzes-list");
+let questionList = document.querySelector(".questions-list");
+let dropdownBtn = document.querySelector(".edit-profile");
 
-function addClass(element, new_class) {
-    element.classList.add(new_class);
+function addClass(element, newClass) {
+    element.classList.add(newClass);
 }
 
-function removeClass(element, new_class) {
-    element.classList.remove(new_class);
+function removeClass(element, newClass) {
+    element.classList.remove(newClass);
 }
 
-function xorClass(element, new_class) {
-    if (element.classList.contains(new_class) == true) {
-        removeClass(element, new_class);
+function xorClass(element, newClass) {
+    if (element.classList.contains(newClass)) {
+        removeClass(element, newClass);
     } else {
-        addClass(element, new_class);
+        addClass(element, newClass);
     }
 }
 
@@ -28,18 +27,17 @@ function checkForExtraContent(container, shadowPlace) {
     }
 }
 
-checkForExtraContent(quizzes_list, ".add-quiz");
-checkForExtraContent(question_list, ".add-question");
+checkForExtraContent(quizzesList, ".add-quiz");
+checkForExtraContent(questionList, ".add-question");
 document.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-        document.execCommand('insertLineBreak');
         event.preventDefault();
     }
 });
 
-function createSection(name, new_class) {
+function createSection(name, newClass) {
     let ret = document.createElement(name);
-    ret.className = new_class;
+    ret.className = newClass;
     return ret;
 }
 
@@ -47,13 +45,13 @@ function addCollapsibleEvent(child) {
     child.addEventListener("click", function () {
         xorClass(this, "rotate");
         this.classList.toggle("active");
-        var content = ((this.parentElement).parentElement).lastElementChild;
+        let content = ((this.parentElement).parentElement).lastElementChild;
         if (content.style.maxHeight) {
             content.style.maxHeight = null;
         } else {
             content.style.maxHeight = content.scrollHeight + "px";
         }
-        checkForExtraContent(question_list, ".add-question");
+        checkForExtraContent(questionList, ".add-question");
     });
     return child;
 }
@@ -64,8 +62,8 @@ function createOption(Letter, correct, option) {
     child2.addEventListener("click", function () {
         let content = this.parentElement;
         content = content.parentElement;
-        NodeList.prototype.forEach = Array.prototype.forEach
-        var children = content.childNodes;
+        NodeList.prototype.forEach = Array.prototype.forEach;
+        let children = content.childNodes;
         children.forEach(function (item) {
             if (item.nodeName.toLowerCase() == 'div') {
                 item.childNodes[0].classList.remove("correct-answer");
@@ -106,18 +104,18 @@ function addDeleteEvent(child) {
                 })
             });
             content.parentNode.removeChild(content);
-            checkForExtraContent(question_list, ".add-question");
+            checkForExtraContent(questionList, ".add-question");
         }
     });
     return child;
 }
 
-function createQuestionElement(question_statement, option_1, option_2, option_3, option_4) {
+function createQuestionElement(questionStatement, option1, option2, option3, option4) {
     let node = createSection("div", "question_1");
     let panel = createSection("div", "question-panel flex-center");
     let child1 = createSection("div", "question-statement");
     child1.contentEditable = "true";
-    child1.appendChild(document.createTextNode(question_statement));
+    child1.appendChild(document.createTextNode(questionStatement));
     panel.appendChild(child1);
     child1 = createSection("button", "icon delete-question");
     child1 = addDeleteEvent(child1);
@@ -131,7 +129,7 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
     panel.appendChild(child1);
     node.appendChild(panel);
     panel = createSection("div", "options-container");
-    let options = [option_1, option_2, option_3, option_4];
+    let options = [option1, option2, option3, option4];
     let chars = ["A", "B", "C", "D"];
     for (let i = 0; i < options.length; i++) {
         child1 = createOption(chars[i], (id == i), options[i]);
@@ -141,12 +139,12 @@ function createQuestionElement(question_statement, option_1, option_2, option_3,
     return node;
 }
 
-quizzes_list.addEventListener('scroll', function () {
-    checkForExtraContent(quizzes_list, ".add-quiz");
+quizzesList.addEventListener('scroll', function () {
+    checkForExtraContent(quizzesList, ".add-quiz");
 });
-if (question_list != null)
-    question_list.addEventListener('scroll', function () {
-        checkForExtraContent(question_list, ".add-question");
+if (questionList != null)
+    questionList.addEventListener('scroll', function () {
+        checkForExtraContent(questionList, ".add-question");
     });
 
 function isNumber(char) {
@@ -168,17 +166,17 @@ function QREvent(child) {
     quiz = (quiz.firstElementChild).firstElementChild;
     let qr = document.querySelector(".prompt3");
     qr.classList.add("prompt3--show");
-    let quiz_link = quiz.href;
-    let quiz_id = "";
-    for (let i = quiz_link.length - 1; i >= 0; i--) {
-        if (isNumber(quiz_link[i])) {
-            quiz_id += quiz_link.charAt(i);
+    let quizLink = quiz.href;
+    let quizId = "";
+    for (let i = quizLink.length - 1; i >= 0; i--) {
+        if (isNumber(quizLink[i])) {
+            quizId += quizLink.charAt(i);
         } else break;
     }
-    quiz_id = quiz_id.split("").reverse().join("");
-    qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quiz_id;
+    quizId = quizId.split("").reverse().join("");
+    qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quizId;
 
-    var parametersJson = {
+    let parametersJson = {
         "size": 300, // Size of Qr Code
         "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
         "qrColor": "255-255-255", // Color of Qr Code (In RGB)
@@ -186,119 +184,77 @@ function QREvent(child) {
         "data": "dev.to"
     };
 
-    var parameters;
-    var img = document.querySelector(".prompt3 img");
+    let parameters;
+    let img = document.querySelector(".prompt3 img");
     img.addEventListener("click", function () {
-        window.location.href = "/quiz/" + quiz_id;
-    })
-    parametersJson.data = window.location.hostname + "/invited/" + quiz_id;
-    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}` // Stitch Together all Paramenters
+        window.location.href = "/quiz/" + quizId;
+    });
+    parametersJson.data = window.location.hostname + "/invited/" + quizId;
+    parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}`; // Stitch Together all Paramenters
     img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`;
     return child;
 }
 
 /* global helpers*/
 
-dropdown_btn.addEventListener("click", function () {
-    let menu = document.querySelector(".dropdown-menu");
-    xorClass(menu, "show-menu");
+dropdownBtn.addEventListener("click", function () {
+    xorClass(document.querySelector(".dropdown-menu"), "show-menu");
 });
 
 function updateLisners() {
-    let coll = document.getElementsByClassName("collapsible");
-    for (let i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            xorClass(this, "rotate");
-            this.classList.toggle("active");
-            var content = (this.parentElement).parentElement;
-            content = content.lastElementChild;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
+    Array.from(document.getElementsByClassName("collapsible")).forEach(element=>{
+        element.addEventListener("click", function () {
+        xorClass(this, "rotate");
+        this.classList.toggle("active");
+        let content = (this.parentElement).parentElement;
+        content = content.lastElementChild;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
         });
-    }
-    let delete_quiz = document.getElementsByClassName("delete-quiz");
-    for (let i = 0; i < delete_quiz.length; i++) {
-        delete_quiz[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            let content = (this.parentElement).parentElement;
-            if (confirm("Are you sure you want to delete this quiz?")) {
-                fetch('/workspace', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    method: 'DELETE',
-                    body: JSON.stringify({
-                        'quiz_url': content.firstElementChild.firstElementChild.getAttribute('href'),
-                        'object_to_delete': 'quiz',
-                    })
-                });
-                content.parentNode.removeChild(content);
-            }
-        });
-    }
-    let share_quiz = document.getElementsByClassName("share-quiz");
-    for (let i = 0; i < share_quiz.length; i++) {
-        share_quiz[i].addEventListener("click", function () {
+    });
+    Array.from(document.getElementsByClassName("delete-quiz")).forEach(element=>{
+        addDeleteEvent(element);
+    });
+    Array.from(document.getElementsByClassName("share-quiz")).forEach(element=>{
+        element.addEventListener("click", function () {
             QREvent(this);
         });
-    }
-    let delete_question = document.getElementsByClassName("delete-question");
-    for (let i = 0; i < delete_question.length; i++) {
-        delete_question[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            let content = this.parentElement;
-            content = content.parentElement;
-            if (confirm("Are you sure you want to delete this question?")) {
-                fetch('/workspace', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'DELETE',
-                body: JSON.stringify({
-                    'question': content.firstElementChild.firstElementChild.textContent,
-                    'object_to_delete': 'question',
-                })
-            });
-                content.parentNode.removeChild(content);
-                checkForExtraQuestions();
-            }
-        });
-    }
-    let expan_icon = document.getElementsByClassName("expand-icon");
-    for (let i = 0; i < expan_icon.length; i++) {
-        expan_icon[i].addEventListener("click", function () {
+    });
+    Array.from(document.getElementsByClassName("delete-question")).forEach(element=>{
+        addDeleteEvent(element);
+    });
+    Array.from(document.getElementsByClassName("expand-icon")).forEach(element=>{
+        element.addEventListener("click", function () {
             this.classList.toggle("active");
             let content = (this.parentElement).parentElement;
             content = content.lastElementChild;
             xorClass(content, "add-border");
         });
-    }
-    let editable_text = document.getElementsByClassName("option-statement");
-    for (let i = 0; i < editable_text.length; i++) {
-        editable_text[i].addEventListener("keydown", function () {
+    });
+    Array.from(document.getElementsByClassName("option-statement")).forEach(element=>{
+        element.addEventListener("keydown", function () {
             let content = this.parentElement;
             content = content.parentElement;
             content.style.maxHeight = "100%";
         });
-    }
-    let options = document.getElementsByClassName("letter");
-    for (let i = 0; i < options.length; i++) {
-        options[i].addEventListener('click', function () {
+    });
+    Array.from(document.getElementsByClassName("letter")).forEach(element=>{
+        element.addEventListener('click', function () {
             let content = this.parentElement;
             content = content.parentElement;
-            NodeList.prototype.forEach = Array.prototype.forEach
-            var children = content.childNodes;
+            NodeList.prototype.forEach = Array.prototype.forEach;
+            let children = content.childNodes;
             children.forEach(function (item) {
-                if (item.nodeName.toLowerCase() == 'div') {
+                if (item.nodeName.toLowerCase() === 'div') {
                     item.childNodes[0].classList.remove("correct-answer");
                 }
             });
             this.classList.add("correct-answer");
         });
-    }
+    });
 }
 
 updateLisners();
@@ -315,7 +271,7 @@ let showPrompt2 = (function () {
         text: promptEl.querySelector('.prompt__text'),
         input: promptEl.querySelectorAll('.prompt__input'),
         submit: promptEl.querySelector('.prompt__submit')
-    }
+    };
 
     prompt.form.addEventListener('submit', hide, false);
 
@@ -335,26 +291,26 @@ let showPrompt2 = (function () {
             if (prompt.input[i].value == "") {
                 ok = false;
             }
-            if (i > 0 && option.classList.contains("correct-answer") == true) {
+            if (i > 0 && option.classList.contains("correct-answer")) {
                 id = i - 1;
             }
         }
         e.preventDefault();
-        if (ok == false) {
+        if (!ok) {
             alert("Please fill all required field");
         } else if (id == -1) {
-            alert("Please check the correct answer by clicking on its letter")
+            alert("Please check the correct answer by clicking on its letter");
         } else {
             prompt.el.classList.remove('prompt2--show');
             _cb.call(prompt, prompt.input[0].value, prompt.input[1].value, prompt.input[2].value, prompt.input[3].value, prompt.input[4].value);
-            let inpu_vals = document.querySelectorAll(".prompt2 .input-field input");
+            let inpuVals = document.querySelectorAll(".prompt2 .input-field input");
             let options = document.querySelectorAll(".prompt2 .letter");
-            for (let i = 0; i < inpu_vals.length; i++) {
-                inpu_vals[i].value = "";
-            }
-            for (let i = 0; i < options.length; i++) {
-                options[i].classList.remove("correct-answer");
-            }
+            Array.from(inpuVals).forEach(element=>{
+                element.value = "";
+            });
+            Array.from(options).forEach(element=>{
+                element.classList.remove("correct-answer");
+            });
         }
     }
 
@@ -372,7 +328,7 @@ let showPrompt = (function () {
         text: promptEl.querySelector('.prompt__text'),
         input: promptEl.querySelector('.prompt__input'),
         submit: promptEl.querySelector('.prompt__submit')
-    }
+    };
 
     prompt.form.addEventListener('submit', hide, false);
 
@@ -389,10 +345,10 @@ let showPrompt = (function () {
         } else {
             prompt.el.classList.remove('prompt--show');
             _cb.call(prompt, prompt.input.value);
-            let inpu_vals = document.querySelectorAll(".prompt .input-field input")
-            for (let i = 0; i < inpu_vals.length; i++) {
-                inpu_vals[i].value = "";
-            }
+            let inpuVals = document.querySelectorAll(".prompt .input-field input");
+            Array.from(inpuVals).forEach(element=>{
+                element.value = "";
+            });
         }
     }
 
@@ -402,16 +358,16 @@ let showPrompt = (function () {
 })();
 
 
-let add_quiz = document.querySelector(".add-quiz");
-add_quiz.addEventListener('click', function () {
-    let quiz_name = "";
+let addQuiz = document.querySelector(".add-quiz");
+addQuiz.addEventListener('click', function () {
+    let quizName = "";
     showPrompt('You need to provide your quiz name to continue!', function (answer) {
-        quiz_name = answer;
-        if (quiz_name != "") {
-            createNewQuiz(quiz_name);
+        quizName = answer;
+        if (quizName != "") {
+            createNewQuiz(quizName);
         }
     });
-})
+});
 
 document.querySelector(".prompt__cancel").addEventListener('click', function () {
     document.querySelector('.prompt').classList.remove('prompt--show');
@@ -420,17 +376,17 @@ document.querySelector(".prompt__cancel2").addEventListener('click', function ()
     document.querySelector('.prompt2').classList.remove('prompt2--show');
 });
 
-let add_question = document.querySelector(".add-question");
-if (add_question != null)
-    add_question.addEventListener('click', function () {
-        showPrompt2('You need to provide information about the question to continue!', function (question_name, option_1, option_2, option_3, option_4) {
-            if (question_name != "") {
-                createNewQuestion(question_name, option_1, option_2, option_3, option_4);
+let addQuestion = document.querySelector(".add-question");
+if (addQuestion != null)
+    addQuestion.addEventListener('click', function () {
+        showPrompt2('You need to provide information about the question to continue!', function (questionName, option1, option2, option3, option4) {
+            if (questionName != "") {
+                createNewQuestion(questionName, option1, option2, option3, option4);
             }
         });
     });
 
-function get_id() {
+function getId() {
     return fetch('/api/get_quizzes_from_user', {
         headers: {
             'Content-Type': 'application/json'
@@ -438,7 +394,6 @@ function get_id() {
         method: 'GET'
     }).then((response) => response.json())
         .then((responseData) => {
-            // console.log(responseData);
             return responseData;
         })
         .catch(function (error) {
@@ -446,28 +401,25 @@ function get_id() {
         });
 }
 
-async function createNewQuiz(quiz_name) {
+async function createNewQuiz(quizName) {
     fetch('/workspace', {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            'quiz_name': quiz_name,
+            'quiz_name': quizName,
         })
-    }).then(function (response) {
-        get_id().then(function (response) {
+    }).then(function () {
+        getId().then(function (response) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
             let child2 = document.createElement("a");
-            console.log(response);
+            child2.setAttribute("id","go_to_previous_quiz");
             child2.href = "workspace?id=" + response['id'];
-            // console.log("child2.href")
-            // console.log(child2.href); // Promise
-            // console.log("child2.href")
-            child2.appendChild(document.createTextNode(quiz_name));
-            child1.appendChild(child2);
-            node.appendChild(child1);
+            child1.appendChild(document.createTextNode(quizName));
+            child2.appendChild(child1);
+            node.appendChild(child2);
             child1 = createSection("div", "icons-container");
             child2 = createSection("button", "share-quiz icon");
             child2.addEventListener("click", function () {
@@ -478,32 +430,14 @@ async function createNewQuiz(quiz_name) {
             child2.append(child3);
             child1.append(child2);
             child3 = createSection("button", "delete-quiz icon");
-            child3.addEventListener("click", function () {
-                this.classList.toggle("active");
-                let content = this.parentElement;
-                content = content.parentElement;
-                if (confirm("Are you sure you want to delete this question?")) {
-                    fetch('/workspace', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'DELETE',
-                body: JSON.stringify({
-                    'question': content,
-                    'object_to_delete': 'question',
-                })
-            });
-                    content.parentNode.removeChild(content);
-                    checkForExtraQuestions();
-                }
-            });
+            child3 = addDeleteEvent(child3);
             child4 = createSection("i", "fa fa-trash");
             child3.appendChild(child4);
             child1.append(child3);
             node.append(child1);
             let quizzes = document.querySelector(".quizzes-list");
             // wait for the child2.href
-            quizzes.insertBefore(node, add_quiz);
+            quizzes.insertBefore(node, addQuiz);
         });
 
     })
@@ -514,25 +448,25 @@ async function createNewQuiz(quiz_name) {
 }
 
 
-function createNewQuestion(question_statement, option_1, option_2, option_3, option_4) {
+function createNewQuestion(questionStatement, option1, option2, option3, option4) {
     fetch('/workspace', {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify({
-            'question': question_statement,
-            'option_A': option_1,
-            'option_B': option_2,
-            'option_C': option_3,
-            'option_D': option_4,
+            'question': questionStatement,
+            'option_A': option1,
+            'option_B': option2,
+            'option_C': option3,
+            'option_D': option4,
             'right_option': id,
         })
     }).then(function (response) {
         if (response.ok) {
             response.json()
-                .then(function (response) {
-                    console.log(response);
+                .then(function (response2) {
+                    console.log(response2);
                 });
         } else {
             throw Error('Something went wrong');
@@ -541,9 +475,8 @@ function createNewQuestion(question_statement, option_1, option_2, option_3, opt
         .catch(function (error) {
             console.log(error);
         });
-    let questions_list = document.querySelector(".questions-list");
-    let add_question = document.querySelector(".add-question");
-    questions_list.insertBefore(createQuestionElement(question_statement, option_1, option_2, option_3, option_4), add_question);
+    let questionsList = document.querySelector(".questions-list");
+    questionsList.insertBefore(createQuestionElement(questionStatement, option1, option2, option3, option4), addQuestion);
 }
 
 
@@ -551,37 +484,27 @@ let slider = document.querySelector(".switch input");
 if (slider != null)
     slider.addEventListener("click", function () {
         xorClass((this.parentElement).lastElementChild, "slider-clicked");
-        slider_state = document.querySelector(".slider").classList.contains('slider-clicked');
+        let sliderState = document.querySelector(".slider").classList.contains('slider-clicked');
         fetch('/workspace', {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'PUT',
             body: JSON.stringify({
-                'state': slider_state,
+                'state': sliderState,
             })
         });
     });
 
-
-// document.querySelector('#go_to_previous_quiz:first-child').onclick = function(event) {
-//   window.location.href = "/workspace?id={{quiz['id']}}";
-// }
-
-
-let exit_sharing = document.querySelector(".exit-icon");
-exit_sharing.addEventListener("click", function () {
-    this.classList.toggle("active");
-    let quiz = (this.parentElement).parentElement;
-    quiz = (quiz.firstElementChild).firstElementChild;
+let exitSharing = document.querySelector(".exit-icon");
+exitSharing.addEventListener("click", function () {
     let qr = document.querySelector(".prompt3");
     qr.classList.remove("prompt3--show");
 });
-
 
 
 let menuBtn = document.querySelector('.menu_btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
     menu.classList.toggle('active');
-})
+});

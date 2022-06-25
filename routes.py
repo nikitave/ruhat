@@ -1,6 +1,7 @@
 import flask
-from flask import Blueprint, redirect, url_for, render_template
+from flask import Blueprint, redirect, url_for, render_template, current_app
 from flask import request
+
 main = Blueprint('main', __name__)
 
 
@@ -11,18 +12,16 @@ def home(id=None):
     if "_flashes" not in dict(flask.session.items()):
         flask.session['name'] = ''
     if request.method == "POST":
-
         pincode = request.form['pincode']
-        id_quiz = int(pincode)
+        quiz_id = int(pincode)
         user_name = request.form['username']
         flask.session['name'] = user_name
-        return redirect(url_for('quiz', id_quiz=id_quiz))
+        return redirect(url_for('quiz', quiz_id=quiz_id))
     if id:
-        return render_template("startingPage.html",id=id)
-    return render_template("startingPage.html", name = flask.session['name'])
-
+        return render_template("startingPage.html", id=id)
+    return render_template("startingPage.html", name=flask.session['name'])
 
 
 @main.route('/end_quiz')
 def end_quiz():
-    return render_template("resultUserPage.html",count=flask.session['count'], points = int(flask.session['points']))
+    return render_template("resultUserPage.html", count=flask.session['count'], points=int(flask.session['points']))

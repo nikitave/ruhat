@@ -1,4 +1,3 @@
-
 from flask import Blueprint, jsonify
 from flask import request
 from flask_login import current_user
@@ -7,6 +6,7 @@ from extensions import db
 from models import Quiz, current_quiz
 
 api = Blueprint('api', __name__)
+
 
 
 def add_player_to_the_quiz(current_player, id):
@@ -18,16 +18,33 @@ def add_player_to_the_quiz(current_player, id):
     db.session.flush()
     db.session.commit()
 
+def check_player_in_the_quiz(quiz_id,player_name):
+    quiz_taken = current_quiz.query.filter_by(id=quiz_id).first()
+    quiz_players = quiz_taken.players
+    for player in quiz_players:
+        if player['name'] == player_name:
+            return True
+    return False
+
+@api.route('/api/result', methods=["GET"])
+def result():
+    quiz = current_quiz.query.filter_by(id=int(request.args['id'])).first()
+    if quiz:
+        quiz_players = quiz.players
+        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'],reverse=True)
+        return jsonify({'players':sorted_list_of_players})
+    else:
+        return jsonify({'status':'Quiz is closed or does not exist'})
 
 @api.route('/api/get_quiz', methods=["GET"])
 def get_quiz():
     if 'id' in request.args:
-        id = int(request.args['id'])
-        quiz = Quiz.query.filter_by(id=id).first()
+        quiz_id = int(request.args['id'])
+        quiz = Quiz.query.filter_by(id=quiz_id).first()
         if quiz:
             if quiz.opened:
                 current_player = {"name": request.args['name'], "correct_answers": 0, "current_streak": 0, "points": 0}
-                add_player_to_the_quiz(current_player, id)
+                add_player_to_the_quiz(current_player, quiz_id)
                 questions = quiz.questions
                 return jsonify(questions), 200
             else:
@@ -67,14 +84,14 @@ def post_answer():
 @api.route('/api/get_result', methods=["GET"])
 def get_result():
     try:
-        quiz_taken = current_quiz.query.filter_by(id=int(request.args['id'])).first()
-        quiz_players = quiz_taken.players
-        sorted_list_of_players = sorted(quiz_players, key= lambda d: d['points'])
+        sorted_list_of_players = result()['players']
 
         for index in range(len(sorted_list_of_players)):
             if sorted_list_of_players[index]['name'] == request.args['name']:
-                percentage = round(index / len(sorted_list_of_players) * 100, 2)
-                return jsonify({"status": "success", "points": sorted_list_of_players[index]['points'], "percentage": percentage, "correct_answers": sorted_list_of_players[index]['correct_answers']}), 200
+                percentage = round((1 - (index / len(sorted_list_of_players))) * 100, 2)
+                return jsonify(
+                    {"status": "success", "points": sorted_list_of_players[index]['points'], "percentage": percentage,
+                     "correct_answers": sorted_list_of_players[index]['correct_answers']}), 200
     except Exception as e:
-        return jsonify({"status": "fail", "error":e}), 400
+        return jsonify({"status": "fail", "error": e}), 400
     return jsonify({"status": "fail"}), 400

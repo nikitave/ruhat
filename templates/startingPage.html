@@ -5,44 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruhat</title>
-    <script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/css/startingPage.css">
 </head>
 <body>
-    <div class="container">
-        <div class="welcome-place">
-            <div class="get-started">
-                <h1 class="main-title plain-text">
-                    Ruhat!
-                </h1>
-                <form action="{{url_for('main.home')}}" class="get-started-form" method="POST">
-                    {% with messages = get_flashed_messages() %}
+<div class="container">
+    <div class="welcome-place">
+        <div class="get-started">
+            <h1 class="main-title plain-text">
+                Ruhat!
+            </h1>
+            <form action="{{ url_for('main.home') }}" class="get-started-form" method="POST">
+                {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         {% for message in messages %}
                             <p>{{ message }}</p>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                    <div class="input-field">
-                        <input type="text" placeholder="Username" name="username" value="{{name}}" required>
-                    </div>
-                    <div class="input-field">
-                        <input type="text" placeholder="pin code" name="pincode" value="{{id}}" required>
-                    </div>
-                    <input type="submit" value="enter" class="btn solid" name="enter">
-                </form>
-                <div class="sign-up-instead">
-                    <p>
-                        {% if current_user.is_authenticated%}
-                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('workspace') }}" class="sign-up-link">signing in</a>
-                        {% else %}
-                        <span class="plain-text">Or you can create your own quiz by </span><a href="{{ url_for('auth.register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>
-
-                        {% endif %}
-                    </p>
+                <div class="input-field">
+                    <input type="text" placeholder="Username" name="username" value="{{ name }}" required>
                 </div>
+                <div class="input-field">
+                    <input type="text" placeholder="pin code" name="pincode" value="{{ id }}" required>
+                </div>
+                <input type="submit" value="enter" class="btn solid" name="enter">
+            </form>
+            <div class="sign-up-instead">
+                <p>
+                    {% if current_user.is_authenticated %}
+                        <span class="plain-text">Or you can create your own quiz by </span>
+                        <a href="{{ url_for('workspace_bp.workspace') }}" class="sign-up-link">signing in</a>
+                    {% else %}
+                        <span class="plain-text">Or you can create your own quiz by </span>
+                        <a href="{{ url_for('auth.register',mode='sign-in-mode') }}" class="sign-up-link">signing in</a>
+
+                    {% endif %}
+                </p>
             </div>
         </div>
     </div>
+</div>
+<script src="https://kit.fontawesome.com/7e15f56592.js" crossorigin="anonymous"></script>
 </body>
 </html>

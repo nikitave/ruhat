@@ -77,3 +77,6 @@ __pycache__/routes.cpython-310.pyc
 __pycache__/models.cpython-310.pyc
 __pycache__/routes.cpython-310.pyc
 __pycache__/extensions.cpython-310.pyc
+/tests/
+/.pytest_cache/
+/.vscode/

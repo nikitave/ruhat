@@ -1,12 +1,11 @@
-
 from flask import Blueprint, redirect, url_for, render_template, flash
 from flask import request
 from flask_login import logout_user, login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User
-from extensions import *
-auth = Blueprint('auth', __name__)
+from extensions import db
 
+auth = Blueprint('auth', __name__)
 
 
 @auth.route('/register/<mode>', methods=["GET", "POST"])
@@ -35,7 +34,7 @@ def register(mode):
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return redirect(url_for("workspace"))
+            return redirect(url_for("workspace_bp.workspace"))
         else:
             email = request.form.get('email')
             password = request.form.get('password')
@@ -46,7 +45,7 @@ def register(mode):
                 return redirect(url_for('auth.register', mode="sign-in-mode"))
             if check_password_hash(user.password, password):
                 login_user(user)
-                return redirect(url_for("workspace"))
+                return redirect(url_for("workspace_bp.workspace"))
             else:
                 flash("We can't let you in until you enter the correct password.", 'login_err')
                 return redirect(url_for('auth.register', mode="sign-in-mode"))
