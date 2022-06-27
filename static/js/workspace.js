@@ -111,7 +111,7 @@ function addDeleteEvent(child) {
 }
 
 function createQuestionElement(questionStatement, option1, option2, option3, option4) {
-    let node = createSection("div", "question_1");
+    let node = createSection("div", "question-1");
     let panel = createSection("div", "question-panel flex-center");
     let child1 = createSection("div", "question-statement");
     child1.contentEditable = "true";
@@ -173,7 +173,7 @@ function QREvent(child) {
         } else break;
     }
     quizId = quizId.split("").reverse().join("");
-    qr.querySelector(".prompt__text").textContent = "Quiz ID : " + quizId;
+    qr.querySelector(".prompt-text").textContent = "Quiz ID : " + quizId;
 
     let parametersJson = {
         "size": 300, // Size of Qr Code
@@ -266,10 +266,10 @@ let showPrompt2 = (function () {
 
     let prompt = {
         el: promptEl,
-        form: promptEl.querySelector('.prompt__form2'),
-        text: promptEl.querySelector('.prompt__text'),
-        input: promptEl.querySelectorAll('.prompt__input'),
-        submit: promptEl.querySelector('.prompt__submit')
+        form: promptEl.querySelector('.prompt-form2'),
+        text: promptEl.querySelector('.prompt-text'),
+        input: promptEl.querySelectorAll('.prompt-input'),
+        submit: promptEl.querySelector('.prompt-submit')
     };
 
     prompt.form.addEventListener('submit', hide, false);
@@ -323,10 +323,10 @@ let showPrompt = (function () {
 
     let prompt = {
         el: promptEl,
-        form: promptEl.querySelector('.prompt__form'),
-        text: promptEl.querySelector('.prompt__text'),
-        input: promptEl.querySelector('.prompt__input'),
-        submit: promptEl.querySelector('.prompt__submit')
+        form: promptEl.querySelector('.prompt-form'),
+        text: promptEl.querySelector('.prompt-text'),
+        input: promptEl.querySelector('.prompt-input'),
+        submit: promptEl.querySelector('.prompt-submit')
     };
 
     prompt.form.addEventListener('submit', hide, false);
@@ -368,10 +368,10 @@ addQuiz.addEventListener('click', function () {
     });
 });
 
-document.querySelector(".prompt__cancel").addEventListener('click', function () {
+document.querySelector(".prompt-cancel").addEventListener('click', function () {
     document.querySelector('.prompt').classList.remove('prompt--show');
 });
-document.querySelector(".prompt__cancel2").addEventListener('click', function () {
+document.querySelector(".prompt-cancel2").addEventListener('click', function () {
     document.querySelector('.prompt2').classList.remove('prompt2--show');
 });
 
@@ -414,7 +414,7 @@ async function createNewQuiz(quizName) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
             let child2 = document.createElement("a");
-            child2.setAttribute("id","go_to_previous_quiz");
+            child2.setAttribute("id","go-to-previous-quiz");
             child2.href = "workspace?id=" + response['id'];
             child1.appendChild(document.createTextNode(quizName));
             child2.appendChild(child1);
@@ -502,7 +502,7 @@ exitSharing.addEventListener("click", function () {
 });
 
 
-let menuBtn = document.querySelector('.menu_btn');
+let menuBtn = document.querySelector('.menu-btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
     menu.classList.toggle('active');
