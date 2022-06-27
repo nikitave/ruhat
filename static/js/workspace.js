@@ -174,7 +174,7 @@ function isNumber(char) {
 function QREvent(child) {
     child.classList.toggle("active");
     let quiz = (child.parentElement).parentElement;
-    quiz = (quiz.firstElementChild).firstElementChild;
+    quiz = (quiz.firstElementChild);
     let qr = document.querySelector(".prompt3");
     qr.classList.add("prompt3--show");
     let quizLink = quiz.href;
