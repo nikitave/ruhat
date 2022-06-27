@@ -110,8 +110,20 @@ function addDeleteEvent(child) {
     return child;
 }
 
+function addDeleteQuizEvent(child) {
+    child.addEventListener("click", function () {
+        let content = (child.parentElement).parentElement;
+        if (confirm("Are you sure you want to delete this quiz?")){
+            // do the backend
+            content.parentNode.removeChild(content);
+            checkForExtraContent(quizzesList, ".add-quiz");
+        }
+    });
+    return child;
+}
+
 function createQuestionElement(questionStatement, option1, option2, option3, option4) {
-    let node = createSection("div", "question-1");
+    let node = createSection("div", "question_1");
     let panel = createSection("div", "question-panel flex-center");
     let child1 = createSection("div", "question-statement");
     child1.contentEditable = "true";
@@ -215,7 +227,7 @@ function updateLisners() {
         });
     });
     Array.from(document.getElementsByClassName("delete-quiz")).forEach(element=>{
-        addDeleteEvent(element);
+        addDeleteQuizEvent(element);
     });
     Array.from(document.getElementsByClassName("share-quiz")).forEach(element=>{
         element.addEventListener("click", function () {
@@ -414,7 +426,7 @@ async function createNewQuiz(quizName) {
             let node = createSection("div", "previous-quiz quiz-1");
             let child1 = document.createElement("div");
             let child2 = document.createElement("a");
-            child2.setAttribute("id","go-to-previous-quiz");
+            child2.setAttribute("id","go_to_previous_quiz");
             child2.href = "workspace?id=" + response['id'];
             child1.appendChild(document.createTextNode(quizName));
             child2.appendChild(child1);
@@ -429,7 +441,7 @@ async function createNewQuiz(quizName) {
             child2.append(child3);
             child1.append(child2);
             child3 = createSection("button", "delete-quiz icon");
-            child3 = addDeleteEvent(child3);
+            child3 = addDeleteQuizEvent(child3)
             child4 = createSection("i", "fa fa-trash");
             child3.appendChild(child4);
             child1.append(child3);
@@ -502,8 +514,8 @@ exitSharing.addEventListener("click", function () {
 });
 
 
-let menuBtn = document.querySelector('.menu-btn');
-let menu = document.querySelector('.left-side');
-menuBtn.addEventListener('click', function() {
-    menu.classList.toggle('active');
-});
+// let menuBtn = document.querySelector('.menu_btn');
+// let menu = document.querySelector('.left-side');
+// menuBtn.addEventListener('click', function() {
+//     menu.classList.toggle('active');
+// });
