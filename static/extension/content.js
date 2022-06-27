@@ -32,7 +32,7 @@
     async function workspace_loaded(){
         let websiteList = document.getElementsByClassName("previous-quiz quiz-1");
         for (let i=0;i<websiteList.length;i++){
-            let q = websiteList[i].firstElementChild.firstElementChild;
+            let q = websiteList[i].firstElementChild;
             let link = q.href;
             let tmp = "";
             for (let j=link.length-1;j>=0;j--){
@@ -40,7 +40,7 @@
                 tmp+=link.charAt(j);
             }
             link = tmp.split("").reverse().join("");
-            await addNewQuiz(link,q.innerHTML);
+            await addNewQuiz(link,(q.firstElementChild).innerHTML);
         }
     }
     chrome.runtime.onMessage.addListener((obj,sender,response)=>{
