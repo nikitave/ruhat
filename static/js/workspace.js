@@ -524,4 +524,8 @@ exitSharing.addEventListener("click", function () {
     qr.classList.remove("prompt3--show");
 });
 
-
+let logoutBtn = document.querySelector(".dropdown-menu a");
+logoutBtn.addEventListener("click",function(){
+    var data = { type: "LOGOUT", text: "" };
+    window.postMessage(data, "*");
+});

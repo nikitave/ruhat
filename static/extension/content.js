@@ -46,12 +46,10 @@
     async function deleteQuiz(quizId){
         currentQuizzes = currentQuizzes.filter((b) => b.id != quizId);
         chrome.storage.sync.set({ [quiz]: JSON.stringify(currentQuizzes) });
-        console.log(currentQuizzes);
     }
     window.addEventListener("message", function(event) {
-        console.log(event.data);
         if (event.source != window)
-            return;
+        return;
         if (event.data.type && (event.data.type == "DELETE_QUIZ")) {
             deleteQuiz(event.data.text);
         }
@@ -72,6 +70,10 @@
                 }
             }
             addNewQuiz(id,title);
+        }
+        if (event.data.type && (event.data.type == "LOGOUT")) {
+            currentQuizzes = [];
+            chrome.storage.sync.set({ [quiz]: JSON.stringify(currentQuizzes) });
         }
     })
     chrome.runtime.onMessage.addListener((obj,sender,response)=>{
@@ -95,7 +97,6 @@
             parametersJson.data = window.location.hostname + "/invited/" + value;
             parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}`; // Stitch Together all Paramenters
             img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`;
-            console.log(prompt);
         }
     })
 })();
