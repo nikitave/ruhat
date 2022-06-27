@@ -510,6 +510,10 @@ input:focus+.slider {
     border-radius: 2rem;
 }
 
+.img-container.hide {
+    display: none;
+}
+
 .prompt-form, .prompt-form2, .prompt-container {
     position: fixed;
     top: 50%;
@@ -725,6 +729,36 @@ form {
 .no-quiz-container h2 {
     color: #13505D;
     margin: auto;
+}
+
+.table-top {
+    display: none;
+    height: 300px;
+    text-align: center;
+}
+
+.table-top h2 {
+    margin-bottom: 20px;
+}
+
+.table-label {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.button-window {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.p0 {
+    margin: 0 auto 0 auto;
+    width: 160px;
+}
+
+.table-top.show {
+    display: block;
 }
 
 

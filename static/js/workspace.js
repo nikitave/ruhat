@@ -529,3 +529,17 @@ logoutBtn.addEventListener("click",function(){
     var data = { type: "LOGOUT", text: "" };
     window.postMessage(data, "*");
 });
+
+
+let menuBtn = document.querySelector('.menu-btn');
+let menu = document.querySelector('.left-side');
+menuBtn.addEventListener('click', function() {
+    menu.classList.toggle('active');
+});
+
+let show_result = document.getElementById("show-result");
+
+show_result.addEventListener('click', () => {
+    document.getElementById("table-top").classList.toggle("show");
+    document.getElementById("img-container").classList.toggle("hide");
+})
