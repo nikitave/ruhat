@@ -2,7 +2,6 @@ import {getActiveTabURL} from "./utils.js";
 
 let quizzes = document.querySelectorAll(".share-quiz");
 for (let i=0;i<quizzes.length;i++){
-    console.log(quizzes[i]);
     quizzes[i].addEventListener("click",async function(){
         let activeTab = await getActiveTabURL();
         chrome.tabs.sendMessage(activeTab.id,{
@@ -35,7 +34,9 @@ async function addNewQuiz(quizzesList, newQuiz){
     let quizContainer = document.createElement("div");
     quizContainer.className = "previous-quiz";
     let quizTitle = document.createElement("a");
-    quizTitle.textContent = newQuiz.title;
+    let txtContainer = document.createElement("div");
+    txtContainer.textContent = newQuiz.title;
+    quizTitle.appendChild(txtContainer);
     let iconContainer = document.createElement("div");
     iconContainer.className = "icons-container";
     let shareQuizBtn = document.createElement("button");
