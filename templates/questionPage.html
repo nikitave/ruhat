@@ -21,10 +21,10 @@
     </div>
     <div>
         <form class="down-item" action="{{ url_for('quiz', quiz_id=quiz_id) }}" method="POST">
-            {% for i in range(4) %}
+            {% for i in range(4) %} -->
                 <button type="submit" class="item {{ ['ul','ur','dl','dr'][i] }}" name="{{ i }}">
                     {{ question.options[i] }}
-                </button>
+                </button> -->
             {% endfor %}
        </form>
     </div>

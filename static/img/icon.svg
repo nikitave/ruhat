@@ -6,14 +6,14 @@
 <ellipse cx="59.3396" cy="75.4912" rx="13.9284" ry="38.3894" transform="rotate(-8.57281 59.3396 75.4912)" fill="#005F75"/>
 <ellipse cx="55.716" cy="129.771" rx="17.8324" ry="74.9312" transform="rotate(5.49884 55.716 129.771)" fill="#005F75"/>
 <ellipse cx="44.5384" cy="168.718" rx="17.5472" ry="27.9806" fill="#005F75"/>
-<ellipse cx="23.2433" cy="125.98" rx="22.4927" ry="63.878" transform="rotate(10 23.2433 125.98)" fill="white"/>
+<ellipse cx="23.2433" cy="125.98" rx="22.4927" ry="63.878" transform="rotate(10 23.2433 125.98)" fill="#005F75"/>
 <rect x="41.5109" y="66.2563" width="26.88" height="20.5594" rx="4" transform="rotate(-17.6081 41.5109 66.2563)" fill="#005F75"/>
 <ellipse cx="56.8537" cy="53.7991" rx="14.2274" ry="26.0023" transform="rotate(14.8292 56.8537 53.7991)" fill="#005F75"/>
 <ellipse rx="17.5337" ry="30.1614" transform="matrix(-0.866025 0.5 0.5 0.866025 214.53 188.869)" fill="#005F75"/>
 <ellipse rx="13.9284" ry="38.3894" transform="matrix(-0.988827 -0.149066 -0.149066 0.988827 197.212 75.4912)" fill="#005F75"/>
 <ellipse rx="17.8324" ry="74.9312" transform="matrix(-0.995398 0.0958256 0.0958256 0.995398 200.836 129.771)" fill="#005F75"/>
 <ellipse rx="17.5472" ry="27.9806" transform="matrix(-1 0 0 1 212.013 168.718)" fill="#005F75"/>
-<ellipse rx="22.4927" ry="63.878" transform="matrix(-0.984808 0.173648 0.173648 0.984808 233.308 125.98)" fill="white"/>
+<ellipse rx="22.4927" ry="63.878" transform="matrix(-0.984808 0.173648 0.173648 0.984808 233.308 125.98)" fill="#005F75"/>
 <rect width="26.88" height="20.5594" rx="4" transform="matrix(-0.953148 -0.302505 -0.302505 0.953148 215.041 66.2563)" fill="#005F75"/>
 <ellipse rx="14.2274" ry="26.0023" transform="matrix(-0.966693 0.255938 0.255938 0.966693 199.698 53.7991)" fill="#005F75"/>
 <rect x="126.583" y="7" width="3.79398" height="18.0214" fill="white"/>

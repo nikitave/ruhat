@@ -34,6 +34,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .div-button {
@@ -74,16 +75,16 @@ body {
 @media(max-width: 414px) {
     .main-label {
         font-size: 50px;
-        height: 28vh;
+        height: 25vh;
     }
 
     .label-passed {
         font-size: 30px;
-        height: 28vh;
+        height: 25vh;
     }
 
     .label-scored {
         font-size: 30px;
-        height: 28vh;
+        height: 25vh;
     }
 }

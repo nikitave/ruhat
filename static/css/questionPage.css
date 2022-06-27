@@ -147,7 +147,7 @@ body {
     }
 
     .down-item {
-        grid-template-rows: 40vh 39vh;
+        grid-template-rows: 35vh 34vh;
         grid-template-columns: 50% 50%;
     }
 
