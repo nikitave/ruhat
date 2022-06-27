@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'shago';
+    src: url(shago/ZtShago-ExtraBold.ttf) format('truetype');
+}
+.plain-text {
+    cursor: default;
+    user-select: none;
+}
+html{
+    width: 300px;
+    background-color: #DDE2E8;
+    padding: 0.5rem;
+}
+
+.quizzes-container{
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.quizzes-container::-webkit-scrollbar {
+    width: 0.6rem;
+}
+.quizzes-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(159, 192, 198, 0.2);
+    border-radius: 1rem;
+}
+.quizzes-container::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #005F75;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    color: #005F75;
+    margin-bottom: 10px;
+    font-family: 'shago',sans-serif;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+}
+.prev-quizzes{
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+.previous-quiz {
+    margin-top: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: all 0.2s linear;
+}
+
+.previous-quiz:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.previous-quiz a, .previous-quiz {
+    text-decoration: none;
+    color: #005F75;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.previous-quiz a {
+    display: flex;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+    margin: auto 0.2rem;
+    padding-left: 0.5rem;
+    font-size: 1rem;
+}
+
+.previous-quiz a div {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.icons-container {
+    width: 20%;
+    margin-left: auto;
+    display: flex;
+}
+.icon {
+    height: 40px;
+    width: 40px;
+    border: solid 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 0.2rem;
+    text-decoration: none;
+    color: #005F75;
+    font-size: larger;
+    font-weight: 600;
+    transition: all 0.4s;
+}
+.icon:hover {
+    background-color: #005F75;
+    border: #005F75 solid 2px;
+    color: #fff;
+}

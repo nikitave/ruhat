@@ -160,7 +160,6 @@ function isNumber(char) {
 }
 
 function QREvent(child) {
-    console.log(child);
     child.classList.toggle("active");
     let quiz = (child.parentElement).parentElement;
     quiz = (quiz.firstElementChild).firstElementChild;
