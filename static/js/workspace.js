@@ -514,8 +514,16 @@ exitSharing.addEventListener("click", function () {
 });
 
 
-// let menuBtn = document.querySelector('.menu_btn');
-// let menu = document.querySelector('.left-side');
-// menuBtn.addEventListener('click', function() {
-//     menu.classList.toggle('active');
-// });
+let menuBtn = document.querySelector('.menu-btn');
+let menu = document.querySelector('.left-side');
+menuBtn.addEventListener('click', function() {
+    menu.classList.toggle('active');
+});
+
+let show_result = document.getElementById("show-result");
+
+show_result.addEventListener('click', () => {
+    document.getElementById("table-top").classList.toggle("show");
+    document.getElementById("img-container").classList.toggle("hide");
+})
+
