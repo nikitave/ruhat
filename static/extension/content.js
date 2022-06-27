@@ -43,6 +43,37 @@
             await addNewQuiz(link,(q.firstElementChild).innerHTML);
         }
     }
+    async function deleteQuiz(quizId){
+        currentQuizzes = currentQuizzes.filter((b) => b.id != quizId);
+        chrome.storage.sync.set({ [quiz]: JSON.stringify(currentQuizzes) });
+        console.log(currentQuizzes);
+    }
+    window.addEventListener("message", function(event) {
+        console.log(event.data);
+        if (event.source != window)
+            return;
+        if (event.data.type && (event.data.type == "DELETE_QUIZ")) {
+            deleteQuiz(event.data.text);
+        }
+        if (event.data.type && (event.data.type == "ADD_QUIZ")){
+            let id="",title="",isTxt=false;
+            for (let i=0;i<event.data.text.length;i++){
+                if (event.data.text.charAt(i)=="~"){
+                    break;
+                }
+                id+=event.data.text.charAt(i);
+            }
+            for (let i=0;i<event.data.text.length;i++){
+                if (isTxt){
+                    title+=event.data.text.charAt(i);
+                }
+                if (event.data.text.charAt(i)=="~"){
+                    isTxt=true;
+                }
+            }
+            addNewQuiz(id,title);
+        }
+    })
     chrome.runtime.onMessage.addListener((obj,sender,response)=>{
         const { type, value } = obj;
         if (type==="NEW"){

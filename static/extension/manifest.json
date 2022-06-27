@@ -11,7 +11,7 @@
             "js": ["content.js"]
         }
     ],
-    "permissions": ["storage", "tabs"],
+    "permissions": ["storage", "declarativeContent", "activeTab", "scripting"],
     "action":{
         "default_title": "Ruhat",
         "default_popup": "popup.html"
@@ -32,6 +32,13 @@
         {
             "resources": ["assets/exit.png"],
             "matches": ["<all_urls>"]
+        },
+        {
+            "resources": ["show_qr.js"],
+            "matches": ["<all_urls>"]
         }
-    ]
+    ],
+    "externally_connectable": {
+        "matches": ["http://daber.space/workspace"]
+      }
 }

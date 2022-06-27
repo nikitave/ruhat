@@ -112,9 +112,18 @@ function addDeleteEvent(child) {
 
 function addDeleteQuizEvent(child) {
     child.addEventListener("click", function () {
+       
         let content = (child.parentElement).parentElement;
+        let id = (content.firstElementChild).href,tmp="";
+        for (let i=id.length-1;i>=0;i--){
+            if (id.charAt(i)=="=")break;
+            tmp+=id.charAt(i);
+        }
+        id = tmp.split("").reverse().join("");
         if (confirm("Are you sure you want to delete this quiz?")){
             // do the backend
+            var data = { type: "DELETE_QUIZ", text: id };
+            window.postMessage(data, "*");
             content.parentNode.removeChild(content);
             checkForExtraContent(quizzesList, ".add-quiz");
         }
@@ -448,6 +457,8 @@ async function createNewQuiz(quizName) {
             node.append(child1);
             let quizzes = document.querySelector(".quizzes-list");
             // wait for the child2.href
+            var data = { type: "ADD_QUIZ", text: response['id'] + "~" + quizName };
+            window.postMessage(data, "*");
             quizzes.insertBefore(node, addQuiz);
         });
 
