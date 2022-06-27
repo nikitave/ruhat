@@ -64,7 +64,6 @@ def workspace():
         if request.json['object_to_delete'] == 'question':
             quiz_id = int(request.headers.get('Referer').split('=')[-1])
             quiz = Quiz.query.filter_by(id=quiz_id).first()
-
             if quiz.opened:
                 flash('You can\'t delete a question while the quiz is running!')
                 return redirect(url_for('workspace_bp.workspace'))
