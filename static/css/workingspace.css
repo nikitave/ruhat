@@ -674,7 +674,7 @@ form {
     background-color: rgba(210, 0, 0, 0.6);
 }
 
-.prompt-cancel:hover, .prompt-cancel2:hover {
+.prompt-cancel:hover, .prompt-cancel2:hover, prompt-cancel2:focus {
     color: rgba(255, 0, 0, 0.7);
     border: 2px solid rgba(210, 0, 0, 0.6);
 }
