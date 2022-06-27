@@ -582,6 +582,12 @@ input:focus+.slider {
     border: 2px solid #005F75;
 }
 
+.btn-container>*:focus {
+    background-color: #fff;
+    color: #005F75;
+    border: 2px solid #005F75; 
+}
+
 .btn {
     width: 150px;
     height: 49px;
