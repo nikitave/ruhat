@@ -525,6 +525,7 @@ exitSharing.addEventListener("click", function () {
 });
 
 
+
 let menuBtn = document.querySelector('.menu-btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
@@ -537,4 +538,3 @@ show_result.addEventListener('click', () => {
     document.getElementById("table-top").classList.toggle("show");
     document.getElementById("img-container").classList.toggle("hide");
 })
-
