@@ -39,6 +39,6 @@
         }
     ],
     "externally_connectable": {
-        "matches": ["http://daber.space/workspace"]
+        "matches": ["<all_urls>"]
       }
 }

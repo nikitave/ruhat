@@ -110,9 +110,18 @@ child1.className = "__prompt-container";
 child1.setAttribute("style","position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);width: 500px;background: #fff;padding: 1.5rem 3rem 3rem 3rem;border-radius: 1.5rem 0 1.5rem 1.5rem;");
 let child2 = document.createElement("div");
 child2.className = "__exit-icon";
-child2.onmouseover = function(){
-    
-}
+child2.addEventListener("mouseenter",function(){
+    console.log("hi");
+    let icon = document.querySelector(".__exit-icon");
+    icon.style.color = "#fff";
+    icon.style.backgroundColor = "#005F75";
+});
+child2.addEventListener("mouseleave",function(){
+    console.log("hi");
+    let icon = document.querySelector(".__exit-icon");
+    icon.style.color = "#005F75";
+    icon.style.backgroundColor = "#fff";
+});
 child2.addEventListener("click", function () {
     let prompt = document.querySelector(".__prompt3");
     prompt.style.visibility = "hidden";
@@ -120,8 +129,8 @@ child2.addEventListener("click", function () {
 });
 
 child2.setAttribute("style","position: absolute;right: 0;top: 0;border-left: #005F75 solid 0.2rem;border-bottom: #005F75 solid 0.2rem;width: 38px;height: 38px;color: #005F75;display: flex;justify-content: center;align-items: center;border-radius: 0 0 0 0.5rem;transition: all 0.3s;cursor: pointer;");
-let child3 = document.createElement("img");
-child3.src = chrome.runtime.getURL("assets/exit.png");
+let child3 = document.createElement("div");
+child3.textContent = "X";
 child3.setAttribute("style","width: 20px;");
 child2.appendChild(child3);
 child1.appendChild(child2);
