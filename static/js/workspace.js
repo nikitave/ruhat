@@ -558,11 +558,10 @@ show_result.addEventListener('click', () => {
         .then((responseData) => {
             let table = document.getElementById("table-top");
             table.innerHTML = "<h2>List of the best 5</h2>";
-            for (let i =0;i<responseData.length; i++){
+            for (let i =0;i<responseData.length; i++) {
                 let row = document.createElement("p");
-
-                row.innerHTML=responseData[i].name;
-                row.setAttribute("class","table-label");
+                row.innerHTML = responseData[i].name;
+                row.setAttribute("class", "table-label");
                 table.appendChild(row);
             }
         })
@@ -570,7 +569,7 @@ show_result.addEventListener('click', () => {
             console.log(error);
         });
     // Then do it every 10 seconds
-    var script = setInterval(function() {fetch('/api/get_top_5_players', {
+    let script = setInterval(function() {fetch('/api/get_top_5_players', {
         headers: {
             'Content-Type': 'application/json',
             'id': quiz_id
@@ -580,26 +579,25 @@ show_result.addEventListener('click', () => {
         .then((responseData) => {
             let table = document.getElementById("table-top");
             table.innerHTML = "<h2>List of the best 5</h2>";
-            for (let i =0;i<responseData.length; i++){
+            for (let i = 0; i < responseData.length; i++){
                 let row = document.createElement("p");
-
                 row.innerHTML=responseData[i].name;
-                row.setAttribute("class","table-label");
+                row.setAttribute("class", "table-label");
                 table.appendChild(row);
             }
         })
         .catch(function (error) {
             console.log(error);
-        })},10000);
+        })}, 10000);
     show_result.style.display = "none";
     qr_code.style.display = "block";
 })
 
 function download(fileUrl,quiz_id, fileName) {
-  var a = document.createElement("a");
-  a.href = fileUrl+"?id=" + quiz_id;
-  a.setAttribute("download", fileName);
-  a.click();
+    let a = document.createElement("a");
+    a.href = fileUrl + "?id=" + quiz_id;
+    a.setAttribute("download", fileName);
+    a.click();
 }
 
 let download_result = document.getElementById("download-result");
@@ -614,7 +612,7 @@ download_result.addEventListener('click', () => {
         },
         method: 'GET'
     }).then((response) =>{
-        download(response.url,quiz_id, "result.xlsx");
+        download(response.url, quiz_id, "result.xlsx");
     });
 })
 
@@ -624,5 +622,4 @@ qr_code.addEventListener('click', () => {
     document.getElementById("table-top").style.display = "none";
     show_result.style.display = "block";
     qr_code.style.display = "none";
-
 })
