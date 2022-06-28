@@ -65,9 +65,9 @@ def workspace():
             quiz_id = int(request.headers.get('Referer').split('=')[-1])
             quiz = Quiz.query.filter_by(id=quiz_id).first()
             if quiz.opened:
+                # there should be a message that informs an user that the quiz cannot be changed while it's opened
                 flash('You can\'t delete a question while the quiz is running!')
                 return redirect(url_for('workspace_bp.workspace'))
-                # there should be a message that informs an user that the quiz cannot be changed while it's opened
             else:
                 question = request.json['question']
                 question_text = question.strip()
@@ -81,7 +81,7 @@ def workspace():
                 db.session.flush()
                 db.session.commit()
         else:
-            quiz_id = int(request.json['quiz_url'].split('=')[-1])
+            quiz_id = int(request.json['quiz_id'])
             quiz = Quiz.query.filter_by(id=quiz_id).first()
             db.session.delete(quiz)
             db.session.flush()
