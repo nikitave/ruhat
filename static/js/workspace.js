@@ -116,12 +116,21 @@ function addDeleteQuizEvent(child) {
         let content = (child.parentElement).parentElement;
         let id = (content.firstElementChild).href,tmp="";
         for (let i=id.length-1;i>=0;i--){
-            if (id.charAt(i)=="=")break;
+            if (id.charAt(i)==="=")break;
             tmp+=id.charAt(i);
         }
         id = tmp.split("").reverse().join("");
         if (confirm("Are you sure you want to delete this quiz?")){
-            // do the backend
+            fetch('/workspace', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'DELETE',
+                body: JSON.stringify({
+                    'quiz_id': id,
+                    'object_to_delete': 'quiz',
+                })
+            });
             var data = { type: "DELETE_QUIZ", text: id };
             window.postMessage(data, "*");
             content.parentNode.removeChild(content);
@@ -612,7 +621,7 @@ download_result.addEventListener('click', () => {
         },
         method: 'GET'
     }).then((response) =>{
-        download(response.url, quiz_id, "result.xlsx");
+        download(response.url, quiz_id, `result_${quiz_id}.xlsx`);
     });
 })
 

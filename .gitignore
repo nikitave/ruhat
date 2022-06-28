@@ -80,3 +80,5 @@ __pycache__/extensions.cpython-310.pyc
 /tests/
 /.pytest_cache/
 /.vscode/
+*.xlsx
+*.db
