@@ -533,8 +533,20 @@ menuBtn.addEventListener('click', function() {
 });
 
 let show_result = document.getElementById("show-result");
+let qr_code = document.getElementById("qr-code");
+
 
 show_result.addEventListener('click', () => {
-    document.getElementById("table-top").classList.toggle("show");
-    document.getElementById("img-container").classList.toggle("hide");
+    document.getElementById("table-top").style.display = "block";
+    document.getElementById("img-container").style.display = "none";
+    show_result.style.display = "none";
+    qr_code.style.display = "block";
+})
+
+
+qr_code.addEventListener('click', () => {
+    document.getElementById("img-container").style.display = "flex"
+    document.getElementById("table-top").style.display = "none";
+    show_result.style.display = "block";
+    qr_code.style.display = "none";
 })

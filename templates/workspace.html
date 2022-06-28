@@ -64,9 +64,11 @@
                 <button type="button" id="show-result" class="btn solid">
                     Table of best 5
                 </button>
+                <button type="button" id="qr-code" class="btn solid">QR code</button>
                 <button class="btn solid p0" type="button">
                     Download results
                 </button>
+                <p class="time-left-label">Time left: 15min 23sec</p>
             </div>
         </div>
     </div>
@@ -133,7 +135,6 @@
             <div class="quiz-header">
                 <h2 class="quiz-name">{{current_quiz.name}}</h2>
                 <label class="switch">
-
                             {% if current_quiz['opened']==1 %}
                             <input type="checkbox" checked>
                                 <span class="slider slider-clicked"></span>
@@ -142,6 +143,13 @@
                                 <span class="slider"></span>
                             {% endif %}
                 </label>
+                <div class="timer">
+                    Set time: 
+                    <form class="type-number" action="submit">
+                        <input class="enter_number"  type="number" value="15" />
+                    </form>
+                    <p style="margin-top: 15px ;"> min</p>
+                </div>
             </div>
             
 

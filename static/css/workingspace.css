@@ -757,8 +757,40 @@ form {
     width: 160px;
 }
 
-.table-top.show {
-    display: block;
+#qr-code {
+    display: none;
+}
+
+#table-top {
+    display: none;
+}
+
+.time-left-label {
+    text-align: center;
+    padding-top: 20px;
+    color: #005F75;
+    font-weight: 600;
+}
+
+.timer {
+    margin-left: 20px;
+    color: #005F75;
+    font-weight: 600;
+    display: flex;
+}
+
+.type-number {
+    padding: 0;
+    margin-top: 10px;
+    
+}
+
+.enter_number {
+    border: 2px solid #005F75;
+    border-radius: 10px;
+    padding: 5px;
+    width: 60px;
+    color: #005F75;
 }
 
 
