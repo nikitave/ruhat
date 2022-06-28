@@ -195,7 +195,7 @@ function QREvent(child) {
     }
     quizId = quizId.split("").reverse().join("");
     qr.querySelector(".prompt-text").textContent = "Quiz ID : " + quizId;
-
+    qr.querySelector(".prompt-text").setAttribute("id","quiz-id");
     let parametersJson = {
         "size": 300, // Size of Qr Code
         "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
@@ -456,7 +456,7 @@ async function createNewQuiz(quizName) {
             child1.append(child3);
             node.append(child1);
             let quizzes = document.querySelector(".quizzes-list");
-            // wait for the child2.href
+
             var data = { type: "ADD_QUIZ", text: response['id'] + "~" + quizName };
             window.postMessage(data, "*");
             quizzes.insertBefore(node, addQuiz);
@@ -538,8 +538,88 @@ menuBtn.addEventListener('click', function() {
 });
 
 let show_result = document.getElementById("show-result");
+let qr_code = document.getElementById("qr-code");
+
 
 show_result.addEventListener('click', () => {
-    document.getElementById("table-top").classList.toggle("show");
-    document.getElementById("img-container").classList.toggle("hide");
+    document.getElementById("table-top").style.display = "block";
+    document.getElementById("img-container").style.display = "none";
+
+    // First get the quiz id
+    let quiz_id = document.getElementById("quiz-id").innerHTML.split(':')[1];
+    // Then fetch top 5 results and show it to the user
+    fetch('/api/get_top_5_players', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': quiz_id
+        },
+        method: 'GET'
+    }).then((response) => response.json())
+        .then((responseData) => {
+            let table = document.getElementById("table-top");
+            table.innerHTML = "<h2>List of the best 5</h2>";
+            for (let i =0;i<responseData.length; i++) {
+                let row = document.createElement("p");
+                row.innerHTML = responseData[i].name;
+                row.setAttribute("class", "table-label");
+                table.appendChild(row);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    // Then do it every 10 seconds
+    let script = setInterval(function() {fetch('/api/get_top_5_players', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': quiz_id
+        },
+        method: 'GET'
+    }).then((response) => response.json())
+        .then((responseData) => {
+            let table = document.getElementById("table-top");
+            table.innerHTML = "<h2>List of the best 5</h2>";
+            for (let i = 0; i < responseData.length; i++){
+                let row = document.createElement("p");
+                row.innerHTML=responseData[i].name;
+                row.setAttribute("class", "table-label");
+                table.appendChild(row);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        })}, 10000);
+    show_result.style.display = "none";
+    qr_code.style.display = "block";
+})
+
+function download(fileUrl,quiz_id, fileName) {
+    let a = document.createElement("a");
+    a.href = fileUrl + "?id=" + quiz_id;
+    a.setAttribute("download", fileName);
+    a.click();
+}
+
+let download_result = document.getElementById("download-result");
+download_result.addEventListener('click', () => {
+    // First get the quiz id
+    let quiz_id = document.getElementById("quiz-id").innerHTML.split(':')[1];
+    // Then do a request to a server to get the results as excel file
+    fetch('/api/export_to_excel', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': quiz_id
+        },
+        method: 'GET'
+    }).then((response) =>{
+        download(response.url, quiz_id, "result.xlsx");
+    });
+})
+
+
+qr_code.addEventListener('click', () => {
+    document.getElementById("img-container").style.display = "flex"
+    document.getElementById("table-top").style.display = "none";
+    show_result.style.display = "block";
+    qr_code.style.display = "none";
 })
