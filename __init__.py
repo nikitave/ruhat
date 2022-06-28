@@ -10,7 +10,7 @@ from sqlalchemy.orm.attributes import flag_modified
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "any-secret-key-you-choose"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dbUsers.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "dbUsers.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     from auth import auth
