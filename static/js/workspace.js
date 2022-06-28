@@ -539,10 +539,13 @@ menuBtn.addEventListener('click', function() {
 });
 
 let show_result = document.getElementById("show-result");
+let qr_code = document.getElementById("qr-code");
+
 
 show_result.addEventListener('click', () => {
-    document.getElementById("table-top").classList.toggle("show");
-    document.getElementById("img-container").classList.toggle("hide");
+
+    document.getElementById("table-top").style.display = "block";
+    document.getElementById("img-container").style.display = "none";
     fetch('/api/get_top_5_players', {
         headers: {
             'Content-Type': 'application/json',
@@ -587,7 +590,8 @@ show_result.addEventListener('click', () => {
         .catch(function (error) {
             console.log(error);
         })},10000);
-
+    show_result.style.display = "none";
+    qr_code.style.display = "block";
 })
 
 function download(fileUrl, fileName) {
@@ -608,4 +612,13 @@ download_result.addEventListener('click', () => {
     }).then((response) =>{
         download(response.url, "result.xlsx");
     });
+})
+
+
+qr_code.addEventListener('click', () => {
+    document.getElementById("img-container").style.display = "flex"
+    document.getElementById("table-top").style.display = "none";
+    show_result.style.display = "block";
+    qr_code.style.display = "none";
+
 })
