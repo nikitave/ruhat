@@ -195,7 +195,7 @@ function QREvent(child) {
     }
     quizId = quizId.split("").reverse().join("");
     qr.querySelector(".prompt-text").textContent = "Quiz ID : " + quizId;
-
+    qr.querySelector(".prompt-text").setAttribute("id","quiz-id");
     let parametersJson = {
         "size": 300, // Size of Qr Code
         "backgroundColor": "19-80-93", // Background Color Of Qr Code (In RGB)
@@ -535,7 +535,6 @@ let menuBtn = document.querySelector('.menu-btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
     menu.classList.toggle('active');
-
 });
 
 let show_result = document.getElementById("show-result");
@@ -543,13 +542,16 @@ let qr_code = document.getElementById("qr-code");
 
 
 show_result.addEventListener('click', () => {
-
     document.getElementById("table-top").style.display = "block";
     document.getElementById("img-container").style.display = "none";
+
+    // First get the quiz id
+    let quiz_id = document.getElementById("quiz-id").innerHTML.split(':')[1];
+    // Then fetch top 5 results and show it to the user
     fetch('/api/get_top_5_players', {
         headers: {
             'Content-Type': 'application/json',
-            'id': 123
+            'id': quiz_id
         },
         method: 'GET'
     }).then((response) => response.json())
@@ -563,15 +565,15 @@ show_result.addEventListener('click', () => {
                 row.setAttribute("class","table-label");
                 table.appendChild(row);
             }
-            console.log("Got data");
         })
         .catch(function (error) {
             console.log(error);
         });
+    // Then do it every 10 seconds
     var script = setInterval(function() {fetch('/api/get_top_5_players', {
         headers: {
             'Content-Type': 'application/json',
-            'id': 123
+            'id': quiz_id
         },
         method: 'GET'
     }).then((response) => response.json())
@@ -585,7 +587,6 @@ show_result.addEventListener('click', () => {
                 row.setAttribute("class","table-label");
                 table.appendChild(row);
             }
-            console.log("Got data");
         })
         .catch(function (error) {
             console.log(error);
@@ -594,23 +595,26 @@ show_result.addEventListener('click', () => {
     qr_code.style.display = "block";
 })
 
-function download(fileUrl, fileName) {
+function download(fileUrl,quiz_id, fileName) {
   var a = document.createElement("a");
-  a.href = fileUrl;
+  a.href = fileUrl+"?id=" + quiz_id;
   a.setAttribute("download", fileName);
   a.click();
 }
 
 let download_result = document.getElementById("download-result");
 download_result.addEventListener('click', () => {
+    // First get the quiz id
+    let quiz_id = document.getElementById("quiz-id").innerHTML.split(':')[1];
+    // Then do a request to a server to get the results as excel file
     fetch('/api/export_to_excel', {
         headers: {
             'Content-Type': 'application/json',
-            'id': 123
+            'id': quiz_id
         },
         method: 'GET'
     }).then((response) =>{
-        download(response.url, "result.xlsx");
+        download(response.url,quiz_id, "result.xlsx");
     });
 })
 

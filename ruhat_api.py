@@ -110,13 +110,17 @@ def get_top_5_players():
 from results import export_to_excel
 
 from flask import send_file
-@api.route('/api/export_to_excel', methods=["GET"])
+
+
+@api.route('/api/export_to_excel', methods=["GET", "POST"])
 def api_export_to_excel():
-    quiz_taken = current_quiz.query.filter_by(id=int(request.headers.get('id'))).first()
-    quiz_players = quiz_taken.players
-    sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'], reverse=True)
-    filename="results.xlsx"
-    export_to_excel(sorted_list_of_players,filename)
-    from __init__ import application
-    return send_file(f'{application.root_path}/results.xlsx')
-    # return jsonify( {"status": "success"}), 200
+    if request.headers.get('id') or request.args.get('id'):
+        quiz_id = int(request.args.get('id'))
+        quiz_taken = current_quiz.query.filter_by(id=quiz_id).first()
+        quiz_players = quiz_taken.players
+        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'], reverse=True)
+        filename = "results.xlsx"
+        export_to_excel(sorted_list_of_players, filename)
+        from __init__ import application
+        return send_file(f'{application.root_path}/results.xlsx')
+    return jsonify({"status": "failed", "message": "contact the developers for fixing this issue"}), 200
