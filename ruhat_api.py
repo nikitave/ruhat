@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, send_from_directory
 from flask import request
 from flask_login import current_user
 from sqlalchemy.orm.attributes import flag_modified
@@ -6,7 +6,6 @@ from extensions import db
 from models import Quiz, current_quiz
 
 api = Blueprint('api', __name__)
-
 
 
 def add_player_to_the_quiz(current_player, id):
@@ -18,7 +17,8 @@ def add_player_to_the_quiz(current_player, id):
     db.session.flush()
     db.session.commit()
 
-def check_player_in_the_quiz(quiz_id,player_name):
+
+def check_player_in_the_quiz(quiz_id, player_name):
     quiz_taken = current_quiz.query.filter_by(id=quiz_id).first()
     quiz_players = quiz_taken.players
     for player in quiz_players:
@@ -26,15 +26,17 @@ def check_player_in_the_quiz(quiz_id,player_name):
             return True
     return False
 
+
 @api.route('/api/result', methods=["GET"])
 def result():
     quiz = current_quiz.query.filter_by(id=int(request.args['id'])).first()
     if quiz:
         quiz_players = quiz.players
-        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'],reverse=True)
-        return jsonify({'players':sorted_list_of_players})
+        sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'], reverse=True)
+        return jsonify(sorted_list_of_players)
     else:
-        return jsonify({'status':'Quiz is closed or does not exist'})
+        return jsonify({'status': 'Quiz is closed or does not exist'})
+
 
 @api.route('/api/get_quiz', methods=["GET"])
 def get_quiz():
@@ -84,8 +86,8 @@ def post_answer():
 @api.route('/api/get_result', methods=["GET"])
 def get_result():
     try:
-        sorted_list_of_players = result()['players']
-
+        sorted_list_of_players = result().json
+        print(sorted_list_of_players)
         for index in range(len(sorted_list_of_players)):
             if sorted_list_of_players[index]['name'] == request.args['name']:
                 percentage = round((1 - (index / len(sorted_list_of_players))) * 100, 2)
@@ -95,3 +97,26 @@ def get_result():
     except Exception as e:
         return jsonify({"status": "fail", "error": e}), 400
     return jsonify({"status": "fail"}), 400
+
+
+@api.route('/api/get_top_5_players', methods=["GET"])
+def get_top_5_players():
+    quiz_taken = current_quiz.query.filter_by(id=int(request.headers.get('id'))).first()
+    quiz_players = quiz_taken.players
+    sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'], reverse=True)
+    return jsonify(sorted_list_of_players[:5])
+
+
+from results import export_to_excel
+
+from flask import send_file
+@api.route('/api/export_to_excel', methods=["GET"])
+def api_export_to_excel():
+    quiz_taken = current_quiz.query.filter_by(id=int(request.headers.get('id'))).first()
+    quiz_players = quiz_taken.players
+    sorted_list_of_players = sorted(quiz_players, key=lambda d: d['points'], reverse=True)
+    filename="results.xlsx"
+    export_to_excel(sorted_list_of_players,filename)
+    from __init__ import application
+    return send_file(f'{application.root_path}/results.xlsx')
+    # return jsonify( {"status": "success"}), 200

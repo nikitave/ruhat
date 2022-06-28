@@ -456,7 +456,7 @@ async function createNewQuiz(quizName) {
             child1.append(child3);
             node.append(child1);
             let quizzes = document.querySelector(".quizzes-list");
-            // wait for the child2.href
+
             var data = { type: "ADD_QUIZ", text: response['id'] + "~" + quizName };
             window.postMessage(data, "*");
             quizzes.insertBefore(node, addQuiz);
@@ -535,6 +535,7 @@ let menuBtn = document.querySelector('.menu-btn');
 let menu = document.querySelector('.left-side');
 menuBtn.addEventListener('click', function() {
     menu.classList.toggle('active');
+
 });
 
 let show_result = document.getElementById("show-result");
@@ -542,4 +543,69 @@ let show_result = document.getElementById("show-result");
 show_result.addEventListener('click', () => {
     document.getElementById("table-top").classList.toggle("show");
     document.getElementById("img-container").classList.toggle("hide");
+    fetch('/api/get_top_5_players', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': 123
+        },
+        method: 'GET'
+    }).then((response) => response.json())
+        .then((responseData) => {
+            let table = document.getElementById("table-top");
+            table.innerHTML = "<h2>List of the best 5</h2>";
+            for (let i =0;i<responseData.length; i++){
+                let row = document.createElement("p");
+
+                row.innerHTML=responseData[i].name;
+                row.setAttribute("class","table-label");
+                table.appendChild(row);
+            }
+            console.log("Got data");
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    var script = setInterval(function() {fetch('/api/get_top_5_players', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': 123
+        },
+        method: 'GET'
+    }).then((response) => response.json())
+        .then((responseData) => {
+            let table = document.getElementById("table-top");
+            table.innerHTML = "<h2>List of the best 5</h2>";
+            for (let i =0;i<responseData.length; i++){
+                let row = document.createElement("p");
+
+                row.innerHTML=responseData[i].name;
+                row.setAttribute("class","table-label");
+                table.appendChild(row);
+            }
+            console.log("Got data");
+        })
+        .catch(function (error) {
+            console.log(error);
+        })},10000);
+
+})
+
+function download(fileUrl, fileName) {
+  var a = document.createElement("a");
+  a.href = fileUrl;
+  a.setAttribute("download", fileName);
+  a.click();
+}
+
+let download_result = document.getElementById("download-result");
+download_result.addEventListener('click', () => {
+    fetch('/api/export_to_excel', {
+        headers: {
+            'Content-Type': 'application/json',
+            'id': 123
+        },
+        method: 'GET'
+    }).then((response) =>{
+        download(response.url, "result.xlsx");
+    });
 })
