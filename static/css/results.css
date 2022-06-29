@@ -1,0 +1,26 @@
+body {
+    background: #184C57;
+}
+
+.table {
+    width: 100%;
+    margin: 0;
+}
+
+.table-row {
+}
+
+th {
+    border: 2px solid #005F75;
+    padding: 10px 20px 10px 20px;
+    font-size: 20px;
+    color: white;
+    font-weight: 400;
+    border-radius: 20px;
+    margin-bottom: 5px;
+}
+
+th.title {
+    font-size: 25px;
+    font-weight: 600;
+}
