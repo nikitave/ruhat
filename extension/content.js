@@ -94,7 +94,7 @@
             };
             let parameters;
             let img = document.querySelector(".__prompt-img");
-            parametersJson.data = window.location.hostname + "/invited/" + value;
+            parametersJson.data = "http://daber.space" + "/invited/" + value;
             parameters = `size=${parametersJson.size}&bgcolor=${parametersJson.backgroundColor}&color=${parametersJson.qrColor}&qzone=${parametersJson.padding}&data=${parametersJson.data}`; // Stitch Together all Paramenters
             img.src = `https://api.qrserver.com/v1/create-qr-code/?${parameters}`;
         }
