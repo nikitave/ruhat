@@ -1,5 +1,5 @@
 import flask
-from flask import Blueprint, redirect, url_for, render_template, current_app
+from flask import Blueprint, redirect, url_for, render_template
 from flask import request
 
 main = Blueprint('main', __name__)

@@ -44,7 +44,7 @@
     </div>
 
     <div class="prompt3">
-        <form class="prompt-container">
+        <form class="prompt-container" id="share-form" action="{{ url_for('quiz_results_bp.quiz_results',mode='sign-in-mode') }}" method="POST">
             <div class="exit-icon">
                 <i class="fa fa-times fa-2x"></i>
             </div>
@@ -60,12 +60,12 @@
                     Table of best 5
                 </button>
                 <button type="button" id="qr-code" class="btn solid">QR code</button>
-                <a href="#" target="_blank" class="results-link">
-                    <button class="btn solid p0" type="button" id="download-result">
+
+                    <button class="btn solid p0" type="submit" id="download-result">
                         
                         Download results
                     </button>
-                </a>
+
             </div>
         </form>
     </div>

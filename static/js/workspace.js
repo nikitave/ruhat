@@ -212,7 +212,11 @@ function QREvent(child) {
         "padding": 2, // Padding 
         "data": "dev.to"
     };
-
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "quiz_id");
+    input.setAttribute("value", quizId);
+    document.getElementById("share-form").appendChild(input);
     let parameters;
     let img = document.querySelector(".prompt3 img");
     img.addEventListener("click", function () {
@@ -459,7 +463,7 @@ async function createNewQuiz(quizName) {
             child2.append(child3);
             child1.append(child2);
             child3 = createSection("button", "delete-quiz icon");
-            child3 = addDeleteQuizEvent(child3)
+            child3 = addDeleteQuizEvent(child3);
             child4 = createSection("i", "fa fa-trash");
             child3.appendChild(child4);
             child1.append(child3);
@@ -578,7 +582,7 @@ show_result.addEventListener('click', () => {
             console.log(error);
         });
     // Then do it every 10 seconds
-    let script = setInterval(function() {fetch('/api/get_top_5_players', {
+    setInterval(function() {fetch('/api/get_top_5_players', {
         headers: {
             'Content-Type': 'application/json',
             'id': quiz_id
@@ -600,35 +604,11 @@ show_result.addEventListener('click', () => {
         })}, 10000);
     show_result.style.display = "none";
     qr_code.style.display = "block";
-})
-
-function download(fileUrl,quiz_id, fileName) {
-    let a = document.createElement("a");
-    a.href = fileUrl + "?id=" + quiz_id;
-    a.setAttribute("download", fileName);
-    a.click();
-}
-
-let download_result = document.getElementById("download-result");
-download_result.addEventListener('click', () => {
-    // First get the quiz id
-    let quiz_id = document.getElementById("quiz-id").innerHTML.split(':')[1];
-    // Then do a request to a server to get the results as excel file
-    fetch('/api/export_to_excel', {
-        headers: {
-            'Content-Type': 'application/json',
-            'id': quiz_id
-        },
-        method: 'GET'
-    }).then((response) =>{
-        download(response.url, quiz_id, `result_${quiz_id}.xlsx`);
-    });
-})
-
+});
 
 qr_code.addEventListener('click', () => {
     document.getElementById("img-container").style.display = "flex"
     document.getElementById("table-top").style.display = "none";
     show_result.style.display = "block";
     qr_code.style.display = "none";
-})
+});

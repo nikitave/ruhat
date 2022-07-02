@@ -7,17 +7,20 @@ from models import Quiz, User, current_quiz
 from ruhat_api import add_player_to_the_quiz, check_player_in_the_quiz
 from sqlalchemy.orm.attributes import flag_modified
 
+
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "any-secret-key-you-choose"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "dbUsers.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "link-to-your-db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     from auth import auth
     from routes import main
     from ruhat_api import api
     from workspace import workspace_bp
+    from quiz_results import quiz_results_bp
 
+    app.register_blueprint(quiz_results_bp)
     app.register_blueprint(main)
     app.register_blueprint(api)
     app.register_blueprint(auth)
@@ -53,12 +56,12 @@ def quiz(quiz_id):
         answer = list(request.form.to_dict().keys())[0]
         correct_option = (
             Quiz.query.filter_by(id=quiz_id)
-            .first()
-            .questions[flask.session["progress"]]["options"]
-            .index(
-                Quiz.query.filter_by(id=quiz_id)
                 .first()
-                .questions[flask.session["progress"]]["answer"]
+                .questions[flask.session["progress"]]["options"]
+                .index(
+                Quiz.query.filter_by(id=quiz_id)
+                    .first()
+                    .questions[flask.session["progress"]]["answer"]
             )
         )
         quiz_taken = current_quiz.query.filter_by(id=quiz_id).first()
@@ -122,4 +125,4 @@ def not_existed_page(error):
 application.register_error_handler(404, not_existed_page)
 
 if __name__ == "__main__":
-    application.run(debug=True)
+    application.run()

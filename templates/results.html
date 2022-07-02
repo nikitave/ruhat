@@ -15,26 +15,13 @@
             <th class="title">Correct answers out of all</th>
             <th class="title">Points</th>
         </tr>
+        {% for player in quiz_players %}
         <tr>
-            <th>Nikitave</th>
-            <th>5/7</th>
-            <th>600</th>
+            <th>{{ player["name"] }}</th>
+            <th>{{ player["correct_answers"] }}</th>
+            <th>{{ player["points"] }}</th>
         </tr>
-        <tr>
-            <th>Nikitave</th>
-            <th>5/7</th>
-            <th>600</th>
-        </tr>
-        <tr>
-            <th>Nikitave</th>
-            <th>5/7</th>
-            <th>600</th>
-        </tr>
-        <tr>
-            <th>Nikitave</th>
-            <th>5/7</th>
-            <th>600</th>
-        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

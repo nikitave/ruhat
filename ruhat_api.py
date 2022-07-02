@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, send_from_directory
+from flask import Blueprint, jsonify
 from flask import request
 from flask_login import current_user
 from sqlalchemy.orm.attributes import flag_modified

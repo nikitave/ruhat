@@ -142,10 +142,10 @@ child1.appendChild(child3);
 
 let child4 = document.createElement("div");
 child4.className = "__img-container";
-child4.setAttribute("style","display: flex;justify-content: center;align-items: center;border-radius: 2rem;")
+child4.setAttribute("style","display: flex;justify-content: center;align-items: center;border-radius: 2rem;");
 let child5 = document.createElement("img");
 child5.className = "__prompt-img";
-child5.setAttribute("style","width: 300px;height: 300px;border-radius: 0.5rem;")
+child5.setAttribute("style","width: 300px;height: 300px;border-radius: 0.5rem;");
 child5.setAttribute("src","");
 child4.appendChild(child5);
 child1.appendChild(child4);
