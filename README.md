@@ -9,6 +9,8 @@ And because most companies with such functionality left Russian market, ours wil
 
 
 ## Demo
+<details>
+<summary>Screenshots</summary>
 <img width="1242" alt="image" src="https://user-images.githubusercontent.com/66897293/176153127-552e45f8-02ba-485a-b784-5a3c715fd846.png">
 <img width="1243" alt="image" src="https://user-images.githubusercontent.com/66897293/176153252-33703ebb-1c96-422e-81dd-3e2b9ebdddc9.png">
 <img width="1245" alt="image" src="https://user-images.githubusercontent.com/66897293/176153439-2e149057-667f-4487-b71d-15390e1e93d8.png">
@@ -16,6 +18,8 @@ And because most companies with such functionality left Russian market, ours wil
 <img width="1242" alt="image" src="https://user-images.githubusercontent.com/66897293/176153615-57c6d580-e1b0-4668-bc45-5513cc0806d4.png">
 <img width="1241" alt="image" src="https://user-images.githubusercontent.com/66897293/176153797-19ea2b74-9c25-4795-be00-082d67b9a347.png">
 <img width="1243" alt="image" src="https://user-images.githubusercontent.com/66897293/176153754-c3b4e1e3-72a0-40f5-8cb0-4804ee0fdfdc.png">
+
+</details>
 
 ## How to use
 ### If you are a student:
@@ -44,4 +48,18 @@ And because most companies with such functionality left Russian market, ours wil
 * Seeing the list of top 5 players
 * Counting points for players
 
+## Project Installation
+1) Clone the repository
+2) Install python
+3) Create and activate a new virtual environment (`python -m venv venv-name`)
+4) Install dependencies using requirements.txt (`pip install -r requirements.txt`)
+5) Set environment variables (`export FLASK_APP=\_\_init__.py` or `set FLASK_APP=\_\_init__.py` for Windows-users)
+6) Change the SECRET-KEY and SQLALCHEMY_DATABASE_URI in the \_\_init__.py file
+7) Run the application (`flask run`)
 
+## Frameworks and technologies used
+* [Flask](https://flask.palletsprojects.com/)
+* [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/)
+* [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+* [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
+* [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
